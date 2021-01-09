@@ -1,0 +1,1375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ECA39441-F99A-4E60-BD15-55068E9882CA}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LacingAdmin.Web</RootNamespace>
+    <AssemblyName>LacingAdmin.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress>true</Use64BitIISExpress>
+    <IISExpressSSLPort>44395</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Config.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=d836a57afd299520, processorArchitecture=MSIL">
+      <HintPath>..\packages\Config.Net.4.13.7\lib\net452\Config.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.5.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.5.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.5.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.5.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.5.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.5.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.5\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=4.6.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.6.0\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web, Version=4.6.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.4.6.0\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web.Mvc, Version=4.6.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.Mvc.4.6.0\lib\net40\SimpleInjector.Integration.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DIConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Alumnos\AlumnoAreaRegistration.cs" />
+    <Compile Include="Areas\Alumnos\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Alumnos\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Alumnos\Models\AlumnoViewModel.cs" />
+    <Compile Include="Areas\Docentes\Controllers\AsistenciaController.cs" />
+    <Compile Include="Areas\Docentes\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Docentes\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Docentes\DocenteAreaRegistration.cs" />
+    <Compile Include="Areas\Docentes\Models\DocenteViewModel.cs" />
+    <Compile Include="Common\SecurityHelper.cs" />
+    <Compile Include="Controllers\AlumnoController.cs" />
+    <Compile Include="Controllers\Base\BaseController.cs" />
+    <Compile Include="Controllers\CarreraController.cs" />
+    <Compile Include="Controllers\ConsultaController.cs" />
+    <Compile Include="Controllers\ReporteController.cs" />
+    <Compile Include="Controllers\CursoController.cs" />
+    <Compile Include="Controllers\DocenteController.cs" />
+    <Compile Include="Controllers\FacultadController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HorarioController.cs" />
+    <Compile Include="Controllers\LaboratorioController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\AdministradorController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\AdministradorViewModel.cs" />
+    <Compile Include="Models\ViewModels\AlumnoViewModel.cs" />
+    <Compile Include="Models\ViewModels\CarreraViewModel.cs" />
+    <Compile Include="Models\ViewModels\ConsultaViewModel.cs" />
+    <Compile Include="Models\ViewModels\CursoViewModel.cs" />
+    <Compile Include="Models\ViewModels\FacultadViewModel.cs" />
+    <Compile Include="Models\ViewModels\DocenteViewModel.cs" />
+    <Compile Include="Models\ViewModels\HorarioViewModel.cs" />
+    <Compile Include="Models\ViewModels\LaboratorioViewModel.cs" />
+    <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\ReporteViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\App\Consulta.css" />
+    <Content Include="Content\App\ReporteGeneral.css" />
+    <Content Include="Content\bootstrap-4.3.1.css" />
+    <Content Include="Content\bootstrap-datepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\lacing\alumno\alumno_login.jpg" />
+    <Content Include="Content\lacing\alumno\cursos.png" />
+    <Content Include="Content\lacing\alumno\cursos2.png" />
+    <Content Include="Content\lacing\alumno\fondo_main.jpg" />
+    <Content Include="Content\lacing\docente\docente_login.jpg" />
+    <Content Include="Content\lacing\logo-lacing.png" />
+    <Content Include="Content\lacing\urp_logo_png.png" />
+    <Content Include="Content\bootstrap-datepicker.js" />
+    <Content Include="Content\loading.gif" />
+    <Content Include="Content\themes\main\assets\css\site.css" />
+    <Content Include="Content\themes\main\assets\css\site.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\alertify.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\alertify.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\animation.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\animation.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\highlight.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\highlight.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\lightbox.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\lightbox.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\masonry.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\masonry.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\rating.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\rating.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\scrollable.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\scrollable.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\toastr.css" />
+    <Content Include="Content\themes\main\assets\examples\css\advanced\toastr.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\calendar.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\calendar.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\contacts.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\contacts.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\documents.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\documents.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\forum.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\forum.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\location.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\location.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\mailbox.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\mailbox.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\media.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\media.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\message.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\message.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\notebook.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\notebook.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\projects.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\projects.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\taskboard.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\taskboard.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\travel.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\travel.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\work.css" />
+    <Content Include="Content\themes\main\assets\examples\css\apps\work.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\chartist.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\chartist.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\chartjs.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\chartjs.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\flot.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\flot.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\pie-progress.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\pie-progress.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\sparkline.css" />
+    <Content Include="Content\themes\main\assets\examples\css\charts\sparkline.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\analytics.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\analytics.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\ecommerce.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\ecommerce.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\team.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\team.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\v1.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\v1.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\v2.css" />
+    <Content Include="Content\themes\main\assets\examples\css\dashboard\v2.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\advanced.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\advanced.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\image-cropping.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\image-cropping.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\layouts.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\layouts.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\masks.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\masks.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\validation.css" />
+    <Content Include="Content\themes\main\assets\examples\css\forms\validation.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\layouts\headers.css" />
+    <Content Include="Content\themes\main\assets\examples\css\layouts\headers.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\layouts\page-aside-fixed.css" />
+    <Content Include="Content\themes\main\assets\examples\css\layouts\page-aside-fixed.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\layouts\panel-transition.css" />
+    <Content Include="Content\themes\main\assets\examples\css\layouts\panel-transition.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\code-editor.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\code-editor.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\email.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\email.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\errors.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\errors.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\faq.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\faq.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\fb_wall.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\fb_wall.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\forgot-password.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\forgot-password.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\gallery-grid.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\gallery-grid.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\gallery.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\gallery.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\invoice.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\invoice.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\lockscreen.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\lockscreen.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\login-docente.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\login-alumno.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\login-v2.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\login-v2.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\login-v3.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\login-v3.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\login.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\login.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\maintenance.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\maintenance.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\map.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\map.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\profile-v2.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\profile-v2.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\profile.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\profile.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\profile_v3.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\profile_v3.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\project.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\project.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\register-v2.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\register-v2.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\register-v3.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\register-v3.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\register.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\register.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\search-result.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\search-result.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\site-map.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\site-map.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\user.css" />
+    <Content Include="Content\themes\main\assets\examples\css\pages\user.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\alerts.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\alerts.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\breadcrumbs.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\breadcrumbs.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\chat.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\chat.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\navbars.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\navbars.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\pagination.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\pagination.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\ribbon.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\ribbon.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\testimonials.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\testimonials.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\timeline.css" />
+    <Content Include="Content\themes\main\assets\examples\css\structure\timeline.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\basic.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\basic.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\datatable.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\datatable.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\floatthead.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\floatthead.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\footable.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\footable.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\jsgrid.css" />
+    <Content Include="Content\themes\main\assets\examples\css\tables\jsgrid.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\badges.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\badges.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\buttons.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\buttons.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\carousel.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\carousel.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\colors.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\colors.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\dropdowns.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\dropdowns.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\icon.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\icon.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\icons.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\icons.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\images.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\images.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\modals.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\modals.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\panel-portlets.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\panel-portlets.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\progress-bars.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\progress-bars.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\utilities.css" />
+    <Content Include="Content\themes\main\assets\examples\css\uikit\utilities.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\chart.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\chart.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\data.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\data.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\social.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\social.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\statistics.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\statistics.min.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\weather.css" />
+    <Content Include="Content\themes\main\assets\examples\css\widgets\weather.min.css" />
+    <Content Include="Content\themes\main\assets\examples\images\assemble.png" />
+    <Content Include="Content\themes\main\assets\examples\images\bootstrap.png" />
+    <Content Include="Content\themes\main\assets\examples\images\bower.png" />
+    <Content Include="Content\themes\main\assets\examples\images\browser\chrome-logo.png" />
+    <Content Include="Content\themes\main\assets\examples\images\browser\firefox-logo.png" />
+    <Content Include="Content\themes\main\assets\examples\images\browser\internet-logo.png" />
+    <Content Include="Content\themes\main\assets\examples\images\browser\opera-logo.png" />
+    <Content Include="Content\themes\main\assets\examples\images\browser\safari-logo.png" />
+    <Content Include="Content\themes\main\assets\examples\images\coming-soon.jpg" />
+    <Content Include="Content\themes\main\assets\examples\images\country\australia-icon.png" />
+    <Content Include="Content\themes\main\assets\examples\images\country\canada-icon.png" />
+    <Content Include="Content\themes\main\assets\examples\images\country\china-icon.png" />
+    <Content Include="Content\themes\main\assets\examples\images\country\germany-icon.png" />
+    <Content Include="Content\themes\main\assets\examples\images\country\uk-icon.png" />
+    <Content Include="Content\themes\main\assets\examples\images\country\usa-icon.png" />
+    <Content Include="Content\themes\main\assets\examples\images\dashboard-header.jpg" />
+    <Content Include="Content\themes\main\assets\examples\images\dashboard2-header.jpg" />
+    <Content Include="Content\themes\main\assets\examples\images\favicon.ico" />
+    <Content Include="Content\themes\main\assets\examples\images\grunt.png" />
+    <Content Include="Content\themes\main\assets\examples\images\less.png" />
+    <Content Include="Content\themes\main\assets\examples\images\lockscreen.jpg" />
+    <Content Include="Content\themes\main\assets\examples\images\login.jpg" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\accordion-modal.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\fillin-modal.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\form-modal.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\grid-modal.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\modal-position-sidebar.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\modal-position-top.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\modal-position.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\multiple-modal.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\size-modal.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\style-modal.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\sweet-alert.png" />
+    <Content Include="Content\themes\main\assets\examples\images\modal\tab-modal.png" />
+    <Content Include="Content\themes\main\assets\examples\images\navbar\fixed-to-bottom.png" />
+    <Content Include="Content\themes\main\assets\examples\images\navbar\fixed-to-top.png" />
+    <Content Include="Content\themes\main\assets\examples\images\poster.jpg" />
+    <Content Include="Content\themes\main\assets\examples\images\products\applewatch.png" />
+    <Content Include="Content\themes\main\assets\examples\images\products\imac.png" />
+    <Content Include="Content\themes\main\assets\examples\images\products\iphone.png" />
+    <Content Include="Content\themes\main\assets\examples\images\products\macmouse.png" />
+    <Content Include="Content\themes\main\assets\examples\images\txt.png" />
+    <Content Include="Content\themes\main\assets\examples\js\advanced\animation.js" />
+    <Content Include="Content\themes\main\assets\examples\js\advanced\bootbox-sweetalert.js" />
+    <Content Include="Content\themes\main\assets\examples\js\advanced\context-menu.js" />
+    <Content Include="Content\themes\main\assets\examples\js\advanced\highlight.js" />
+    <Content Include="Content\themes\main\assets\examples\js\advanced\lightbox.js" />
+    <Content Include="Content\themes\main\assets\examples\js\advanced\maps-google.js" />
+    <Content Include="Content\themes\main\assets\examples\js\advanced\scrollable.js" />
+    <Content Include="Content\themes\main\assets\examples\js\advanced\treeview.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\calendar.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\contacts.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\documents.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\forum.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\location.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\mailbox.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\media.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\message.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\notebook.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\projects.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\taskboard.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\travel.js" />
+    <Content Include="Content\themes\main\assets\examples\js\apps\work.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\c3.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\chartist.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\chartjs.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\flot.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\gauges.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\morris.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\peity.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\pie-progress.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\rickshaw.js" />
+    <Content Include="Content\themes\main\assets\examples\js\charts\sparkline.js" />
+    <Content Include="Content\themes\main\assets\examples\js\dashboard\analytics.js" />
+    <Content Include="Content\themes\main\assets\examples\js\dashboard\ecommerce.js" />
+    <Content Include="Content\themes\main\assets\examples\js\dashboard\team.js" />
+    <Content Include="Content\themes\main\assets\examples\js\dashboard\v1.js" />
+    <Content Include="Content\themes\main\assets\examples\js\dashboard\v2.js" />
+    <Content Include="Content\themes\main\assets\examples\js\forms\advanced.js" />
+    <Content Include="Content\themes\main\assets\examples\js\forms\editor-summernote.js" />
+    <Content Include="Content\themes\main\assets\examples\js\forms\general.js" />
+    <Content Include="Content\themes\main\assets\examples\js\forms\image-cropping.js" />
+    <Content Include="Content\themes\main\assets\examples\js\forms\uploads.js" />
+    <Content Include="Content\themes\main\assets\examples\js\forms\validation.js" />
+    <Content Include="Content\themes\main\assets\examples\js\forms\wizard.js" />
+    <Content Include="Content\themes\main\assets\examples\js\layouts\panel-transition.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\code-editor.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\faq.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\fb_wall.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\gallery.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\map-google.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\map-point.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\map-vector.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\profile-v2.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\profile_v3.js" />
+    <Content Include="Content\themes\main\assets\examples\js\pages\project.js" />
+    <Content Include="Content\themes\main\assets\examples\js\structure\timeline.js" />
+    <Content Include="Content\themes\main\assets\examples\js\tables\bootstrap.js" />
+    <Content Include="Content\themes\main\assets\examples\js\tables\datatable.js" />
+    <Content Include="Content\themes\main\assets\examples\js\tables\editable.js" />
+    <Content Include="Content\themes\main\assets\examples\js\tables\footable.js" />
+    <Content Include="Content\themes\main\assets\examples\js\tables\jqtabledit.js" />
+    <Content Include="Content\themes\main\assets\examples\js\tables\jsgrid-db.js" />
+    <Content Include="Content\themes\main\assets\examples\js\tables\jsgrid.js" />
+    <Content Include="Content\themes\main\assets\examples\js\tables\responsive.js" />
+    <Content Include="Content\themes\main\assets\examples\js\tables\table-dragger.js" />
+    <Content Include="Content\themes\main\assets\examples\js\uikit\carousel.js" />
+    <Content Include="Content\themes\main\assets\examples\js\uikit\icon.js" />
+    <Content Include="Content\themes\main\assets\examples\js\uikit\panel-actions.js" />
+    <Content Include="Content\themes\main\assets\examples\js\uikit\panel-structure.js" />
+    <Content Include="Content\themes\main\assets\examples\js\uikit\progress-bars.js" />
+    <Content Include="Content\themes\main\assets\examples\js\uikit\tooltip-popover.js" />
+    <Content Include="Content\themes\main\assets\examples\js\widgets\chart.js" />
+    <Content Include="Content\themes\main\assets\examples\js\widgets\weather.js" />
+    <Content Include="Content\themes\main\assets\images\apple-touch-icon.png" />
+    <Content Include="Content\themes\main\assets\images\favicon.ico" />
+    <Content Include="Content\themes\main\assets\images\logo%402x.png" />
+    <Content Include="Content\themes\main\assets\images\logo-blue%402x.png" />
+    <Content Include="Content\themes\main\assets\images\logo-blue.png" />
+    <Content Include="Content\themes\main\assets\images\logo-colored%402x.png" />
+    <Content Include="Content\themes\main\assets\images\logo-colored.png" />
+    <Content Include="Content\themes\main\assets\images\logo.png" />
+    <Content Include="Content\themes\main\assets\js\App\Calendar.js" />
+    <Content Include="Content\themes\main\assets\js\App\Contacts.js" />
+    <Content Include="Content\themes\main\assets\js\App\Documents.js" />
+    <Content Include="Content\themes\main\assets\js\App\Forum.js" />
+    <Content Include="Content\themes\main\assets\js\App\Location.js" />
+    <Content Include="Content\themes\main\assets\js\App\Mailbox.js" />
+    <Content Include="Content\themes\main\assets\js\App\Media.js" />
+    <Content Include="Content\themes\main\assets\js\App\Message.js" />
+    <Content Include="Content\themes\main\assets\js\App\Notebook.js" />
+    <Content Include="Content\themes\main\assets\js\App\Projects.js" />
+    <Content Include="Content\themes\main\assets\js\App\Taskboard.js" />
+    <Content Include="Content\themes\main\assets\js\App\Travel.js" />
+    <Content Include="Content\themes\main\assets\js\App\Work.js" />
+    <Content Include="Content\themes\main\assets\js\BaseApp.js" />
+    <Content Include="Content\themes\main\assets\js\config\tour.js" />
+    <Content Include="Content\themes\main\assets\js\Plugin\menu.js" />
+    <Content Include="Content\themes\main\assets\js\Plugin\skintools.js" />
+    <Content Include="Content\themes\main\assets\js\Section\GridMenu.js" />
+    <Content Include="Content\themes\main\assets\js\Section\Menubar.js" />
+    <Content Include="Content\themes\main\assets\js\Section\PageAside.js" />
+    <Content Include="Content\themes\main\assets\js\Section\Sidebar.js" />
+    <Content Include="Content\themes\main\assets\js\Site.js" />
+    <Content Include="Content\themes\main\global\css\bootstrap-extend.css" />
+    <Content Include="Content\themes\main\global\css\bootstrap-extend.min.css" />
+    <Content Include="Content\themes\main\global\css\bootstrap.css" />
+    <Content Include="Content\themes\main\global\css\bootstrap.min.css" />
+    <Content Include="Content\themes\main\global\fonts\brand-icons\brand-icons.css" />
+    <Content Include="Content\themes\main\global\fonts\brand-icons\brand-icons.min.css" />
+    <Content Include="Content\themes\main\global\fonts\brand-icons\brand-icons.svg" />
+    <Content Include="Content\themes\main\global\fonts\font-awesome\font-awesome.css" />
+    <Content Include="Content\themes\main\global\fonts\font-awesome\font-awesome.min.css" />
+    <Content Include="Content\themes\main\global\fonts\font-awesome\font-awesome.svg" />
+    <Content Include="Content\themes\main\global\fonts\web-icons\web-icons.css" />
+    <Content Include="Content\themes\main\global\fonts\web-icons\web-icons.min.css" />
+    <Content Include="Content\themes\main\global\fonts\web-icons\web-icons.svg" />
+    <Content Include="Content\themes\main\global\js\Base.js" />
+    <Content Include="Content\themes\main\global\js\Component.js" />
+    <Content Include="Content\themes\main\global\js\Config.js" />
+    <Content Include="Content\themes\main\global\js\config\colors.js" />
+    <Content Include="Content\themes\main\global\js\Plugin.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\ace-editor.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\action-btn.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\alertify.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\animate-list.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\animsition.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\asbreadcrumbs.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\ascolorpicker.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\aspaginator.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\aspieprogress.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\asprogress.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\asrange.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\asscrollable.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\asselectable.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\asspinner.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\bootbox.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\bootstrap-datepicker.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\bootstrap-maxlength.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\bootstrap-select.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\bootstrap-sweetalert.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\bootstrap-tagsinput.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\bootstrap-tokenfield.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\bootstrap-touchspin.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\bootstrap-treeview.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\card.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\clockpicker.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\closeable-tabs.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\datatables.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\datepair.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\donut.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\dropify.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\editable-table.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\editlist.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\filterable.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\floatthead.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\formatter.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\gauge.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\gmaps.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\gridstack.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\highlight.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\html5sortable.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\icheck.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\input-group-file.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\ionrangeslider.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\isotope.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\jquery-appear.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\jquery-knob.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\jquery-labelauty.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\jquery-placeholder.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\jquery-strength.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\jquery-wizard.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\jstree.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\jt-timepicker.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\jvectormap.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\ladda.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\loading-button.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\magnific-popup.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\masonry.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\matchheight.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\material.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\more-button.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\multi-select.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\nestable.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\notie-js.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\nprogress.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\owl-carousel.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\panel.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\peity.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\plyr.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\raty.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\responsive-tabs.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\select2.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\selectable.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\slidepanel.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\sortable.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\sticky-header.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\summernote.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\switchery.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\table.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\tablesaw.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\tabs.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\tasklist.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\toastr.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\toolbar.js" />
+    <Content Include="Content\themes\main\global\js\Plugin\webui-popover.js" />
+    <Content Include="Content\themes\main\global\portraits\16.jpg" />
+    <Content Include="Content\themes\main\global\vendor\animsition\animsition.css" />
+    <Content Include="Content\themes\main\global\vendor\animsition\animsition.js" />
+    <Content Include="Content\themes\main\global\vendor\animsition\animsition.min.css" />
+    <Content Include="Content\themes\main\global\vendor\animsition\animsition.min.js" />
+    <Content Include="Content\themes\main\global\vendor\asrange\asRange.css" />
+    <Content Include="Content\themes\main\global\vendor\asrange\asRange.min.css" />
+    <Content Include="Content\themes\main\global\vendor\asrange\jquery-asRange.es.js" />
+    <Content Include="Content\themes\main\global\vendor\asrange\jquery-asRange.js" />
+    <Content Include="Content\themes\main\global\vendor\asrange\jquery-asRange.min.js" />
+    <Content Include="Content\themes\main\global\vendor\asscrollable\asScrollable.css" />
+    <Content Include="Content\themes\main\global\vendor\asscrollable\asScrollable.min.css" />
+    <Content Include="Content\themes\main\global\vendor\asscrollable\jquery-asScrollable.es.js" />
+    <Content Include="Content\themes\main\global\vendor\asscrollable\jquery-asScrollable.js" />
+    <Content Include="Content\themes\main\global\vendor\asscrollable\jquery-asScrollable.min.js" />
+    <Content Include="Content\themes\main\global\vendor\asscrollbar\asScrollbar.css" />
+    <Content Include="Content\themes\main\global\vendor\asscrollbar\asScrollbar.min.css" />
+    <Content Include="Content\themes\main\global\vendor\asscrollbar\jquery-asScrollbar.es.js" />
+    <Content Include="Content\themes\main\global\vendor\asscrollbar\jquery-asScrollbar.js" />
+    <Content Include="Content\themes\main\global\vendor\asscrollbar\jquery-asScrollbar.min.js" />
+    <Content Include="Content\themes\main\global\vendor\babel-external-helpers\babel-external-helpers.js" />
+    <Content Include="Content\themes\main\global\vendor\bootbox\bootbox.js" />
+    <Content Include="Content\themes\main\global\vendor\bootbox\bootbox.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker-en-CA.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ar-tn.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ar.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.az.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.bg.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.bn.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.br.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.bs.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ca.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.cs.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.css" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.cy.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.da.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.de.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.el.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.en-AU.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.en-CA.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.en-IE.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.en-NZ.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.en-ZA.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.eo.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.es.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.et.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.eu.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.fa.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.fi.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.fo.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.fr.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.gl.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.he.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.hi.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.hr.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.hu.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.hy.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.id.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.is.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.it.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ja.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ka.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.kh.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.kk.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.km.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ko.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.kr.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.lt.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.lv.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.me.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.min.css" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.mk.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.mn.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ms.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.nb.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.nl.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.no.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.oc.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.pl.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.pt.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ro.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.rs.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ru.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.si.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.sk.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.sl.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.sq.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.sr.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.sv.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.sw.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.ta.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.tg.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.th.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.tk.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.tr.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.uk.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.uz-cyrl.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.uz-latn.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.vi.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-datepicker\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-touchspin\bootstrap-touchspin.css" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-touchspin\bootstrap-touchspin.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-touchspin\bootstrap-touchspin.min.css" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap-touchspin\bootstrap-touchspin.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap\bootstrap.bundle.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap\bootstrap.bundle.min.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap\bootstrap.js" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap\bootstrap.min.js" />
+    <Content Include="Content\themes\main\global\vendor\breakpoints\breakpoints.es.js" />
+    <Content Include="Content\themes\main\global\vendor\breakpoints\breakpoints.js" />
+    <Content Include="Content\themes\main\global\vendor\breakpoints\breakpoints.min.js" />
+    <Content Include="Content\themes\main\global\vendor\clockpicker\bootstrap-clockpicker.js" />
+    <Content Include="Content\themes\main\global\vendor\clockpicker\bootstrap-clockpicker.min.js" />
+    <Content Include="Content\themes\main\global\vendor\clockpicker\clockpicker.css" />
+    <Content Include="Content\themes\main\global\vendor\clockpicker\clockpicker.min.css" />
+    <Content Include="Content\themes\main\global\vendor\clockpicker\jquery-clockpicker.js" />
+    <Content Include="Content\themes\main\global\vendor\clockpicker\jquery-clockpicker.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables-responsive\dataTables.responsive.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables-responsive\responsive.bootstrap.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables-responsive\responsive.foundation.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables-responsive\responsive.jqueryui.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-bs4\dataTables.bootstrap4.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-bs4\dataTables.bootstrap4.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-bs4\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-bs4\dataTables.bootstrap4.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons-bs4\buttons.bootstrap4.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons-bs4\buttons.bootstrap4.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons-bs4\dataTables.buttons.bootstrap4.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons-bs4\dataTables.buttons.bootstrap4.min.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\buttons.colVis.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\buttons.colVis.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\buttons.flash.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\buttons.flash.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\buttons.html5.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\buttons.html5.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\buttons.print.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\buttons.print.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\dataTables.buttons.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-buttons\dataTables.buttons.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-responsive-bs4\dataTables.responsive.bootstrap4.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-responsive-bs4\dataTables.responsive.bootstrap4.min.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-responsive-bs4\responsive.bootstrap4.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-responsive-bs4\responsive.bootstrap4.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-scroller-bs4\dataTables.scroller.bootstrap4.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-scroller-bs4\dataTables.scroller.bootstrap4.min.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-scroller-bs4\scroller.bootstrap4.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-scroller-bs4\scroller.bootstrap4.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-scroller\dataTables.scroller.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-scroller\dataTables.scroller.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-select-bs4\dataTables.select.bootstrap4.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-select-bs4\dataTables.select.bootstrap4.min.css" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-select-bs4\select.bootstrap4.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net-select-bs4\select.bootstrap4.min.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net\jquery.dataTables.js" />
+    <Content Include="Content\themes\main\global\vendor\datatables.net\jquery.dataTables.min.js" />
+    <Content Include="Content\themes\main\global\vendor\flag-icon-css\flag-icon.css" />
+    <Content Include="Content\themes\main\global\vendor\flag-icon-css\flag-icon.min.css" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\fullcalendar.css" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\fullcalendar.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\fullcalendar.min.css" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\fullcalendar.min.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\fullcalendar.print.css" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\fullcalendar.print.min.css" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\gcal.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\gcal.min.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale-all.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\af.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ar-dz.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ar-kw.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ar-ly.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ar-ma.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ar-sa.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ar-tn.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ar.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\bg.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\bs.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ca.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\cs.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\da.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\de-at.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\de-ch.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\de.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\el.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\en-au.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\en-ca.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\en-gb.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\en-ie.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\en-nz.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\es-do.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\es-us.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\es.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\et.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\eu.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\fa.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\fi.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\fr-ca.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\fr-ch.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\fr.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\gl.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\he.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\hi.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\hr.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\hu.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\id.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\is.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\it.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ja.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ka.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\kk.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ko.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\lb.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\lt.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\lv.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\mk.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ms-my.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ms.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\nb.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\nl-be.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\nl.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\nn.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\pl.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\pt-br.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\pt.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ro.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\ru.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\sk.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\sl.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\sq.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\sr-cyrl.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\sr.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\sv.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\th.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\tr.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\uk.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\vi.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\zh-cn.js" />
+    <Content Include="Content\themes\main\global\vendor\fullcalendar\locale\zh-tw.js" />
+    <Content Include="Content\themes\main\global\vendor\intro-js\intro.js" />
+    <Content Include="Content\themes\main\global\vendor\intro-js\intro.min.js" />
+    <Content Include="Content\themes\main\global\vendor\intro-js\introjs-rtl.css" />
+    <Content Include="Content\themes\main\global\vendor\intro-js\introjs-rtl.min.css" />
+    <Content Include="Content\themes\main\global\vendor\intro-js\introjs.css" />
+    <Content Include="Content\themes\main\global\vendor\intro-js\introjs.min.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-mmenu\jquery-mmenu.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-mmenu\jquery-mmenu.min.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-mmenu\jquery.mmenu.min.all.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-placeholder\jquery.placeholder.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-selective\jquery-selective.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-selective\jquery-selective.es.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-selective\jquery-selective.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-selective\jquery-selective.min.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-selective\jquery-selective.min.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\core.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\data.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\disable-selection.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effect.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-blind.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-bounce.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-clip.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-drop.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-explode.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-fade.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-fold.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-highlight.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-puff.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-pulsate.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-scale.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-shake.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-size.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-slide.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\effects\effect-transfer.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\escape-selector.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\focusable.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\form-reset-mixin.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\form.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-af.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ar-DZ.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ar.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-az.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-be.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-bg.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-bs.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ca.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-cs.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-cy-GB.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-da.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-de.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-el.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-en-AU.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-en-GB.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-en-NZ.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-eo.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-es.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-et.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-eu.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-fa.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-fi.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-fo.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-fr-CA.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-fr-CH.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-fr.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-gl.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-he.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-hi.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-hr.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-hu.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-hy.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-id.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-is.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-it-CH.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-it.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ja.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ka.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-kk.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-km.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ko.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ky.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-lb.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-lt.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-lv.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-mk.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ml.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ms.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-nb.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-nl-BE.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-nl.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-nn.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-no.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-pl.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-pt-BR.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-pt.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-rm.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ro.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ru.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-sk.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-sl.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-sq.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-sr-SR.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-sr.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-sv.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-ta.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-th.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-tj.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-tr.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-uk.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-vi.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-zh-CN.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-zh-HK.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\i18n\datepicker-zh-TW.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\ie.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\jquery-1-7.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\jquery-ui.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\jquery-ui.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\jquery-ui.min.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\jquery-ui.min.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\jquery-ui.structure.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\jquery-ui.structure.min.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\jquery-ui.theme.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\jquery-ui.theme.min.css" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\keycode.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\labels.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\plugin.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\position.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\safe-active-element.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\safe-blur.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\scroll-parent.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\tabbable.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\unique-id.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\version.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widget.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\accordion.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\autocomplete.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\button.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\checkboxradio.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\controlgroup.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\datepicker.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\dialog.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\draggable.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\droppable.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\menu.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\mouse.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\progressbar.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\resizable.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\selectable.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\selectmenu.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\slider.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\sortable.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\spinner.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\tabs.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery-ui\widgets\tooltip.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery\jquery.js" />
+    <Content Include="Content\themes\main\global\vendor\jquery\jquery.min.js" />
+    <Content Include="Content\themes\main\global\vendor\matchheight\jquery.matchHeight-min.js" />
+    <Content Include="Content\themes\main\global\vendor\matchheight\jquery.matchHeight.js" />
+    <Content Include="Content\themes\main\global\vendor\moment\locales.js" />
+    <Content Include="Content\themes\main\global\vendor\moment\locales.min.js" />
+    <Content Include="Content\themes\main\global\vendor\moment\moment-with-locales.js" />
+    <Content Include="Content\themes\main\global\vendor\moment\moment-with-locales.min.js" />
+    <Content Include="Content\themes\main\global\vendor\moment\moment.js" />
+    <Content Include="Content\themes\main\global\vendor\moment\moment.min.js" />
+    <Content Include="Content\themes\main\global\vendor\moment\src\lib\moment\moment.js" />
+    <Content Include="Content\themes\main\global\vendor\mousewheel\jquery.mousewheel.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\esm\popper-utils.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\esm\popper-utils.min.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\esm\popper.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\esm\popper.min.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\popper-utils.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\popper-utils.min.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\popper.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\popper.min.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\umd\popper-utils.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\umd\popper-utils.min.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\umd\popper.js" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\umd\popper.min.js" />
+    <Content Include="Content\themes\main\global\vendor\screenfull\screenfull.js" />
+    <Content Include="Content\themes\main\global\vendor\slidepanel\jquery-slidePanel.es.js" />
+    <Content Include="Content\themes\main\global\vendor\slidepanel\jquery-slidePanel.js" />
+    <Content Include="Content\themes\main\global\vendor\slidepanel\jquery-slidePanel.min.js" />
+    <Content Include="Content\themes\main\global\vendor\slidepanel\slidePanel.css" />
+    <Content Include="Content\themes\main\global\vendor\slidepanel\slidePanel.min.css" />
+    <Content Include="Content\themes\main\global\vendor\switchery\switchery.css" />
+    <Content Include="Content\themes\main\global\vendor\switchery\switchery.js" />
+    <Content Include="Content\themes\main\global\vendor\switchery\switchery.min.css" />
+    <Content Include="Content\themes\main\global\vendor\switchery\switchery.min.js" />
+    <Content Include="Content\themes\main\global\vendor\timepicker\jquery-timepicker.css" />
+    <Content Include="Content\themes\main\global\vendor\timepicker\jquery-timepicker.min.css" />
+    <Content Include="Content\themes\main\global\vendor\timepicker\jquery.timepicker.js" />
+    <Content Include="Content\themes\main\global\vendor\timepicker\jquery.timepicker.min.js" />
+    <Content Include="Content\themes\other\clockpicker\bootstrap-clockpicker.min.css" />
+    <Content Include="Content\themes\other\clockpicker\bootstrap-clockpicker.min.js" />
+    <Content Include="Content\themes\other\clockpicker\jquery-clockpicker.min.css" />
+    <Content Include="Content\themes\other\clockpicker\jquery-clockpicker.min.js" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
+    <Content Include="Scripts\App\Common\helpers.js" />
+    <Content Include="Scripts\App\Common\regexs.js" />
+    <Content Include="Scripts\App\Views\DocenteView.js" />
+    <Content Include="Scripts\App\Views\CursoView.js" />
+    <Content Include="Scripts\App\Views\AdministradorView.js" />
+    <Content Include="Scripts\App\Views\CarreraView.js" />
+    <Content Include="Scripts\App\Views\FacultadView.js" />
+    <Content Include="Scripts\App\Views\LaboratorioView.js" />
+    <Content Include="Scripts\bootstrap-4.3.1.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Content\themes\main\assets\images\.gitkeep" />
+    <Content Include="Content\themes\main\global\vendor\jquery\jquery.min.map" />
+    <Content Include="Content\themes\main\global\fonts\brand-icons\brand-icons.eot" />
+    <Content Include="Content\themes\main\global\fonts\brand-icons\brand-icons.ttf" />
+    <Content Include="Content\themes\main\global\fonts\brand-icons\brand-icons.woff" />
+    <Content Include="Content\themes\main\global\fonts\brand-icons\brand-icons.woff2" />
+    <Content Include="Content\themes\main\global\fonts\web-icons\web-icons.eot" />
+    <Content Include="Content\themes\main\global\fonts\web-icons\web-icons.ttf" />
+    <Content Include="Content\themes\main\global\fonts\web-icons\web-icons.woff" />
+    <Content Include="Content\themes\main\global\fonts\web-icons\web-icons.woff2" />
+    <Content Include="Content\themes\main\global\vendor\breakpoints\breakpoints.min.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\esm\popper-utils.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\esm\popper-utils.min.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\esm\popper.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\esm\popper.min.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\esm\poppper.js.flow" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\popper-utils.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\popper-utils.min.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\popper.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\popper.min.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\umd\popper-utils.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\umd\popper-utils.min.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\umd\popper.js.map" />
+    <Content Include="Content\themes\main\global\vendor\popper-js\umd\popper.min.js.map" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap\bootstrap.bundle.js.map" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap\bootstrap.js.map" />
+    <Content Include="Content\themes\main\global\vendor\bootstrap\bootstrap.min.js.map" />
+    <Content Include="App_Code\Modal.cshtml" />
+    <Content Include="Content\themes\main\global\fonts\font-awesome\font-awesome.eot" />
+    <Content Include="Content\themes\main\global\fonts\font-awesome\font-awesome.ttf" />
+    <Content Include="Content\themes\main\global\fonts\font-awesome\font-awesome.woff" />
+    <Content Include="Content\themes\main\global\fonts\font-awesome\font-awesome.woff2" />
+    <Content Include="Areas\Alumnos\Views\web.config" />
+    <Content Include="Areas\Alumnos\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Alumnos\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Alumnos\Views\Login\Index.cshtml" />
+    <Content Include="Areas\Docentes\Views\web.config" />
+    <Content Include="Areas\Docentes\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Docentes\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Docentes\Views\Login\Index.cshtml" />
+    <Content Include="Areas\Alumnos\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Alumnos\Views\Home\ListaHorariosAlumnoPartial.cshtml" />
+    <Content Include="Areas\Alumnos\Views\Home\ListaAsistenciasAlumnoPartial.cshtml" />
+    <Content Include="Areas\Docentes\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Docentes\Views\Home\ListaHorariosDocentePartial.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Areas\Docentes\Views\Asistencia\Index.cshtml" />
+    <Content Include="Areas\Docentes\Views\Asistencia\ListaAsistenciasPartial.cshtml" />
+    <Content Include="Areas\Docentes\Views\Asistencia\ListaAsistenciasAlumnosxCursoPartial.cshtml" />
+    <Content Include="Areas\Docentes\Views\Asistencia\Alumnos.cshtml" />
+    <Content Include="Areas\Docentes\Views\Asistencia\ReporteAsistenciasAlumnosContent.cshtml" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\sweet-alert2.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Administrador\Index.cshtml" />
+    <Content Include="Views\Administrador\Crear.cshtml" />
+    <Content Include="Views\Administrador\Editar.cshtml" />
+    <Content Include="Views\Laboratorio\Index.cshtml" />
+    <Content Include="Views\Facultad\Index.cshtml" />
+    <Content Include="Views\Carrera\Index.cshtml" />
+    <Content Include="Views\Laboratorio\Crear.cshtml" />
+    <Content Include="Views\Laboratorio\Editar.cshtml" />
+    <Content Include="Views\Carrera\Crear.cshtml" />
+    <Content Include="Views\Carrera\Editar.cshtml" />
+    <Content Include="Views\Facultad\Crear.cshtml" />
+    <Content Include="Views\Facultad\Editar.cshtml" />
+    <Content Include="Views\Curso\Index.cshtml" />
+    <Content Include="Views\Curso\Crear.cshtml" />
+    <Content Include="Views\Curso\Editar.cshtml" />
+    <Content Include="Views\Docente\Index.cshtml" />
+    <Content Include="Views\Docente\Crear.cshtml" />
+    <Content Include="Views\Docente\Editar.cshtml" />
+    <Content Include="Views\Facultad\ListaFacultadesView.cshtml" />
+    <Content Include="Views\Carrera\ListaCarrerasView.cshtml" />
+    <Content Include="Views\Curso\ListaCursosView.cshtml" />
+    <Content Include="Views\Laboratorio\ListaLaboratoriosView.cshtml" />
+    <Content Include="Views\Docente\ListaDocentesView.cshtml" />
+    <Content Include="Views\Administrador\ListaAdministradoresView.cshtml" />
+    <Content Include="Views\Laboratorio\AdministradoresView.cshtml" />
+    <Content Include="Views\Docente\DocenteXCarrerasView.cshtml" />
+    <Content Include="Views\Horario\Calendario.cshtml" />
+    <Content Include="Views\Curso\Grupos.cshtml" />
+    <Content Include="Views\Curso\ListaGruposView.cshtml" />
+    <Content Include="Views\Curso\SubgruposXGrupoView.cshtml" />
+    <Content Include="Views\Curso\CrearGrupo.cshtml" />
+    <Content Include="Views\Horario\Index.cshtml" />
+    <Content Include="Views\Horario\ListaHorariosView.cshtml" />
+    <Content Include="Views\Horario\Crear.cshtml" />
+    <Content Include="Views\Horario\ListaLaboratoriosView.cshtml" />
+    <Content Include="Views\Horario\ListaCarrerasView.cshtml" />
+    <Content Include="Views\Horario\ListaCursosView.cshtml" />
+    <Content Include="Views\Horario\ListaGruposView.cshtml" />
+    <Content Include="Views\Horario\ListaSubgruposView.cshtml" />
+    <Content Include="Views\Alumno\Index.cshtml" />
+    <Content Include="Views\Alumno\ListaAlumnosView.cshtml" />
+    <Content Include="Views\Alumno\Crear.cshtml" />
+    <Content Include="Views\Alumno\Editar.cshtml" />
+    <Content Include="Views\Reporte\General.cshtml" />
+    <Content Include="Views\Reporte\ListaReporteGeneralPartial.cshtml" />
+    <Content Include="Views\Reporte\ReporteGeneralContent.cshtml" />
+    <Content Include="Views\Consulta\Index.cshtml" />
+    <Content Include="Views\Consulta\ConsultaPartial.cshtml" />
+    <Content Include="Views\Consulta\ComboLaboratoriosPartial.cshtml" />
+    <Content Include="Views\Consulta\ComboCarrerasCursoPartial.cshtml" />
+    <Content Include="Views\Consulta\ComboCursosPartial.cshtml" />
+    <Content Include="Views\Horario\Editar.cshtml" />
+    <Content Include="Views\Login\Autorizacion.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LacingAdmin.DataAccess\LacingAdmin.DataAccess.csproj">
+      <Project>{fc9e72ac-7c47-4bd2-938c-f25b42cef8be}</Project>
+      <Name>LacingAdmin.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LacingAdmin.IDataAccess\LacingAdmin.IDataAccess.csproj">
+      <Project>{9793fceb-32a9-4ef5-bd3e-1d1860766e1d}</Project>
+      <Name>LacingAdmin.IDataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LacingAdmin.Model\LacingAdmin.Model.csproj">
+      <Project>{918ae1fa-5577-4384-a649-dbc7f5a92d64}</Project>
+      <Name>LacingAdmin.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51738</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:44395/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

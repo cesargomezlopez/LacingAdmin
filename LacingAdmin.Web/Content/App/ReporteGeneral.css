@@ -1,0 +1,219 @@
+﻿body {
+    padding: 0px !important;
+    font-family: Roboto,sans-serif !important;
+}
+.form-control {
+    color: #76838f !important;
+}
+.panel-body {
+    padding: 15px 15px 5px;
+}
+.toast-message {
+    font-size: 14px;
+}
+
+.txtdate {
+    text-align: center;
+}
+
+.centerdata {
+    text-align: center;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #11c26d;
+    border-color: #11c26d;
+    box-shadow: none;
+    outline: 0px !important;
+}
+
+    .btn-success.btn-up::before {
+        border-bottom-color: #11c26d;
+    }
+
+    .btn-success:hover, .btn-success:focus {
+        background-color: #0cce71;
+        border-color: #11e07d;
+    }
+
+h1 {
+    font-family: Roboto,sans-serif !important;
+    color: #37474f;
+}
+
+label {
+    color: #76838f;
+    font-weight: 500;
+}
+.table thead th, .table tfoot th {
+    font-weight: 600;
+    color: #526069;
+    border-bottom-width: 1px;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #e4eaec;
+}
+
+.table td, .table th {
+    padding: .572rem;
+}
+
+.site-footer-legal {
+    color: #76838f;
+}
+
+.datepicker td, .datepicker th {
+    width: 60px;
+}
+
+.navbar-avatar .avatar {
+    width: 2.8rem;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+}
+
+.site-navbar {
+    background-color: #2e8b57;
+}
+
+.navbar-fixed-top, .navbar-fixed-bottom {
+    width: 100%;
+}
+
+@media (max-width: 991px) {
+    #resultadoBusqueda .panel {
+        font-size: 12px;
+    }
+}
+@media (max-width: 767px) {
+    .site-menubar-unfold .site-navbar .navbar-brand-logo {
+        height: 34px;
+        margin-top: -4px;
+        margin-left: -3px;
+    }
+
+    .navbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .alerta {
+        font-size:11px !important;
+    }
+    #toast-container > div {
+        width: 20em !important;
+    }
+    .toast-message {
+        font-size: 13px;
+    }
+
+    .site-navbar-small .site-navbar {
+        min-height: 6.1rem;
+    }
+
+    .site-navbar {
+        background-color: #2e8b57 !important;
+    }
+
+    .navbar-default {
+        border-color: #e4eaec !important;
+    }
+
+    .navbar-fixed-top, .navbar-fixed-bottom {
+        z-index: 1500;
+    }
+
+    .page-title {
+        font-size: 22px;
+    }
+
+    .page-header {
+        border-bottom: 0px solid #eeeeee !important;
+        padding: 40px 30px 10px;
+    }
+    .form-control {
+        font-size: 12px;
+    }
+
+    .btn {
+        font-size: 13px;
+    }
+    #resultadoBusqueda .panel {
+        padding: 5px 5px !important;
+        font-size: 11px;
+    }
+    body {
+        font-size: 12px;
+    }
+}
+@media (max-width: 1199px) {
+    .table {
+        display: block;
+        overflow: auto;
+        white-space: nowrap;
+    }
+}
+@media (max-width: 479.98px) {
+    .page-header {
+        padding: 40px 15px 10px;
+        margin: 40px 0px 12px;
+    }
+    .toast-message {
+        font-size: 11px;
+    }
+    #toast-container > div {
+        width: 17em !important;
+    }
+    #resultadoBusqueda .panel {
+        padding: 5px 5px !important;
+        font-size: 10px;
+    }
+    body {
+        font-size: 11px;
+    }
+    .form-control {
+        height: 28px !important;
+    }
+    .input-group-addon {
+        font-size: 12px;
+    }
+    .form-group {
+        margin-bottom: 10px;
+    }
+    #datetimepicker7 {
+        margin-bottom: 15px;
+    }
+    .panel-body {
+        padding: 12px 15px 2px;
+    }
+}
+@media (min-width: 767px) {
+    .page-header {
+        margin: 60px 0 20px;
+    }
+    .navbar > .containers, .navbar > .container-fluid {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        height: 100%;
+    }
+    .site-navbar-small .site-navbar {
+        height:60px;
+    }
+        .site-navbar-small .site-navbar .navbar-brand {
+            margin-top: 4px !important;
+            margin-left: 4px;
+        }
+    .site-navbar-small .site-menubar {
+        top: 5.986rem;
+    }
+    
+    .dropdown-menu {
+        margin: 10px 0 0;
+    }
+}

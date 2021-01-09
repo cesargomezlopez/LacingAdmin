@@ -1,0 +1,52 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.FacultadViewModel
+
+@if (Model.ListaFacultades != null && Model.ListaFacultades.Count > 0)
+{
+    <div class="panel">
+        <div class="panel-body">
+            <table class="table table-hover dataTable table-striped w-full" id="tableFacultades" data-plugin="dataTable">
+                <thead>
+                    <tr>
+                        <th>FACULTAD</th>
+                        <th>ESTADO</th>
+                        <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>FACULTAD</th>
+                        <th>ESTADO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </tfoot>
+
+                <tbody>
+                    @foreach (var item in Model.ListaFacultades)
+                    {
+                        <tr>
+                            <td>@item.NombreFacultad</td>
+                            <td>@item.NombreEstado</td>
+                            <td>
+                                <a onclick="lacing.helpers.ShowModal('EditarFacultadPopup', '@Url.Action("Editar", "Facultad", new { Area = "", idFacultad = item.IdFacultad })')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+                                <a onclick="eliminarFacultad(@item.IdFacultad)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            lacing.helpers.UpdateDataTable("tableFacultades");
+        });
+    </script>
+}
+else
+{
+    <div class="alert alert-info alerta" role="alert" style="width:100%; margin: 0 auto; text-align:center; font-size:14px">
+        No se obtuvieron registros de facultades.
+    </div>
+}

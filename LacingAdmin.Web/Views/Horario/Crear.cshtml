@@ -1,0 +1,607 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.HorarioViewModel
+@using LacingAdmin.Web.Common
+
+@{
+    ViewBag.Title = "Crear Horario";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <link href="~/Content/themes/other/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/other/clockpicker/jquery-clockpicker.min.css" rel="stylesheet" />
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <style>
+        .row {
+            margin-left: 20px;
+        }
+
+        .somb {
+            box-shadow: 0px 0px 5px 0px #444;
+            padding: 10px 20px 10px 5px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+            color: #60676d;
+        }
+    </style>
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-book"></i>Crear Horario</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="form-horizontal" style="">
+                    @Html.HiddenFor(model => model.Horario.IdHorario)
+
+                    <div class="form-group somb">
+                        <label for="inputEmail3" class="col-sm-auto control-label">Laboratorio</label>
+                        <div class="row">
+
+                            <div class="col-sm-6">
+
+                                @Html.DropDownListFor(model => model.Horario.IdFacultadLaboratorio,
+                               new SelectList(Model.ListaFacultadesLaboratorio, "IdFacultad", "NombreFacultad"), new { @class = "form-control", @id = "cbFacultadesLaboratorio", @onChange = "changeComboFacultadLaboratorio()" })
+
+                            </div>
+
+
+                            <div class="col-sm-6" id="divComboLaboratorios">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group somb">
+                        <label for="inputEmail3" class="col-sm-auto control-label">Docente</label>
+                        <div class="row">
+
+                            <div class="col-sm-6">
+
+                                @Html.EditorFor(model => model.Horario.NombreDocente, new { HtmlAttributes = new { @class = "form-control", @id = "txtInputDocente", @placeholder = "Escribir nombre del docente" } })
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                @Html.DropDownListFor(model => model.Horario.IdDocente,
+                               new SelectList(Model.ListaDocentes, "IdDocente", "NombreCompleto"), new { @class = "form-control", @id = "cbDocentes" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group somb">
+                        <label for="inputEmail3" class="col-sm-auto control-label">Curso</label>
+                        <div class="row">
+
+                            <div class="col-sm-6">
+
+                                @Html.DropDownListFor(model => model.Horario.IdFacultadCurso,
+                               new SelectList(Model.ListaFacultadesCurso, "IdFacultad", "NombreFacultad"), new { @class = "form-control", @id = "cbFacultadesCurso", @onChange = "changeComboFacultadCurso()" })
+
+                            </div>
+
+                            <div class="col-sm-6" id="divComboCarreras">
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4" id="divComboCursos">
+
+                            </div>
+
+                            <div class="col-sm-4" id="divComboGrupos">
+
+                            </div>
+
+                            <div class="col-sm-4" id="divComboSubgrupos">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group somb">
+                        <label for="inputEmail3" class="col-sm-auto control-label">Horario</label>
+                        <div class="row">
+
+                            <div class="col-sm-4">
+
+                                @Html.DropDownListFor(model => model.Horario.Dia,
+                               new SelectList(Model.ListaDias, "Valor", "Nombre"), new { @class = "form-control", @id = "cbDias" })
+
+                            </div>
+
+                            <div class="col-sm-4 checkbox-custom checkbox-primary" style="text-align: center;">
+                                <input type="checkbox" id="checkRecuperacion">
+                                <label for="checkRecuperacion">¿Fecha de Recuperación?</label>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="input-group" id="divFechaRecuperacion" hidden="hidden">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="icon wb-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                    @Html.EditorFor(model => model.Horario.FechaRecuperacion, new { HtmlAttributes = new { @class = "form-control", @placeholder = "Seleccionar Fecha de Recuperación", @id = "txtFechaRecuperacion" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-3">
+
+                                <label for="cbIntervalos">Intervalo:</label>
+                                @Html.DropDownListFor(model => model.Horario.Intervalo,
+                               new SelectList(Model.ListaIntervalos, "Valor", "Nombre"), new { @class = "form-control", @id = "cbIntervalos", @onchange="changeHoraFin()" })
+
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="txtFechaInicio">Hora Inicio:</label>
+                                <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="wb-time" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" id="txtFechaInicio" class="form-control" autocomplete="off" onchange="changeHoraFin()">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="cbHoras">Horas:</label>
+                                @Html.DropDownListFor(model => model.Horario.Horas, new SelectList(new List<SelectListItem>
+                           {
+                               new SelectListItem { Value = "1", Text = "1" },
+                               new SelectListItem { Value = "2", Text = "2" },
+                               new SelectListItem { Value = "3", Text = "3" },
+                               new SelectListItem { Value = "4", Text = "4" },
+                               new SelectListItem { Value = "5", Text = "5" },
+                           }, "Value", "Text"), new { @class = "form-control", @id = "cbHoras", @onchange = "changeHoraFin()" })
+
+
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="txtFechaFin">Hora Fin:</label>
+                                <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="wb-time" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" id="txtFechaFin" class="form-control" autocomplete="off" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" onclick="agregarHorario()" id="btnCrearGrupo" class="btn btn-success">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/other/clockpicker/bootstrap-clockpicker.min.js"></script>
+        <script src="~/Content/themes/other/clockpicker/jquery-clockpicker.min.js"></script>
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+        <script src="~/Scripts/App/Views/CursoView.js"></script>
+        <script src="~/Scripts/sweet-alert2.js"></script>
+        <script src="~/Scripts/jquery-ui.js"></script>
+
+        <script type="text/javascript">
+            $('.clockpicker').clockpicker({
+                placement: 'top'
+            });
+        </script>
+
+        <script type="text/javascript">
+            var horarioGlobal = {};
+
+            $(document).ready(cargarEventos());
+
+            function addMinutes(time, minsToAdd) {
+                function D(J){ return (J<10? '0':'') + J;};
+                 var piece = time.split(':');
+                 var asdasd = piece[0] * 60;
+                 var asdeee = piece[1];
+                 var mins = piece[0]*60 + +piece[1] + +minsToAdd;
+
+                return D(mins%(24*60)/60 | 0) + ':' + D(mins%60);
+            }
+
+            function changeHoraFin() {
+                if (horarioGlobal.flgEvents != 0) {
+                    var minutosHora = $("#cbIntervalos").val();
+                    var horaInicio = $("#txtFechaInicio").val();
+                    var horas = $("#cbHoras").val();
+                    //var horaFin = $("#txtFechaFin").val();
+
+                    if (minutosHora != null && horaInicio != null && horas != null && minutosHora != undefined && horaInicio != undefined && horas != undefined && minutosHora != "" && horaInicio != "" && horas != "") {
+                        horarioGlobal.horaFin = addMinutes(horaInicio, (parseInt(minutosHora) * parseInt(horas)));
+                        $("#txtFechaFin").val(horarioGlobal.horaFin);
+                    }
+                    else {
+                        horarioGlobal.horaFin = "";
+                        $("#txtFechaFin").val(horarioGlobal.horaFin);
+                    }
+                }
+            }
+
+            function changeComboFacultadLaboratorio() {
+                var idFacultad = $("#cbFacultadesLaboratorio").val();
+                if (idFacultad != null && idFacultad != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaLaboratoriosView", "Horario")",
+                        data: {
+                            "idFacultad": idFacultad
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboLaboratorios").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Laboratorios, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+            }
+
+            function changeComboFacultadCurso() {
+                var idFacultad = $("#cbFacultadesCurso").val();
+                if (idFacultad != null && idFacultad != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaCarrerasView", "Horario")",
+                        data: {
+                            "idFacultad": idFacultad
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboCarreras").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Carreras, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+            }
+
+            function changeComboCarreraCurso() {
+                var idCarrera = $("#cbCarreras").val();
+                if (idCarrera != null && idCarrera != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaCursosView", "Horario")",
+                        data: {
+                            "idCarrera": idCarrera
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboCursos").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Cursos, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+            }
+
+            function changeComboCurso() {
+                var idCurso = $("#cbCursos").val();
+
+                if (idCurso != null && idCurso != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("ListaGruposView", "Horario")',
+                        data: {
+                            "idCurso": idCurso
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboGrupos").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Grupos, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+            }
+
+            function changeComboGrupo() {
+                var idGrupo = $("#cbGrupos").val();
+
+                if (idGrupo != null && idGrupo != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("ListaSubgruposView", "Horario")',
+                        data: {
+                            "idGrupo": idGrupo
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboSubgrupos").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Subgrupos, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+            }
+
+            function validarCampos(horario) {
+                var contVal = 0;
+
+                if (!horario.IdDocente || horario.IdDocente == 0) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar un docente");
+                    return;
+                }
+                if (!horario.IdLaboratorio || horario.IdLaboratorio == 0) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar un laboratorio para el horario");
+                    return;
+                }
+                if (!horario.IdSubgrupo || horario.IdSubgrupo == 0) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar un subgrupo para el horario");
+                    return;
+                }
+                if (!horario.Dia) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar el día");
+                    return;
+                }
+                if (!horario.MinutosHora) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar la cantidad de minutos del intervalo");
+                    return;
+                }
+                if (!horario.HoraInicio) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar la hora de inicio");
+                    return;
+                }
+                if (!horario.Horas) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar la cantidad de horas");
+                    return;
+                }
+                if (!horarioGlobal.horaFin) {
+                    lacing.helpers.ShowMessageWarning("Debe especificar la hora de fin");
+                    return;
+                }
+                if (horarioGlobal.horaFin <= horario.HoraInicio) {
+                    lacing.helpers.ShowMessageWarning("La hora de inicio no puede ser mayor a la hora de fin");
+                    return;
+                }
+
+                var horarioAux = horario;
+
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    url: "@Url.Action("GetHorarioExiste", "Horario")",
+                    data: {
+                        "idLaboratorio": parseInt(horarioAux.IdLaboratorio),
+                        "dia": parseInt(horarioAux.Dia),
+                        "horaInicio": horarioAux.HoraInicio,
+                        "horaFin": horarioAux.HoraFin,
+                        "idHorario": 0
+                    },
+                    success: function (result) {
+                        if (result > 0) {
+                            lacing.helpers.ShowMessageWarning("No se permiten cruces de horarios, modifique las horas de inicio y fin");
+                            contVal++;
+                        }
+                    }
+                });
+
+                return contVal;
+            }
+
+            function agregarHorario() {
+                var horario = {};
+                horario.IdDocente = $("#cbDocentes").val();
+                horario.IdLaboratorio = $("#cbLaboratorios").val();
+                horario.IdSubgrupo = $("#cbSubgrupos").val();
+                horario.Dia = $("#cbDias").val();
+                horario.Horas = $("#cbHoras").val();
+                horario.HoraInicio = $("#txtFechaInicio").val();
+                horario.HoraFin = $("#txtFechaFin").val();
+                horario.FechaRecuperacion = $("#txtFechaRecuperacion").val();
+                horario.MinutosHora = $("#cbIntervalos").val();
+
+                if (validarCampos(horario) == 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Crear", "Horario")",
+                        data: {
+                            "horario": horario
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            Swal.fire(
+                                    '¡Listo!',
+                                    'Se creo el horario exitosamente',
+                                    'success'
+                            );
+                            setTimeout(function(){
+                                window.location.href = "@Url.Action("Index", "Horario")";
+                            }, 2000);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                    '¡Error!',
+                                    'No se pudo crear horario, error: ' + error,
+                                    'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+            }
+            function cargarEventos() {
+                horarioGlobal.flgEvents = 0;
+
+                $("#checkRecuperacion").on("change", function () {
+                    if (document.getElementById("checkRecuperacion").checked) {
+                        $("#divFechaRecuperacion").removeAttr("hidden");
+                    }
+                    else {
+                        $("#divFechaRecuperacion").attr("hidden", "hidden");
+                        $("#txtFechaRecuperacion").val("");
+                    }
+                });
+
+                changeComboFacultadLaboratorio();
+                changeComboFacultadCurso();
+                changeComboCarreraCurso();
+                changeComboCurso();
+                changeComboGrupo();
+                
+                horarioGlobal.flgEvents = 1;
+            }
+
+            $(function () {
+                $("#txtFechaRecuperacion").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    maxDate: '+2M',
+                    minDate: '+0d',
+                    dateFormat: 'dd-mm-yy'
+                });
+                $("#txtFechaRecuperacion").datepicker("option", "showAnim", "show");
+            });
+
+
+            //jQuery extension method:
+            jQuery.fn.filterByText = function (textbox) {
+                return this.each(function () {
+                    var select = this;
+                    var options = [];
+                    $(select).find('option').each(function () {
+                        options.push({
+                            value: $(this).val(),
+                            text: $(this).text()
+                        });
+                    });
+                    $(select).data('options', options);
+
+                    $(textbox).bind('change keyup', function () {
+                        var options = $(select).empty().data('options');
+                        var search = $.trim($(this).val());
+                        var regex = new RegExp(search, "gi");
+
+                        $.each(options, function (i) {
+                            var option = options[i];
+                            if (option.text.match(regex) !== null) {
+                                $(select).append(
+                                    $('<option>').text(option.text).val(option.value)
+                                );
+                            }
+                        });
+                    });
+                });
+            };
+
+            // You could use it like this:
+
+            $(function () {
+                $('#cbDocentes').filterByText($('#txtInputDocente'));
+                $('#cbCursos').filterByText($('#txtInputCurso'));
+            });
+        </script>
+    }
+
+</body>
+</html>
+
+
+
+

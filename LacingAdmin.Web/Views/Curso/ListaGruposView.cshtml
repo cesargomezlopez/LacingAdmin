@@ -1,0 +1,55 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.CursoViewModel
+
+@if (Model.ListaGrupos != null && Model.ListaGrupos.Count > 0)
+{
+    <div class="panel">
+        <div class="panel-body">
+            <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable">
+                <thead>
+                    <tr>
+                        <th>NUMERO GRUPO</th>
+                        <th>SUBGRUPOS</th>
+                        <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>NUMERO GRUPO</th>
+                        <th>SUBGRUPOS</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model.ListaGrupos)
+                    {
+                        <tr>
+                            <td>@item.NumeroGrupo</td>
+                            @if (item.CantidadSubgrupos > 0)
+                            {
+                                <td>
+                                    <a onclick="lacing.helpers.ShowModal('SubgruposXGrupoPopup', '@Url.Action("SubgruposXGrupoView", "Curso", new { Area = "", idGrupo = item.IdGrupo, idCurso = item.IdCurso})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-eye"></i></a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <a onclick="lacing.helpers.ShowModal('SubgruposXGrupoPopup', '@Url.Action("SubgruposXGrupoView", "Curso", new { Area = "", idGrupo = item.IdGrupo, idCurso = item.IdCurso})')" class="btn btn-warning" style="color:white">Agregar</a>
+                                </td>
+                            }
+                            <td>
+                                <a onclick="eliminarGrupo(@item.IdGrupo, @item.IdCurso)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-primary center" role="alert" style="width:100%; margin: 0 auto; text-align:center">
+        No se obtuvo información de grupos del curso.
+    </div>
+}
+

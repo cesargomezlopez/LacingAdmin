@@ -1,0 +1,72 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.ReporteViewModel
+
+@if (Model.ListaReporteGeneral != null && Model.ListaReporteGeneral.Count > 0)
+{
+    <div class="panel" style="padding:20px 20px;">
+        <div class="panel-body">
+            <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable">
+                <thead>
+                    <tr>
+                        <th>FECHA</th>
+                        <th>LABORATORIO</th>
+                        <th>DOCENTE</th>
+                        <th>CURSO</th>
+                        <th>CARRERA</th>
+                        <th>HORA INICIO</th>
+                        <th>HORA FIN</th>
+                        <th>HORA INGRESO</th>
+                        <th>HORA SALIDA</th>
+                        <th>DIFERENCIA ENTRADA (min.)</th>
+                        <th>ESTADO</th>
+                        <th>OBSERVACIONES</th>
+                        <th>TIPO</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>FECHA</th>
+                        <th>LABORATORIO</th>
+                        <th>DOCENTE</th>
+                        <th>CURSO</th>
+                        <th>CARRERA</th>
+                        <th>HORA INICIO</th>
+                        <th>HORA FIN</th>
+                        <th>HORA INGRESO</th>
+                        <th>HORA SALIDA</th>
+                        <th>DIFERENCIA ENTRADA (min.)</th>
+                        <th>ESTADO</th>
+                        <th>OBSERVACIONES</th>
+                        <th>TIPO</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model.ListaReporteGeneral)
+                    {
+                    <tr>
+                        <td>@item.Fecha</td>
+                        <td>@item.Laboratorio</td>
+                        <td>@item.Docente</td>
+                        <td>@item.Curso</td>
+                        <td>@item.Carrera</td>
+                        <td class="centerdata">@item.HoraInicio</td>
+                        <td class="centerdata">@item.HoraFin</td>
+                        <td class="centerdata">@item.HoraIngreso</td>
+                        <td class="centerdata">@item.HoraSalida</td>
+                        <td>@item.DiferenciaEntrada</td>
+                        <td>@item.Estado</td>
+                        <td>@item.Observacion</td>
+                        <td>@item.Tipo</td>
+                    </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info alerta" role="alert" style="width:100%; margin: 0 auto; text-align:center; font-size:14px">
+        No se obtuvieron resultados de la búsqueda.
+    </div>
+}

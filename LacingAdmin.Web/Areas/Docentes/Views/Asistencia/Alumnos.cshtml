@@ -1,0 +1,295 @@
+﻿@model LacingAdmin.Web.Areas.Docentes.Models.DocenteViewModel
+
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Asistencias Alumnos x Curso";
+    ViewBag.Panel = true;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Docente Lacing</title>
+    <link href="~/Content/bootstrap-4.3.1.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/fonts/font-awesome/font-awesome.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #efefef;
+            background-size: cover;
+        }
+
+        button {
+            outline: 0px;
+        }
+
+        .cursoContainer:hover {
+            opacity: 0.5;
+        }
+
+        .headCurso:hover ~ .botonCurso {
+            display: block;
+        }
+
+        .botonCurso {
+            display: none;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            border: none;
+            background-color: transparent;
+        }
+
+            .botonCurso i {
+                font-size: 5rem;
+                color: #02a117;
+            }
+
+        .cursoContainer {
+            position: relative;
+        }
+    </style>
+
+    <style>
+        #loadingLayer {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            display: block;
+            opacity: 0.7;
+            background-color: #fff;
+            z-index: 99;
+            text-align: center;
+        }
+
+        #loading-image {
+            /*position: absolute;*/
+            margin-right: auto;
+            margin-left: auto;
+            display: block;
+            z-index: 100;
+        }
+    </style>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/App/ReporteGeneral.css" rel="stylesheet" />
+
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+</head>
+<body>
+    @if (SecurityHelper.GetDocenteID() > 0)
+    {
+        <div class="pos-f-t">
+            <div class="collapse" id="navbarToggleExternalContent">
+                <div class="bg-dark p-4" style="background-color: #0c2946e8 !important; color: white">
+                    <h5 class="text-white h4">Opciones</h5>
+                    <ul>
+                        <li>
+                            <a href="@Url.Action("Index", "Home", new { Area = "Docentes"})">Inicio</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Asistencia", new { Area = "Docentes"})">Ver Asistencias</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-dark" style="background-color: #0f2a46 !important">
+                <button style="outline: none;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <h5 class="text-white h4" style="text-align:left">¡ Bienvenido @SecurityHelper.GetDocenteNombres() !</h5>
+                <button id="btnSalir" class="btn btn-warning" style="font-weight: bold; color:#efefef" type="button">
+                    <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M144 112v51.6H48c-26.5 0-48 21.5-48 48v88.6c0 26.5 21.5 48 48 48h96v51.6c0 42.6 51.7 64.2 81.9 33.9l144-143.9c18.7-18.7 18.7-49.1 0-67.9l-144-144C195.8 48 144 69.3 144 112zm192 144L192 400v-99.7H48v-88.6h144V112l144 144zm80 192h-84c-6.6 0-12-5.4-12-12v-24c0-6.6 5.4-12 12-12h84c26.5 0 48-21.5 48-48V160c0-26.5-21.5-48-48-48h-84c-6.6 0-12-5.4-12-12V76c0-6.6 5.4-12 12-12h84c53 0 96 43 96 96v192c0 53-43 96-96 96z" class=""></path></svg>SALIR
+                </button>
+            </nav>
+        </div>
+
+        <div class="container body-content">
+            <h2 style="font-weight: bold; margin:15px 0px;">Asistencias del Curso</h2>
+
+            <div class="row mt-5" style="justify-content: center">
+                <div class='col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12'>
+                    <label for="txtFechaInicio">Fecha Incio: </label>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker6'>
+                            <input type='text' class="form-control txtdate" id="txtFechaInicio" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12'>
+                    <label for="txtFechaFin">Fecha Fin: </label>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker7'>
+                            <input type='text' class="form-control txtdate" id="txtFechaFin" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-2 col-md-6 col-sm-6 col-6 mt-4">
+                    <button onclick="buscarAsistencias()" class="btn btn-block btn-success"><i class="icon fa-search"></i> Buscar</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-5 col-6">
+                    <button onclick="descargarReporteAsistencias()" class="btn btn-block btn-success"><i class="icon fa-file-pdf-o"></i> Descargar</button>
+                </div>
+            </div>
+
+            <div id="listaHorarios" style="margin-top: 20px;">
+                @Html.Action("ListaAsistenciasAlumnosxCursoPartial", "Asistencia",
+               new { Area = "Docentes", idSubgrupo = ViewBag.IdSubgrupo, fechaInicio = ViewBag.dateInicio, fechaFin = ViewBag.dateFin })
+            </div>
+
+            <br />
+            <footer style="text-align:center">
+                <p>&copy; Lacing @DateTime.Now.Year</p>
+            </footer>
+        </div>
+
+        <div id="loadingLayer" hidden>
+            <img id="loading-image" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Cargando..." />
+        </div>
+    }
+    @section scripts{
+        @Scripts.Render("~/bundles/jquery")
+        <script src="~/Scripts/bootstrap-4.3.1.js"></script>
+        <script src="~/Scripts/sweet-alert2.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+        <!--DatePicker-->
+        <script src="~/Scripts/jquery-3.3.1.js"></script>
+        <script src="~/Scripts/moment-with-locales.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+        <script src="~/Scripts/App/Common/helpers.js"></script>
+        <script>
+            function onBeginRequest() {
+                $("#loadingLayer").removeAttr("hidden");
+            }
+            function onCompleteRequest() {
+                $("#loadingLayer").attr("hidden", "hidden");
+            }
+        </script>
+
+        <script type="text/javascript">
+            var globalAsistencia = {};
+
+            $(document).ready(function () {
+                globalAsistencia.fechaInicio = '@ViewBag.dateInicio';
+                globalAsistencia.fechaFin = '@ViewBag.dateFin';
+
+                $("#btnSalir").on("click", function () {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("SignOut", "Login", new { Area = "Docentes"})",
+                        success: function () {
+                            window.location.href = "/Docentes/Login/Index";
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+
+            function cambioDeFecha() {
+                if ($("#txtFechaInicio").val() != globalAsistencia.fechaInicio
+                    || $("#txtFechaFin").val() != globalAsistencia.fechaFin) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
+            function descargarReporteAsistencias() {
+                if (cambioDeFecha()) {
+                    buscarReporte();
+                }
+
+                var fechaI = $("#txtFechaInicio").val();
+                var fechaF = $("#txtFechaFin").val();
+                var idSubgrupo = @ViewBag.IdSubgrupo;
+
+                window.location.href = "/Docentes/Asistencia/DescargarReporteAsistenciasAlumnos?idSubgrupo=" + idSubgrupo + "&fechaInicio=" + fechaI + "&fechaFin=" + fechaF;
+                setTimeout(() => {
+                    Swal.fire(
+                        '¡Listo!',
+                        'Se descargó el reporte.',
+                        'success'
+                    );
+                }, 2000);
+            }
+
+            $(function () {
+                $('#datetimepicker6').datetimepicker({
+                    locale: 'es',
+                    format: 'L'
+                });
+                $('#datetimepicker7').datetimepicker({
+                    locale: 'es',
+                    format: 'L',
+                    useCurrent: false //Important! See issue #1075
+                });
+                $("#datetimepicker6").on("dp.change", function (e) {
+                    $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                });
+                $("#datetimepicker7").on("dp.change", function (e) {
+                    $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                });
+
+                $('#datetimepicker6').data("DateTimePicker").date('@ViewBag.dateInicio');
+                $('#datetimepicker7').data("DateTimePicker").date('@ViewBag.dateFin');
+            });
+
+            function buscarAsistencias() {
+                var fechaI = $("#txtFechaInicio").val();
+                var fechaF = $("#txtFechaFin").val();
+
+                globalAsistencia.fechaInicio = fechaI;
+                globalAsistencia.fechaFin = fechaF;
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ListaAsistenciasAlumnosxCursoPartial", "Asistencia", new { Area = "Docentes" })",
+                    data: {
+                        "idSubgrupo": @ViewBag.IdSubgrupo,
+                        "fechaInicio": fechaI,
+                        "fechaFin": fechaF
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#listaHorarios").html(result);
+                        lacing.helpers.ShowMessageSucces("Consulta realizada exitosamente");
+                    },
+                    error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo consultar las asistencias.',
+                                'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+        </script>
+    }
+</body>
+</html>
+

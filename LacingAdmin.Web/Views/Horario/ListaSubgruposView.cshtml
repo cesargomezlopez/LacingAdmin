@@ -1,0 +1,18 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.HorarioViewModel
+
+@if (Model.ListaSubgrupos != null && Model.ListaSubgrupos.Count > 0)
+{
+    <select id="cbSubgrupos" class="form-control">
+        <option value="0">Seleccionar Subgrupo</option>
+        @foreach (var item in Model.ListaSubgrupos)
+        {
+            <option value="@item.IdSubgrupo">@item.NumeroSubgrupo</option>
+        }
+    </select>
+}
+else
+{
+    <select id="cbSubgrupos" class="form-control">
+        <option value="0">No hay subgrupos registrados</option>
+    </select>
+}

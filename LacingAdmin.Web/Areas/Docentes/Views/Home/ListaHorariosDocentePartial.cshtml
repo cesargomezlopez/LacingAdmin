@@ -1,0 +1,48 @@
+﻿@model LacingAdmin.Web.Areas.Docentes.Models.DocenteViewModel
+
+@if (Model.ListaHorariosDocente != null && Model.ListaHorariosDocente.Count > 0)
+{
+    <div class="card-deck">
+        <div class="row">
+            @foreach (var item in Model.ListaHorariosDocente)
+            {
+                <div class="col-xl-4 col-lg-6" style="padding:0px; margin-top:20px;">
+                    <div class="card">
+                        <div class="cursoContainer">
+                            <img src="~/Content/lacing/alumno/cursos2.png" class="card-img-top headCurso" alt="imagen_curso">
+                            <button class="botonCurso"><i class="icon fa-sign-in" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <h5 style="text-align:center" class="card-title">@item.CodigoCurso - @item.NombreCurso</h5>
+                            <p class="card-text">Laboratorio: @item.NombreLaboratorio</p>
+                            <p class="card-text">Docente: @item.NombreDocente</p>
+                            <p class="card-text">Día: @item.DiaNombre</p>
+                            <p class="card-text">Horario: @item.HoraInicio -  @item.HoraFin</p>
+                            <p class="card-text">Grupo: @item.NumeroGrupo Subgrupo: @item.NumeroSubgrupo</p>
+                        </div>
+                        <div class="card-footer" style="padding:0px;">
+                            <button onclick="marcarAsistenciaDocente(@item.IdHorario)" class="btn btn-success" style="width:100%; font-weight:bold" @((item.FlagAsistenciaPendiente == 0) ? "disabled" : "")>MARCAR ASISTENCIA</button>
+                        </div>
+                        <div class="card-footer" style="padding:0px;">
+                            <button onclick="verAsistenciasAlumnos(@item.IdSubgrupo)" 
+                                    class="btn btn-warning" style="width:100%; font-weight:bold">VER ASISTENCIAS</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <br />
+}
+else
+{
+    <p>No se encontraron horarios registrados</p>
+}
+
+<script>
+    function verAsistenciasAlumnos(idSubgrupo) {
+        window.location.href = "/Docentes/Asistencia/Alumnos?idSubgrupo=" + idSubgrupo;
+    }
+</script>
+

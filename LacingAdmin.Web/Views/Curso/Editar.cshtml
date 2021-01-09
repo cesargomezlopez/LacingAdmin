@@ -1,0 +1,126 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.CursoViewModel
+
+@{
+    ViewBag.Title = "Editar Curso";
+}
+
+@using (Ajax.BeginForm("Editar", "Curso",
+    new AjaxOptions() { OnSuccess = "refreshListaEditar()" }))
+{
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.Curso.IdCurso)
+
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-auto control-label">Carrera</label>
+            <div class="col-sm-10">
+
+                @Html.DropDownListFor(model => model.Curso.IdCarrera,
+               new SelectList(Model.ListaCarreras, "IdCarrera", "NombreCarrera"), new { @class = "form-control" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-auto control-label">Código</label>
+            <div class="col-sm-10">
+
+                @Html.EditorFor(
+                    model => model.Curso.CodigoCurso,
+                    new { htmlAttributes = new { @class = "form-control" } })
+
+                @Html.ValidationMessageFor(model => model.Curso.CodigoCurso, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-auto control-label">Malla</label>
+            <div class="col-sm-10">
+
+                @Html.DropDownListFor(model => model.Curso.NumeroMalla, new SelectList(
+                    new List<SelectListItem>
+                    {
+                        new SelectListItem { Value = "50", Text = "50"},
+                        new SelectListItem { Value = "52", Text = "52"}
+                    }
+               , "Value", "Text"), new { @class = "form-control" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-auto control-label">Ciclo</label>
+            <div class="col-sm-10">
+
+                @Html.DropDownListFor(model => model.Curso.NumeroCiclo, new SelectList(
+                    new List<SelectListItem>
+                    {
+                        new SelectListItem { Value = "01", Text = "01"},
+                        new SelectListItem { Value = "02", Text = "02"},
+                        new SelectListItem { Value = "03", Text = "03"},
+                        new SelectListItem { Value = "04", Text = "04"},
+                        new SelectListItem { Value = "05", Text = "05"},
+                        new SelectListItem { Value = "06", Text = "06"},
+                        new SelectListItem { Value = "07", Text = "07"},
+                        new SelectListItem { Value = "08", Text = "08"},
+                        new SelectListItem { Value = "09", Text = "09"},
+                        new SelectListItem { Value = "10", Text = "10"}
+                    }
+               , "Value", "Text"), new { @class = "form-control" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-auto control-label">Nombre del Curso</label>
+            <div class="col-sm-10">
+
+                @Html.EditorFor(
+                    model => model.Curso.NombreCurso,
+                    new { htmlAttributes = new { @class = "form-control" } })
+
+                @Html.ValidationMessageFor(model => model.Curso.NombreCurso, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-success">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+}
+<script>
+    function refreshListaEditar() {
+        lacing.helpers.CloseModal('EditarCursoPopup');
+        Swal.fire(
+            '¡Listo!',
+            'El Curso ha sido editado exitosamente.',
+            'success'
+        );
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("ListaCursosView", "Curso", new { Area = ""})",
+            beforeSend: function () {
+                onBeginRequest();
+            },
+            success: function (result) {
+                onCompleteRequest();
+                $("#listadoCursos").html(result);
+                window.location.href = "/Curso";
+            },
+            error: function (error) {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo actualizar listado de Cursos, error: ' + error,
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    }
+</script>
+
+

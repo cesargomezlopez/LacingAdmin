@@ -1,0 +1,21 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.HorarioViewModel
+
+@foreach (var item in Model.ListaHorarios)
+{
+    <tr>
+        <td>@item.NombreLaboratorio</td>
+        <td>@item.DiaNombre</td>
+        <td>@item.HoraInicio</td>
+        <td>@item.HoraFin</td>
+        <td>@item.NombreDocente</td>
+        <td>@item.NombreCurso</td>
+        <td>@item.TipoSubgrupo</td>
+        <td>
+            <a href="@Url.Action("Editar", "Horario", new { Area = "", idHorario = item.IdHorario})" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+            <a onclick="eliminarHorario(@item.IdHorario)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+        </td>
+    </tr>
+
+}
+
+

@@ -1,0 +1,168 @@
+﻿@model LacingAdmin.Web.Areas.Docentes.Models.DocenteViewModel
+
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Asistencias";
+    ViewBag.Panel = true;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Docente Lacing</title>
+    <link href="~/Content/bootstrap-4.3.1.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="/your-path-to-fontawesome/css/all.css" rel="stylesheet">
+    <link href="~/Content/themes/main/global/fonts/font-awesome/font-awesome.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #efefef;
+            background-size: cover;
+        }
+
+        button {
+            outline: 0px;
+        }
+
+        .cursoContainer:hover {
+            opacity: 0.5;
+        }
+
+        .headCurso:hover ~ .botonCurso {
+            display: block;
+        }
+
+        .botonCurso {
+            display: none;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            border: none;
+            background-color: transparent;
+        }
+
+            .botonCurso i {
+                font-size: 5rem;
+                color: #02a117;
+            }
+
+        .cursoContainer {
+            position: relative;
+        }
+    </style>
+
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+</head>
+<body>
+    @if (SecurityHelper.GetDocenteID() > 0)
+    {
+        <div class="pos-f-t">
+            <div class="collapse" id="navbarToggleExternalContent">
+                <div class="bg-dark p-4" style="background-color: #0c2946e8 !important; color: white">
+                    <h5 class="text-white h4">Opciones</h5>
+                    <ul>
+                        <li>
+                            <a href="@Url.Action("Index", "Home", new { Area = "Docentes"})">Inicio</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Asistencia", new { Area = "Docentes"})">Ver Asistencias</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-dark" style="background-color: #0f2a46 !important">
+                <button style="outline: none;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <h5 class="text-white h4" style="text-align:left">¡ Bienvenido @SecurityHelper.GetDocenteNombres() !</h5>
+                <button id="btnSalir" class="btn btn-warning" style="font-weight: bold; color:#efefef" type="button">
+                    <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M144 112v51.6H48c-26.5 0-48 21.5-48 48v88.6c0 26.5 21.5 48 48 48h96v51.6c0 42.6 51.7 64.2 81.9 33.9l144-143.9c18.7-18.7 18.7-49.1 0-67.9l-144-144C195.8 48 144 69.3 144 112zm192 144L192 400v-99.7H48v-88.6h144V112l144 144zm80 192h-84c-6.6 0-12-5.4-12-12v-24c0-6.6 5.4-12 12-12h84c26.5 0 48-21.5 48-48V160c0-26.5-21.5-48-48-48h-84c-6.6 0-12-5.4-12-12V76c0-6.6 5.4-12 12-12h84c53 0 96 43 96 96v192c0 53-43 96-96 96z" class=""></path></svg>SALIR
+                </button>
+            </nav>
+        </div>
+
+              <div class="container body-content">
+                  <h2 style="font-weight: bold; margin:15px 0px;">Asistencias</h2>
+                  <div class="panel">
+                      <div class="panel-body">
+                          <div class="row" style="justify-content:center;">
+                              <div class="col-xl-4 col-lg-3 col-md-4 col-sm-5 col-6">
+                                  <select id="cbCursos" class="form-control">
+                                      <option value="0">Todos los cursos</option>
+                                      @foreach (var item in Model.ListaCursosDocente)
+                                      {
+                                          <option value="@item.IdCurso">@item.NombreCurso</option>
+                                      }
+                                  </select>
+                              </div>
+                              <div class="col-xl-4 col-lg-3 col-md-4 col-sm-5 col-6">
+                                  <button onclick="buscarAsistenciaXCurso()" style="width: 100%; padding: 5px" id="btnBuscarAsistencia" class="btn btn-success">Buscar</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div id="listaHorarios" style="margin-top: 20px;">
+                      @Html.Action("ListaAsistenciasPartial", "Asistencia", new { Area = "Docentes", idCurso = 0 })
+                  </div>
+
+                  <br />
+                  <footer style="text-align:center">
+                      <p>&copy; Lacing @DateTime.Now.Year</p>
+                  </footer>
+              </div>
+    }
+    @section scripts{
+        @Scripts.Render("~/bundles/jquery")
+        <script src="~/Scripts/bootstrap-4.3.1.js"></script>
+        <script src="~/Scripts/sweet-alert2.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $("#btnSalir").on("click", function () {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("SignOut", "Login", new { Area = "Docentes"})",
+                        success: function () {
+                            window.location.href = "/Docentes/Login/Index";
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+
+            function buscarAsistenciaXCurso() {
+                var idCurso = $("#cbCursos").val();
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ListaAsistenciasPartial", "Asistencia", new { Area = "Docentes"})",
+                    data: {
+                        "idCurso": idCurso
+                    },
+                    success: (result) => {
+                        $("#listaHorarios").html(result);
+                        lacing.helpers.ShowMessageSucces("Consulta realizada exitosamente");
+                    },
+                    error: (error) => {
+                        Swal.fire(
+                            '¡Error!',
+                            'No se pudo buscar las asistencias por curso.',
+                            'error'
+                        );
+                    }
+                });
+            }
+
+        </script>
+    }
+</body>
+</html>
+

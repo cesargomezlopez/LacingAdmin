@@ -1,0 +1,130 @@
+.panel-busqueda {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#txtBuscarCurso {
+    margin: 5px 0px 5px 0px;
+}
+
+.nav-tabs-solid ~ .tab-content {
+    padding: 0.8rem 1.429rem;
+}
+
+.btnBuscar {
+    margin: 8px 0px 5px 0px;
+}
+
+.panel-body {
+    padding: 15px 20px;
+}
+
+h4 {
+    font-size: 1.186rem;
+}
+@media (max-width: 1079px) {
+    .table {
+        display: block;
+        overflow: auto;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 767px) {
+    body {
+        font-size: 0.9rem;
+    }
+    #toast-container > div {
+        width: 21em !important;
+    }
+    .toast-message {
+        font-size: 13px;
+    }
+    .page-title {
+        font-size: 22px;
+    }
+    .page-header {
+        padding: 20px 30px 15px;
+    }
+    h4 {
+        font-size: 1.086rem;
+        margin-bottom: 14px;
+    }
+    .panel-body {
+        padding: 16px 20px;
+    }
+    .panel-busqueda {
+        width: 85%;
+    }
+    .form-control {
+        height: 2.2rem;
+        font-size: 0.85rem;
+    }
+    .nav-tabs-solid ~ .tab-content {
+        padding: 0.9rem;
+    }
+    .btnBuscar {
+        margin: 5px 0px 0px;
+    }
+    .btn {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 490px) {
+    .panel-busqueda {
+        width: 100%;
+    }
+    .toast-message {
+        font-size: 12px;
+    }
+
+    #toast-container > div {
+        width: 21em !important;
+    }
+}
+    @media (max-width: 479.89px) {
+        .toast-message {
+            font-size: 11px;
+        }
+
+        body {
+            font-size: 0.8rem;
+        }
+
+        .page-title {
+            font-size: 20px;
+        }
+
+        .page-header {
+            padding: 15px;
+        }
+
+        h4 {
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+
+        .panel-body {
+            padding: 10px 10px;
+        }
+
+        .form-control {
+            height: 2rem;
+            font-size: 0.8rem;
+        }
+
+        .nav-tabs-solid ~ .tab-content {
+            padding: 0.7rem;
+        }
+
+        .btn {
+            font-size: 0.85rem;
+        }
+    }
+
+@media (max-width: 326px) {
+    body {
+        font-size: 0.65rem;
+    }
+}

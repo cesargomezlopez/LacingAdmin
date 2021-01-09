@@ -1,0 +1,18 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.ConsultaViewModel
+
+@if (Model.ListaLaboratorios != null && Model.ListaLaboratorios.Count > 0)
+{
+    <select id="cbLaboratorio" class="form-control" style="margin: 5px 0px">
+        <option value="0">Seleccionar Laboratorio</option>
+        @foreach (var item in Model.ListaLaboratorios)
+        {
+            <option value="@item.IdLaboratorio">@item.NombreLaboratorio</option>
+        }
+    </select>
+}
+else
+{
+    <select id="cbLaboratorio" class="form-control" style="margin: 5px 0px">
+        <option value="0">No hay resultados</option>
+    </select>
+}

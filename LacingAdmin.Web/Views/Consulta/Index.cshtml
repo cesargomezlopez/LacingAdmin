@@ -1,0 +1,390 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.ConsultaViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Consulta";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+    <link href="~/Content/App/Consulta.css" rel="stylesheet" />
+</head>
+<body class="animsition site-navbar-small ">
+
+    <div class="page">
+        <div class="page-header">
+            <h1 class="page-title"><i class="icon fa-search"></i>Consultas</h1>
+        </div>
+
+        <div class="page-content container-fluid">
+            <!-- Tab del Formualario de Búsqueda -->
+            <div class="panel panel-busqueda">
+                <div class="panel-body" style="background-color: #ebebeb">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="example-wrap">
+                                <h4>Filtros de Búsqueda</h4>
+                                <div class="nav-tabs-horizontal nav-tabs-inverse nav-tabs-animate" data-plugin="tabs">
+                                    <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link active" data-toggle="tab" href="#buscarDocenteAnimateTab" aria-controls="buscarDocenteAnimateTab"
+                                               role="tab">
+                                                <i class="icon fa-mortar-board" aria-hidden="true"></i>
+                                                Docente
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" data-toggle="tab" href="#buscarCursoAnimateTab" aria-controls="buscarCursoAnimateTab"
+                                               role="tab">
+                                                <i class="icon fa-book" aria-hidden="true"></i>
+                                                Curso
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" data-toggle="tab" href="#buscarLaboratorioAnimateTab" aria-controls="buscarLaboratorioAnimateTab"
+                                               role="tab">
+                                                <i class="icon fa-laptop" aria-hidden="true"></i>
+                                                Laboratorio
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active animation-scale-up" id="buscarDocenteAnimateTab" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-xl-4 col-lg-6">
+                                                    <input type="text" name="txtBuscarDocente" id="txtBuscarDocente" class="form-control" placeholder="Escribir nombre del docente" style="margin: 5px 0px 5px 0px" />
+                                                </div>
+                                                <div class="col-xl-5 col-lg-6">
+                                                    <select id="cbDocentes" class="form-control" style="margin: 5px 0px">
+                                                        <option value="0">Seleccionar Docente</option>
+                                                        @foreach (var item in Model.ListaDocentes)
+                                                        {
+                                                            <option value="@item.IdDocente">@item.NombreCompleto</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-xl-3 col-lg-6" style="margin: 0 auto">
+                                                    <button onclick="buscarHorariosXDocente()" class="btn btn-block btn-success btnBuscar"><i class="icon fa-search"></i> Buscar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane animation-scale-up" id="buscarCursoAnimateTab" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <select id="cbFacultadesCurso" onchange="filtrarCarreras()" class="form-control" style="margin: 5px 0px">
+                                                        <option value="0">Seleccionar Facultad</option>
+                                                        @foreach (var item in Model.ListaFacultades)
+                                                        {
+                                                            <option value="@item.IdFacultad">@item.NombreFacultad</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6" id="comboCarreras">
+                                                    @Html.Action("ComboCarrerasCursoPartial", "Consulta", new { Area = "", idFacultad = 0 })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-4 col-lg-6">
+                                                    <input type="text" name="txtBuscarCurso" id="txtBuscarCurso" class="form-control" placeholder="Escribir nombre del curso" style="margin: 5px 0px 5px 0px" />
+                                                </div>
+                                                <div class="col-xl-5 col-lg-6" id="comboCursos">
+                                                    @Html.Action("ComboCursosPartial", "Consulta", new { Area = "", idCarrera = 0 })
+                                                </div>
+                                                <div class="col-xl-3 col-lg-6" style="margin: 0 auto">
+                                                    <button onclick="buscarHorariosXCurso()" class="btn btn-block btn-success btnBuscar"><i class="icon fa-search"></i> Buscar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane animation-scale-up" id="buscarLaboratorioAnimateTab" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-xl-5 col-lg-6">
+                                                    <select id="cbFacultadesLaboratorio" onchange="filtrarLaboratorios()" class="form-control" style="margin: 5px 0px">
+                                                        <option value="0">Seleccionar Facultad</option>
+                                                        @foreach (var item in Model.ListaFacultades)
+                                                        {
+                                                            <option value="@item.IdFacultad">@item.NombreFacultad</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-xl-4 col-lg-6" id="comboLaboratorios">
+                                                    @Html.Action("ComboLaboratoriosPartial", "Consulta", new { Area = "", idFacultad = 0})
+                                                </div>
+                                                <div class="col-xl-3 col-lg-6" style="margin: 0 auto">
+                                                    <button onclick="buscarHorariosXLaboratorio()" class="btn btn-block btn-success btnBuscar"><i class="icon fa-search"></i> Buscar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tab del Formualario de Búsqueda -->
+                </div>
+            </div><br />
+            <div id="listadoHorariosConsulta">
+
+            </div>
+        </div>
+    </div>
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+
+        <script src="~/Scripts/sweet-alert2.js"></script>
+
+
+        <script src="~/Content/themes/main/global/vendor/matchheight/jquery.matchHeight-min.js"></script>
+        <script src="~/Content/themes/main/global/js/Plugin/responsive-tabs.js"></script>
+        <script src="~/Content/themes/main/global/js/Plugin/tabs.js"></script>
+
+        <script type="text/javascript">
+            function buscarHorariosXDocente() {
+                var idDocente = $("#cbDocentes").val();
+
+                if (idDocente==0 || idDocente==null) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar un docente");
+                    return;
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ConsultaXDocentePartial", "Consulta", new { Area = ""})",
+                    data: {
+                        "idDocente": idDocente
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#listadoHorariosConsulta").html(result);
+                        lacing.helpers.ShowMessageSucces("Consulta realizada exitosamente");
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                                '¡Error!',
+                                'No se pudo realizar la búsqueda.',
+                                'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            function filtrarCarreras() {
+                var idFacultad = $("#cbFacultadesCurso").val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ComboCarrerasCursoPartial", "Consulta", new { Area = ""})",
+                    data: {
+                        "idFacultad": idFacultad
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#comboCarreras").html(result);
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                                '¡Error!',
+                                'No se pudo realizar la búsqueda.',
+                                'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            function filtrarCursos() {
+                var idCarrera = $("#cbCarreras").val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ComboCursosPartial", "Consulta", new { Area = ""})",
+                    data: {
+                        "idCarrera": idCarrera
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#comboCursos").html(result);
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                                '¡Error!',
+                                'No se pudo realizar la búsqueda.',
+                                'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            function buscarHorariosXCurso() {
+                var idCurso = $("#cbCursos").val();
+                
+                if (idCurso==0 || idCurso==null) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar un curso");
+                    return;
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ConsultaXCursoPartial", "Consulta", new { Area = ""})",
+                    data: {
+                        "idCurso": idCurso
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#listadoHorariosConsulta").html(result);
+                        lacing.helpers.ShowMessageSucces("Consulta realizada exitosamente");
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                                '¡Error!',
+                                'No se pudo realizar la búsqueda.',
+                                'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            
+            function filtrarLaboratorios() {
+                var idFacultad = $("#cbFacultadesLaboratorio").val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ComboLaboratoriosPartial", "Consulta", new { Area = ""})",
+                    data: {
+                        "idFacultad": idFacultad
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#comboLaboratorios").html(result);
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                                '¡Error!',
+                                'No se pudo realizar la búsqueda.',
+                                'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            function buscarHorariosXLaboratorio() {
+                var idLaboratorio = $("#cbLaboratorio").val();
+
+                if (idLaboratorio==0 || idLaboratorio==null) {
+                    lacing.helpers.ShowMessageWarning("Debe seleccionar un laboratorio");
+                    return;
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ConsultaXLaboratorioPartial", "Consulta", new { Area = ""})",
+                    data: {
+                        "idLaboratorio": idLaboratorio
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#listadoHorariosConsulta").html(result);
+                        lacing.helpers.ShowMessageSucces("Consulta realizada exitosamente");
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                                '¡Error!',
+                                'No se pudo realizar la búsqueda.',
+                                'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            //jQuery extension method:
+            jQuery.fn.filterByText = function (textbox) {
+                return this.each(function () {
+                    var select = this;
+                    var options = [];
+                    $(select).find('option').each(function () {
+                        options.push({
+                            value: $(this).val(),
+                            text: $(this).text()
+                        });
+                    });
+                    $(select).data('options', options);
+
+                    $(textbox).bind('change keyup', function () {
+                        var options = $(select).empty().data('options');
+                        var search = $.trim($(this).val());
+                        var regex = new RegExp(search, "gi");
+
+                        $.each(options, function (i) {
+                            var option = options[i];
+                            if (option.text.match(regex) !== null) {
+                                $(select).append(
+                                    $('<option>').text(option.text).val(option.value)
+                                );
+                            }
+                        });
+                    });
+                });
+            };
+
+            // You could use it like this:
+
+            $(function () {
+                $('#cbDocentes').filterByText($('#txtBuscarDocente'));
+                $('#cbCursos').filterByText($('#txtBuscarCurso'));
+            });
+        </script>
+    }
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.LaboratorioViewModel
+
+@foreach (var item in Model.ListaLaboratorios)
+{
+    <tr>
+        <td>@item.NombreFacultad</td>
+        <td>@item.NombreLaboratorio</td>
+        @if (item.CantidadAdministradores > 0)
+        {
+            <td>
+                <a onclick="lacing.helpers.ShowModal('AdministradoresLaboratorioPopup', '@Url.Action("AdministradoresView", "Laboratorio", new { Area = "", idLaboratorio = item.IdLaboratorio})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-eye"></i></a>
+            </td>
+        }
+        else
+        {
+            <td>
+                <a onclick="lacing.helpers.ShowModal('AdministradoresLaboratorioPopup', '@Url.Action("AdministradoresView", "Laboratorio", new { Area = "", idLaboratorio = item.IdLaboratorio})')" class="btn btn-warning" style="color:white">Agregar</a>
+            </td>
+        }
+        <td>@item.NombreEstado</td>
+        <td>
+            <a onclick="lacing.helpers.ShowModal('EditarLaboratorioPopup', '@Url.Action("Editar", "Laboratorio", new { Area = "", idLaboratorio = item.IdLaboratorio})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+            <a onclick="eliminarLaboratorio(@item.IdLaboratorio)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+        </td>
+    </tr>
+
+}

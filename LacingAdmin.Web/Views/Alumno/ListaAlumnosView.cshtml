@@ -1,0 +1,18 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.AlumnoViewModel
+
+
+@foreach (var item in Model.ListaAlumnos)
+{
+    <tr>
+        <td>@item.NombreUsuario</td>
+        <td>@item.Contraseña</td>
+        <td>@item.NombreCompleto</td>
+        <td>
+            <a onclick="lacing.helpers.ShowModal('EditarAlumnoPopup', '@Url.Action("Editar", "Alumno", new { Area = "", idAlumno = item.IdAlumno})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+            <a onclick="eliminarAlumno(@item.IdAlumno)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+        </td>
+    </tr>
+
+}
+
+

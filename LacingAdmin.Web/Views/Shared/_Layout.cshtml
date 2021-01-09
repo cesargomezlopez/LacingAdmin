@@ -1,0 +1,328 @@
+﻿@using LacingAdmin.Web.Common
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="bootstrap admin template">
+    <meta name="author" content="">
+
+    <title>@ViewBag.Title - LacingAdmin</title>
+
+    <link rel="apple-touch-icon" href="~/Content/lacing/logo-lacing.png">
+    <link rel="shortcut icon" href="~/Content/lacing/logo-lacing.png">
+
+    <!-- Stylesheets -->
+    <link href="~/Content/themes/main/global/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/css/bootstrap-extend.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/assets/css/site.css" rel="stylesheet" />
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/animsition/animsition.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/asscrollable/asScrollable.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/switchery/switchery.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/intro-js/introjs.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/slidepanel/slidePanel.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/jquery-mmenu/jquery-mmenu.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/flag-icon-css/flag-icon.css" rel="stylesheet" />
+
+
+    <!-- Fonts -->
+    <link href="~/Content/themes/main/global/fonts/web-icons/web-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/fonts/brand-icons/brand-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/fonts/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+
+    <style>
+        #loadingLayer {
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          position: fixed;
+          display: block;
+          opacity: 0.7;
+          background-color: #fff;
+          z-index: 99;
+          text-align: center;
+        }
+
+        #loading-image {
+          /*position: absolute;*/
+          margin-right: auto;
+          margin-left: auto;
+          display: block;
+          z-index: 100;
+        }
+    </style>
+    <!-- Scripts -->
+    <script src="~/Content/themes/main/global/vendor/breakpoints/breakpoints.js"></script>
+    <script>
+        Breakpoints();
+    </script>
+</head>
+<body>
+    @if (ViewBag.Panel && SecurityHelper.GetAdministradorID() > 0)
+    {
+        <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+
+            <div class="navbar-header" style="background-color:seagreen;">
+                <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+                    <img class="navbar-brand-logo" src="~/Content/lacing/logo-lacing.png" title="Lacing">
+                    <span class="navbar-brand-text hidden-xs-down"> LACING</span>
+                </div>
+            </div>
+
+            <div class="navbar-container container-fluid">
+                <!-- Navbar Collapse -->
+                <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+                    <!-- Navbar Toolbar -->
+                    <ul class="nav navbar-toolbar">
+                        <li class="nav-item hidden-float" id="toggleMenubar">
+                            <a class="nav-link" data-toggle="menubar" href="#" role="button">
+                                <i class="icon hamburger hamburger-arrow-left">
+                                    <span class="hamburger-bar"></span>
+                                </i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- End Navbar Toolbar -->
+                    <!-- Navbar Toolbar Right -->
+                    <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
+                               data-animation="scale-up" role="button">
+                                <span class="avatar avatar-online">
+                                    <img src="~/Content/themes/main/global/portraits/16.jpg" alt="..." />
+                                </span>
+                            </a>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i>@SecurityHelper.GetAdministradorNombres()</a>
+                                <div class="dropdown-divider" role="presentation"></div>
+                                <a class="dropdown-item" href=@Url.Action("SignOut", "Login", new { Area = ""}) role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Cerrar Sesión</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- End Navbar Toolbar Right -->
+                </div>
+                <!-- End Navbar Collapse -->
+            </div>
+        </nav>
+        <div class="site-menubar">
+            <ul class="site-menu">
+                @if (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico")
+                {
+                    <li class="site-menu-item has-sub">
+                        <a href="javascript:void(0)">
+                            <i class="site-menu-icon wb-hammer" aria-hidden="true"></i>
+                            <span class="site-menu-title">Administrar</span>
+                            <span class="site-menu-arrow"></span>
+                        </a>
+                        <ul class="site-menu-sub">
+                            @if (SecurityHelper.GetAdministradorRol() == "Administrador General")
+                            {
+                                <li class="site-menu-item hidden-sm-down site-tour-trigger">
+                                    <a href=@Url.Action("Index", "Administrador", new { Area = "" })>
+                                        <span class="site-menu-title">Administradores</span>
+                                    </a>
+                                </li>
+                            }
+                            @if (SecurityHelper.GetAdministradorRol() == "Administrador General")
+                            {
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href=@Url.Action("Index", "Docente", new { Area = "" })>
+                                        <span class="site-menu-title">Docentes</span>
+                                    </a>
+                                </li>
+                            }
+                            <li class="site-menu-item">
+                                <a class="animsition-link" href="@Url.Action("Index", "Alumno", new { Area = ""})">
+                                    <span class="site-menu-title">Alumnos</span>
+                                </a>
+                            </li>
+                            @if (SecurityHelper.GetAdministradorRol() == "Administrador General")
+                            {
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href=@Url.Action("Index", "Curso", new { Area = "" })>
+                                        <span class="site-menu-title">Cursos</span>
+                                    </a>
+                                </li>
+                            }
+                            <li class="site-menu-item">
+                                <a class="animsition-link" href=@Url.Action("Index", "Laboratorio", new { Area = ""})>
+                                    <span class="site-menu-title">Laboratorios</span>
+                                </a>
+                            </li>
+                            <li class="site-menu-item">
+                                <a class="animsition-link" href=@Url.Action("Index", "Carrera", new { Area = ""})>
+                                    <span class="site-menu-title">Carreras</span>
+                                </a>
+                            </li>
+                            <li class="site-menu-item">
+                                <a class="animsition-link" href=@Url.Action("Index", "Facultad", new { Area = ""})>
+                                    <span class="site-menu-title">Facultad</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                @if (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico")
+                {
+                    <li class="site-menu-item has-sub">
+                        <a href="javascript:void(0)">
+                            <i class="site-menu-icon wb-calendar" aria-hidden="true"></i>
+                            <span class="site-menu-title">Horarios</span>
+                            <span class="site-menu-arrow"></span>
+                        </a>
+                        <ul class="site-menu-sub">
+                            @if (SecurityHelper.GetAdministradorRol() == "Administrador General")
+                            {
+                                <li class="site-menu-item hidden-sm-down site-tour-trigger">
+                                    <a class="animsition-link" href=@Url.Action("Index", "Horario", new { Area = "" })>
+                                        <span class="site-menu-title">Gestionar Horarios</span>
+                                    </a>
+                                </li>
+                            }
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href=@Url.Action("Calendario", "Horario", new { Area = "" })>
+                                        <span class="site-menu-title">Calendario</span>
+                                    </a>
+                                </li>
+                            </ul>
+                    </li>
+                }
+                @if (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico")
+                {
+                    <li class="site-menu-item has-sub">
+                        <a href="javascript:void(0)">
+                            <i class="site-menu-icon fa-file-archive-o" aria-hidden="true"></i>
+                            <span class="site-menu-title">Reportes</span>
+                            <span class="site-menu-arrow"></span>
+                        </a>
+                        <ul class="site-menu-sub">
+                            <li class="site-menu-item hidden-sm-down site-tour-trigger">
+                                <a class="animsition-link" href=@Url.Action("General", "Reporte", new { Area = "" })>
+                                    <span class="site-menu-title">Reporte General</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                <li class="site-menu-item has-sub">
+                    <a class="animsition-link" href="@Url.Action("Index", "Consulta", new { Area = ""})">
+                        <i class="site-menu-icon fa-search" aria-hidden="true"></i>
+                        <span class="site-menu-title">Consultas</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    }
+    else if (ViewBag.Panel && SecurityHelper.GetAdministradorID() <= 0)
+    {
+        <!-- Page -->
+        @*<div style="text-align:center; font-size:36px;">
+            <p>USUARIO NO AUTORIZADO</p>
+        </div>*@
+        @Html.Action("Autorizacion", "Login", new { Area = ""})
+        <!-- End Page -->
+    }
+
+    @RenderBody()
+
+
+    @if (ViewBag.Panel && SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="site-footer-legal">© 2019 Lacing Administrador</div>
+            @*<div class="site-footer-right">
+                    Creado por César  Gómez López
+                </div>*@
+        </footer>
+        <!-- End Footer -->
+    }
+
+    <div id="loadingLayer" hidden>
+        <img id="loading-image" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Cargando..." />
+    </div>
+
+    <!-- Core  -->
+    <script src="~/Content/themes/main/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
+    <script src="~/Content/themes/main/global/vendor/jquery/jquery.js"></script>
+    <script src="~/Content/themes/main/global/vendor/popper-js/umd/popper.min.js"></script>
+    <script src="~/Content/themes/main/global/vendor/bootstrap/bootstrap.js"></script>
+    <script src="~/Content/themes/main/global/vendor/animsition/animsition.js"></script>
+    <script src="~/Content/themes/main/global/vendor/mousewheel/jquery.mousewheel.js"></script>
+    <script src="~/Content/themes/main/global/vendor/asscrollbar/jquery-asScrollbar.js"></script>
+    <script src="~/Content/themes/main/global/vendor/asscrollable/jquery-asScrollable.js"></script>
+
+    <!-- Plugins -->
+    <script src="~/Content/themes/main/global/vendor/jquery-mmenu/jquery.mmenu.min.all.js"></script>
+    <script src="~/Content/themes/main/global/vendor/switchery/switchery.js"></script>
+    <script src="~/Content/themes/main/global/vendor/intro-js/intro.js"></script>
+    <script src="~/Content/themes/main/global/vendor/screenfull/screenfull.js"></script>
+    <script src="~/Content/themes/main/global/vendor/slidepanel/jquery-slidePanel.js"></script>
+
+    <!-- Scripts -->
+    <script src="~/Content/themes/main/global/js/Component.js"></script>
+    <script src="~/Content/themes/main/global/js/Plugin.js"></script>
+    <script src="~/Content/themes/main/global/js/Base.js"></script>
+    <script src="~/Content/themes/main/global/js/Config.js"></script>
+
+    <script src="~/Content/themes/main/assets/js/Section/Menubar.js"></script>
+    <script src="~/Content/themes/main/assets/js/Section/Sidebar.js"></script>
+    <script src="~/Content/themes/main/assets/js/Section/PageAside.js"></script>
+    <script src="~/Content/themes/main/assets/js/Section/GridMenu.js"></script>
+
+    <!-- Config -->
+    <script src="~/Content/themes/main/global/js/config/colors.js"></script>
+    <script src="~/Content/themes/main/assets/js/config/tour.js"></script>
+    <script>Config.set('assets', '../../assets');</script>
+
+    <!-- Page -->
+    <script src="~/Content/themes/main/assets/js/Site.js"></script>
+    <script src="~/Content/themes/main/global/js/Plugin/asscrollable.js"></script>
+    <script src="~/Content/themes/main/global/js/Plugin/slidepanel.js"></script>
+    <script src="~/Content/themes/main/global/js/Plugin/switchery.js"></script>
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/App/Common/helpers.js"></script>
+    <script src="~/Scripts/App/Common/regexs.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script>
+        function onBeginRequest() {
+            $("#loadingLayer").removeAttr("hidden");
+        }
+        function onCompleteRequest() {
+            $("#loadingLayer").attr("hidden", "hidden");
+        }
+    </script>
+    @RenderSection("scriptsAdicionales", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#DataTables_Table_0_wrapper .row").first().attr('id', 'rowFiltros');
+            $("#DataTables_Table_0_wrapper #rowFiltros div").first().removeClass("col-sm-12 col-md-6");
+            $("#DataTables_Table_0_wrapper #rowFiltros div").first().addClass("col-xl-6 col-lg-6 col-md-6 col-sm-6");
+            $("#DataTables_Table_0_wrapper #rowFiltros div:nth-child(2)").removeClass("col-sm-12 col-md-6");
+            $("#DataTables_Table_0_wrapper #rowFiltros div:nth-child(2)").addClass("col-xl-6 col-lg-6 col-md-6 col-sm-6");
+        }
+        );
+
+    </script>
+
+    <script>
+        (function (document, window, $) {
+            'use strict';
+
+            var Site = window.Site;
+            $(document).ready(function () {
+                Site.run();
+            });
+        })(document, window, jQuery);
+    </script>
+</body>
+</html>

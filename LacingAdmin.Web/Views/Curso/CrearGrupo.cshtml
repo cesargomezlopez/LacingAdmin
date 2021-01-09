@@ -1,0 +1,84 @@
+﻿@model LacingAdmin.Model.Grupo
+
+@{
+    ViewBag.Title = "Crear Grupo";
+}
+
+<div class="form-horizontal">
+    @Html.HiddenFor(model => model.IdGrupo)
+
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-auto control-label">Número del Grupo</label>
+        <div class="col-sm-10">
+
+            @Html.EditorFor(model => model.NumeroGrupo, new { htmlAttributes = new { @class = "form-control", @id = "txtNumeroGrupo" } })
+
+            @Html.ValidationMessageFor(model => model.NumeroGrupo, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="btnCrearGrupo" class="btn btn-success">Guardar</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#btnCrearGrupo").on("click", function () {
+        var idCurso = @Model.IdCurso;
+        var numeroGrupo = $("#txtNumeroGrupo").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("CrearGrupo", "Curso")",
+            data: {
+                "numeroGrupo": numeroGrupo,
+                "idCurso": idCurso
+            },
+            beforeSend: function () {
+                lacing.helpers.CloseModal('CrearGrupoPopup');
+                onBeginRequest();
+            },
+            success: function (result) {
+                onCompleteRequest();
+                Swal.fire(
+                    '¡Listo!',
+                    'El Grupo ha sido creado exitosamente.',
+                    'success'
+                );
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ListaGruposView", "Curso", new { Area = ""})",
+                    data: {
+                        "idCurso": idCurso
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#listadoGrupos").html(result);
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                            '¡Error!',
+                            'No se pudo actualizar listado de Grupos, error: ' + error,
+                            'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            },
+            error: function (error) {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo agregar el Grupo, error: ' + error,
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    });
+</script>

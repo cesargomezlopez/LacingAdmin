@@ -1,0 +1,188 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.HorarioViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Horarios";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-calendar"></i>Horarios</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12">
+                        <a href="@Url.Action("Crear", "Horario", new { Area = ""})" class="btn btn-block btn-success"><i class="icon wb-plus"></i> AGREGAR HORARIO</a>
+                    </div>
+                </div>
+                @*<div style="width: 30%;">
+                    <a href="@Url.Action("Crear", "Horario", new { Area = ""})" class="btn btn-block btn-success"><i class="icon wb-plus"></i> AGREGAR HORARIO</a>
+                </div>*@
+                <br />
+                <!-- Panel Basic -->
+                <div class="panel">
+                    <div class="panel-body">
+                        <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>LABORATORIO</th>
+                                    <th>DIA</th>
+                                    <th>INICIO</th>
+                                    <th>FIN</th>
+                                    <th>DOCENTE</th>
+                                    <th>CURSO</th>
+                                    <th>TIPO</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>LABORATORIO</th>
+                                    <th>DIA</th>
+                                    <th>INICIO</th>
+                                    <th>FIN</th>
+                                    <th>DOCENTE</th>
+                                    <th>CURSO</th>
+                                    <th>TIPO</th>
+                                    <th>ACCIONES</th>
+                                </tr>
+                            </tfoot>
+                            @if (Model.ListaHorarios != null && Model.ListaHorarios.Count > 0)
+                            {
+                                <tbody id="listadoHorarios">
+                                    @Html.Action("ListaHorariosView", "Horario", new { Area = "" })
+                                </tbody>
+                            }
+                            else
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            No se obtuvo ningún resultado.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+
+        @Modal.CrearModal("Crear Horario", "CrearHorarioPopup")
+        @Modal.CrearModal("Editar Horario", "EditarHorarioPopup")
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+
+        <script src="~/Scripts/sweet-alert2.js"></script>
+
+        <script type="text/javascript">
+            function eliminarHorario(idHorario) {
+                Swal.fire({
+                  title: '¿Estás seguro?',
+                  text: "¡No podrás revertir los cambios!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Sí, elimínalo'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Eliminar", "Horario")",
+                            data: {
+                                "idHorario": idHorario
+                            },
+                            beforeSend: function () {
+                                onBeginRequest();
+                            },
+                            success: function (result) {
+                                onCompleteRequest();
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El horario ha sido eliminado.',
+                                    'success'
+                                );
+                                $.ajax({
+                                    type: "GET",
+                                    url: "@Url.Action("ListaHorariosView", "Horario", new { Area = ""})",
+                                    beforeSend: function () {
+                                        onBeginRequest();
+                                    },
+                                    success: function (result) {
+                                        onCompleteRequest();
+                                        $("#listadoHorarios").html(result)
+                                    },
+                                    error: function (error) {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'No se pudo actualizar listado de horarios, error: ' + error,
+                                            'error'
+                                        );
+                                        onCompleteRequest();
+                                    }
+                                });
+                            },
+                            error: function (error) {
+                                Swal.fire(
+                                    '¡Error!',
+                                    'No se pudo eliminar el horarios, error: ' + error,
+                                    'error'
+                                );
+                                onCompleteRequest();
+                            }
+                        });
+                  }
+                })
+            }
+        </script>
+    }
+
+
+</body>
+</html>
+
+

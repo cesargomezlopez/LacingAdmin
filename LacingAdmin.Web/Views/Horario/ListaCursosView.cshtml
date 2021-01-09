@@ -1,0 +1,19 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.HorarioViewModel
+
+@if (Model.ListaCursos != null && Model.ListaCursos.Count > 0)
+{
+    //onChange = "changeComboCurso()"
+    <select id="cbCursos" class="form-control" onChange = "changeComboCurso()">
+        <option value="0">Seleccionar Curso</option>
+        @foreach (var item in Model.ListaCursos)
+        {
+            <option value="@item.IdCurso">@item.NombreCurso</option>
+        }
+    </select>
+}
+else
+{
+    <select id="cbCursos" class="form-control">
+        <option value="0">No hay cursos registrados</option>
+    </select>
+}

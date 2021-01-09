@@ -1,0 +1,27 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.DocenteViewModel
+
+@foreach (var item in Model.ListaDocentes)
+{
+    <tr>
+        <td>@item.NombreUsuario</td>
+        <td>@item.Contraseña</td>
+        <td>@item.NombreCompleto</td>
+        @if (item.CantidadCarreras > 0)
+        {
+            <td>
+                <a onclick="lacing.helpers.ShowModal('CarrerasDocentePopup', '@Url.Action("DocenteXCarrerasView", "Docente", new { Area = "", idDocente = item.IdDocente})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-eye"></i></a>
+            </td>
+        }
+        else
+        {
+            <td>
+                <a onclick="lacing.helpers.ShowModal('CarrerasDocentePopup', '@Url.Action("DocenteXCarrerasView", "Docente", new { Area = "", idDocente = item.IdDocente})')" class="btn btn-warning" style="color:white">Agregar</a>
+            </td>
+        }
+        <td>
+            <a onclick="lacing.helpers.ShowModal('EditarDocentePopup', '@Url.Action("Editar", "Docente", new { Area = "", idDocente = item.IdDocente})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+            <a onclick="eliminarDocente(@item.IdDocente)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+        </td>
+    </tr>
+
+}

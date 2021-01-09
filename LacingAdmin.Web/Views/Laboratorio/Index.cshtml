@@ -1,0 +1,194 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.LaboratorioViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Laboratorios";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+    <style>
+        .spanVal {
+            color: red;
+            font-size: 10.5px;
+            margin: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-laptop"></i>Laboratorios</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12">
+                        <button onclick="lacing.helpers.ShowModal('CrearLaboratorioPopup', '@Url.Action("Crear", "Laboratorio", new { Area = ""})')" class="btn btn-block btn-success btnAgregar"><i class="icon wb-plus"></i> AGREGAR LABORATORIO</button>
+                    </div>
+                </div>
+                <br />
+                <!-- Panel Basic -->
+                <div class="panel">
+                    <div class="panel-body">
+                        <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>FACULTAD</th>
+                                    <th>LABORATORIO</th>
+                                    <th class="sorting_disabled">ADMINISTRADORES</th>
+                                    <th>ESTADO</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>FACULTAD</th>
+                                    <th>LABORATORIO</th>
+                                    <th>ADMINISTRADORES</th>
+                                    <th>ESTADO</th>
+                                    <th>ACCIONES</th>
+                                </tr>
+                            </tfoot>
+                            @if (Model.ListaLaboratorios != null && Model.ListaLaboratorios.Count > 0)
+                            {
+                                <tbody id="listadoLaboratorios">
+                                    @Html.Action("ListaLaboratoriosView", "Laboratorio", new { Area = "" })
+                                </tbody>
+                            }
+                            else
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            No se obtuvo ningún resultado.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+
+        @Modal.CrearModal("Crear Laboratorio", "CrearLaboratorioPopup")
+        @Modal.CrearModal("Editar Laboratorio", "EditarLaboratorioPopup")
+        @Modal.CrearModal("Administradores del Laboratorio", "AdministradoresLaboratorioPopup")
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+
+        <script src="~/Scripts/App/Views/LaboratorioView.js"></script>
+
+        <script src="~/Scripts/sweet-alert2.js"></script>
+
+        <script type="text/javascript">
+            function eliminarLaboratorio(idLaboratorio) {
+                Swal.fire({
+                  title: '¿Estás seguro?',
+                  text: "¡No podrás revertir los cambios!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Sí, elimínalo'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Eliminar", "Laboratorio")",
+                            data: {
+                                "idLaboratorio": idLaboratorio
+                            },
+                            beforeSend: function () {
+                                onBeginRequest();
+                            },
+                            success: function (result) {
+                                onCompleteRequest();
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El Laboratorio ha sido eliminado.',
+                                    'success'
+                                );
+                                $.ajax({
+                                    type: "GET",
+                                    url: "@Url.Action("ListaLaboratoriosView", "Laboratorio", new { Area = ""})",
+                                    beforeSend: function () {
+                                        onBeginRequest();
+                                    },
+                                    success: function (result) {
+                                        onCompleteRequest();
+                                        $("#listadoLaboratorios").html(result);
+                                        window.location.href = "/Laboratorio";
+                                    },
+                                    error: function (error) {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'No se pudo actualizar listado de Laboratorios, error: ' + error,
+                                            'error'
+                                        );
+                                        onCompleteRequest();
+                                    }
+                                });
+                            },
+                            error: function (error) {
+                                Swal.fire(
+                                    '¡Error!',
+                                    'No se pudo eliminar al laboratorio, error: ' + error,
+                                    'error'
+                                );
+                                onCompleteRequest();
+                            }
+                        });
+                  }
+                })
+            }
+        </script>
+    }
+
+
+</body>
+</html>
+
+

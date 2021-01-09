@@ -1,0 +1,18 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.HorarioViewModel
+
+@if (Model.ListaLaboratorios != null && Model.ListaLaboratorios.Count > 0)
+{
+    <select id="cbLaboratorios" class="form-control">
+        <option value="0">Seleccionar Laboratorio</option>
+        @foreach (var item in Model.ListaLaboratorios)
+        {
+            <option value="@item.IdLaboratorio">@item.NombreLaboratorio</option>
+        }
+    </select>
+}
+else
+{
+    <select id="cbLaboratorios" class="form-control">
+        <option value="0">No hay laboratorios registrados</option>
+    </select>
+}

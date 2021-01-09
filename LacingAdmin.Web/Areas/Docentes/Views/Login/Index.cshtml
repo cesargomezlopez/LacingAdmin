@@ -1,0 +1,144 @@
+﻿@model LacingAdmin.Web.Areas.Docentes.Models.DocenteViewModel
+@{
+    ViewBag.Title = "Login";
+}
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="bootstrap admin template">
+    <meta name="author" content="">
+
+    <title>@ViewBag.Title - Docente Lacing</title>
+
+    <link rel="apple-touch-icon" href="~/Content/lacing/logo-lacing.png">
+    <link rel="shortcut icon" href="~/Content/lacing/logo-lacing.png">
+
+    <!-- Stylesheets -->
+    <link href="~/Content/themes/main/global/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/css/bootstrap-extend.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/global/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/css/bootstrap-extend.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/assets/css/site.css" rel="stylesheet" />
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/animsition/animsition.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/asscrollable/asScrollable.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/switchery/switchery.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/intro-js/introjs.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/slidepanel/slidePanel.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/jquery-mmenu/jquery-mmenu.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/flag-icon-css/flag-icon.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/assets/examples/css/pages/login-docente.css" rel="stylesheet" />
+
+
+    <!-- Fonts -->
+    <link href="~/Content/themes/main/global/fonts/web-icons/web-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/fonts/brand-icons/brand-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/fonts/font-awesome/font-awesome.css" rel="stylesheet" />
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+    <style>
+        .txts {
+            font-size: 1.2rem;
+        }
+    </style>
+    <!-- Scripts -->
+    <script src="~/Content/themes/main/global/vendor/breakpoints/breakpoints.js"></script>
+    <script>
+        Breakpoints();
+    </script>
+</head>
+<body class="animsition page-login layout-full page-dark">
+
+    <div class="page vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
+        >
+        <div class="page-content vertical-align-middle animation-slide-top animation-duration-1">
+            <div class="brand">
+                <img class="brand-img" src="~/Content/lacing/logo-lacing.png" alt="logo_lacing">
+                <h1 style="font-size:2.2rem;" class="brand-text">LOGIN DOCENTE</h1>
+            </div>
+
+            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { Area = "Docente" }))
+            {
+                <div class="form-group form-material floating">
+                    <label class="sr-only" for="txtNombreUsuario">USUARIO</label>
+                    @Html.TextBoxFor(model => model.Docente.NombreUsuario, new { @id = "txtNombreUsuario", @class = "form-control", @placeholder = "Usuario", @autocomplete = "off", @style = "color: white" })
+                </div>
+                <div class="form-group form-material floating">
+                    <label class="sr-only" for="txtContraseña">CONTRASEÑA</label>
+                    @Html.TextBoxFor(model => model.Docente.Contraseña, new { @id = "txtContraseña", @class = "form-control", @type = "password", @placeholder = "Contraseña", @autocomplete = "off", @style = "color: white" })
+                </div>
+                if (Model != null && !String.IsNullOrWhiteSpace(Model.MensajeValidacion))
+                {
+                    <div class="alert alert-danger">@Model.MensajeValidacion</div>
+                }
+
+                <button type="submit" id="btnLogin" class="btn btn-block btn-success">ACCEDER</button>
+            }
+
+            <footer class="page-copyright page-copyright-inverse">
+                @*<p>Creado por César  Gómez López</p>*@
+                <p>© 2019 Lacing Administrador</p>
+            </footer>
+        </div>
+    </div>
+    <!-- End Page -->
+    <!-- Core  -->
+    <script src="~/Content/themes/main/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
+    <script src="~/Content/themes/main/global/vendor/jquery/jquery.js"></script>
+    <script src="~/Content/themes/main/global/vendor/popper-js/umd/popper.min.js"></script>
+    <script src="~/Content/themes/main/global/vendor/bootstrap/bootstrap.js"></script>
+    <script src="~/Content/themes/main/global/vendor/animsition/animsition.js"></script>
+    <script src="~/Content/themes/main/global/vendor/mousewheel/jquery.mousewheel.js"></script>
+    <script src="~/Content/themes/main/global/vendor/asscrollbar/jquery-asScrollbar.js"></script>
+    <script src="~/Content/themes/main/global/vendor/asscrollable/jquery-asScrollable.js"></script>
+
+    <!-- Plugins -->
+    <script src="~/Content/themes/main/global/vendor/jquery-mmenu/jquery.mmenu.min.all.js"></script>
+    <script src="~/Content/themes/main/global/vendor/switchery/switchery.js"></script>
+    <script src="~/Content/themes/main/global/vendor/intro-js/intro.js"></script>
+    <script src="~/Content/themes/main/global/vendor/screenfull/screenfull.js"></script>
+    <script src="~/Content/themes/main/global/vendor/slidepanel/jquery-slidePanel.js"></script>
+    <script src="~/Content/themes/main/global/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+    <!-- Scripts -->
+    <script src="~/Content/themes/main/global/js/Component.js"></script>
+    <script src="~/Content/themes/main/global/js/Plugin.js"></script>
+    <script src="~/Content/themes/main/global/js/Base.js"></script>
+    <script src="~/Content/themes/main/global/js/Config.js"></script>
+
+    <script src="~/Content/themes/main/assets/js/Section/Menubar.js"></script>
+    <script src="~/Content/themes/main/assets/js/Section/Sidebar.js"></script>
+    <script src="~/Content/themes/main/assets/js/Section/PageAside.js"></script>
+    <script src="~/Content/themes/main/assets/js/Section/GridMenu.js"></script>
+
+    <!-- Config -->
+    <script src="~/Content/themes/main/global/js/config/colors.js"></script>
+    <script src="~/Content/themes/main/assets/js/config/tour.js"></script>
+    <script>Config.set('assets', '../../assets');</script>
+
+    <!-- Page -->
+    <script src="~/Content/themes/main/assets/js/Site.js"></script>
+    <script src="~/Content/themes/main/global/js/Plugin/asscrollable.js"></script>
+    <script src="~/Content/themes/main/global/js/Plugin/slidepanel.js"></script>
+    <script src="~/Content/themes/main/global/js/Plugin/switchery.js"></script>
+    <script src="~/Content/themes/main/global/js/Plugin/jquery-placeholder.js"></script>
+
+    <script>
+        (function (document, window, $) {
+            'use strict';
+
+            var Site = window.Site;
+            $(document).ready(function () {
+                Site.run();
+            });
+        })(document, window, jQuery);
+    </script>
+
+</body>
+</html>

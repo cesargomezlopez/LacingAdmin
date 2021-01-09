@@ -1,0 +1,187 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.CursoViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Cursos";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-book"></i>Cursos</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12">
+                        <button onclick="lacing.helpers.ShowModal('CrearCursoPopup', '@Url.Action("Crear", "Curso", new { Area = ""})')" class="btn btn-block btn-success btnAgregar"><i class="icon wb-plus"></i> AGREGAR CURSO</button>
+                    </div>
+                </div>
+                <br />
+                <!-- Panel Basic -->
+                <div class="panel">
+                    <div class="panel-body">
+                        <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>CARRERA</th>
+                                    <th>CODIGO</th>
+                                    <th>MALLA</th>
+                                    <th>CICLO</th>
+                                    <th>CURSO</th>
+                                    <th>GRUPOS</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>CARRERA</th>
+                                    <th>CODIGO</th>
+                                    <th>MALLA</th>
+                                    <th>CICLO</th>
+                                    <th>CURSO</th>
+                                    <th>GRUPOS</th>
+                                    <th>ACCIONES</th>
+                                </tr>
+                            </tfoot>
+                            @if (Model.ListaCursos != null && Model.ListaCursos.Count > 0)
+                            {
+                                <tbody id="listadoCursos">
+                                    @Html.Action("ListaCursosView", "Curso", new { Area = "" })
+                                </tbody>
+                            }
+                            else
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            No se obtuvo ningún resultado.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+
+        @Modal.CrearModal("Crear Curso", "CrearCursoPopup")
+        @Modal.CrearModal("Editar Curso", "EditarCursoPopup")
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+
+        <script src="~/Scripts/App/Views/CursoView.js"></script>
+
+        <script src="~/Scripts/sweet-alert2.js"></script>
+
+        <script type="text/javascript">
+            function eliminarCurso(idCurso) {
+                Swal.fire({
+                  title: '¿Estás seguro?',
+                  text: "¡No podrás revertir los cambios!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Sí, elimínalo'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Eliminar", "Curso")",
+                            data: {
+                                "idCurso": idCurso
+                            },
+                            beforeSend: function () {
+                                onBeginRequest();
+                            },
+                            success: function (result) {
+                                onCompleteRequest();
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El Curso ha sido eliminado.',
+                                    'success'
+                                );
+                                $.ajax({
+                                    type: "GET",
+                                    url: "@Url.Action("ListaCursosView", "Curso", new { Area = ""})",
+                                    beforeSend: function () {
+                                        onBeginRequest();
+                                    },
+                                    success: function (result) {
+                                        onCompleteRequest();
+                                        $("#listadoCursos").html(result);
+                                        window.location.href = "/Curso";
+                                    },
+                                    error: function (error) {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'No se pudo actualizar listado de Cursos, error: ' + error,
+                                            'error'
+                                        );
+                                        onCompleteRequest();
+                                    }
+                                });
+                            },
+                            error: function (error) {
+                                Swal.fire(
+                                    '¡Error!',
+                                    'No se pudo eliminar el Curso, error: ' + error,
+                                    'error'
+                                );
+                                onCompleteRequest();
+                            }
+                        });
+                  }
+                })
+            }
+        </script>
+    }
+
+
+</body>
+</html>
+
+
+

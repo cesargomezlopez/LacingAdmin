@@ -1,0 +1,19 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.HorarioViewModel
+
+@if (Model.ListaGrupos != null && Model.ListaGrupos.Count > 0)
+{
+    //onChange = "changeComboGrupo()"
+    <select id="cbGrupos" class="form-control" onChange = "changeComboGrupo()">
+        <option value="0">Seleccionar Grupo</option>
+        @foreach (var item in Model.ListaGrupos)
+        {
+            <option value="@item.IdGrupo">@item.NumeroGrupo</option>
+        }
+    </select>
+}
+else
+{
+    <select id="cbGrupos" class="form-control">
+        <option value="0">No hay grupos registrados</option>
+    </select>
+}

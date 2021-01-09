@@ -1,0 +1,239 @@
+﻿@model LacingAdmin.Model.Docente
+
+@{
+    ViewBag.Title = "Editar Docente";
+}
+
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.IdDocente)
+
+        <div class="form-group">
+            <label for="txtNombreUsuario" class="col-sm-auto control-label">DNI</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(
+                    model => model.NombreUsuario,
+                    new { htmlAttributes = new { @class = "form-control", @id = "txtNombreUsuario", @autocomplete="off" } })
+                <span hidden id="spanNombreUsuario" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtContrasena" class="col-sm-auto control-label">Contraseña</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(
+                    model => model.Contraseña,
+                    new { htmlAttributes = new { @class = "form-control", @id = "txtContrasena", @type = "password", @autocomplete="off" } })
+                <span hidden id="spanContrasena1" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtContrasena2" class="col-sm-auto control-label">Repetir Contraseña</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(
+                    model => model.Contraseña,
+                    new { htmlAttributes = new { @class = "form-control", @id = "txtContrasena2", @type = "password", @autocomplete="off" } })
+                <span hidden id="spanContrasena" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtNombres" class="col-sm-auto control-label">Nombres</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(
+                    model => model.Nombres,
+                    new { htmlAttributes = new { @class = "form-control", @id = "txtNombres", @autocomplete="off" } })
+                <span hidden id="spanNombres" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtPaterno" class="col-sm-auto control-label">Paterno</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(
+                    model => model.Paterno,
+                    new { htmlAttributes = new { @class = "form-control", @id = "txtPaterno", @autocomplete="off" } })
+                <span hidden id="spanPaterno" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtMaterno" class="col-sm-auto control-label">Materno</label>
+            <div class="col-sm-10">
+                @Html.EditorFor(
+                    model => model.Materno,
+                    new { htmlAttributes = new { @class = "form-control", @id = "txtMaterno", @autocomplete="off" } })
+                <span hidden id="spanMaterno" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button onclick="postEditarDocente()" class="btn btn-success">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    var globalDocente = {};
+
+    $(document).ready(function () {
+        globalDocente.idDocente = '@ViewBag.IdDocente';
+        @*globalDocente.nombreUsuario = '@ViewBag.NombreUsuario';
+        globalDocente.contrasena = '@ViewBag.Contrasena';*@
+        globalDocente.nombreUsuario = '@Html.Raw((String)ViewBag.NombreUsuario)';
+        globalDocente.contrasena = '@Html.Raw((String)ViewBag.Contrasena)';
+    });
+
+    function validarCampos(docente) {
+        var contVal = 0;
+        var contraseña2 = $("#txtContrasena2").val();
+
+        if (docente.NombreUsuario == "" || docente.NombreUsuario == null) {
+            lacing.helpers.ValidationFocus("txtNombreUsuario", "spanNombreUsuario", "El campo DNI es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtNombreUsuario", "spanNombreUsuario");
+
+            if (lacing.helpers.RegexTest(docente.NombreUsuario, lacing.regexHelper.RegexDNI, "txtNombreUsuario", "spanNombreUsuario", "Ingrese un DNI válido (8 caracteres numéricos)")) {
+                contVal++;
+            }
+            else if (docente.NombreUsuario != globalDocente.nombreUsuario) {
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    url: "@Url.Action("ExisteNombreUsuario", "Docente")",
+                    data: {
+                        nombreUsuario: docente.NombreUsuario
+                    },
+                    success: (result) => {
+                        if (result == "existe") {
+                            lacing.helpers.ValidationFocus("txtNombreUsuario", "spanNombreUsuario", "El DNI ingresado ya existe");
+                            contVal++;
+                        }
+                        else {
+                            lacing.helpers.RemoveValidationFocus("txtNombreUsuario", "spanNombreUsuario");
+                        }
+                    }
+                });
+            }
+        }
+
+        if (docente.Contraseña == "" || docente.Contraseña == null) {
+            lacing.helpers.ValidationFocus("txtContrasena", "spanContrasena1", "El campo Contraseña es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtContrasena", "spanContrasena1");
+        }
+
+        if (contraseña2 == "" || contraseña2 == null) {
+            lacing.helpers.ValidationFocus("txtContrasena2", "spanContrasena", "El campo Repetir Contraseña es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtContrasena2", "spanContrasena");
+
+            if (contraseña2 != docente.Contraseña) {
+                lacing.helpers.ValidationFocus("txtContrasena2", "spanContrasena", "Las contraseñas deben coincidir");
+                contVal++;
+            }
+            else {
+                lacing.helpers.RemoveValidationFocus("txtContrasena2", "spanContrasena");
+            }
+        }
+
+        if (docente.Nombres == "" || docente.Nombres == null) {
+            lacing.helpers.ValidationFocus("txtNombres", "spanNombres", "El campo Nombres es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtNombres", "spanNombres");
+
+            if (lacing.helpers.RegexTest(docente.Nombres, lacing.regexHelper.RegexSoloLetras, "txtNombres", "spanNombres", "Solo se puede ingresar letras")) contVal++;
+        }
+
+        if (docente.Paterno == "" || docente.Paterno == null) {
+            lacing.helpers.ValidationFocus("txtPaterno", "spanPaterno", "El campo Paterno es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtPaterno", "spanPaterno");
+
+            if (lacing.helpers.RegexTest(docente.Paterno, lacing.regexHelper.RegexSoloLetras, "txtPaterno", "spanPaterno", "Solo se puede ingresar letras")) contVal++;
+        }
+
+        if (lacing.helpers.RegexTest(docente.Materno, lacing.regexHelper.RegexSoloLetras, "txtMaterno", "spanMaterno", "Solo se puede ingresar letras")) contVal++;
+
+        return contVal;
+    }
+
+    function postEditarDocente() {
+        var docente = {
+            IdDocente: globalDocente.idDocente,
+            NombreUsuario: $("#txtNombreUsuario").val(),
+            Contraseña: $("#txtContrasena").val(),
+            Nombres: $("#txtNombres").val(),
+            Paterno: $("#txtPaterno").val(),
+            Materno: $("#txtMaterno").val()
+        };
+
+        if (validarCampos(docente) == 0) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Editar", "Docente")",
+                data: {
+                    "docente": docente
+                },
+                beforeSend: function () {
+                    lacing.helpers.CloseModal('EditarDocentePopup');
+                    onBeginRequest();
+                },
+                success: (result) => {
+                    onCompleteRequest();
+                    refreshListaEditar();
+                    window.location.href = "/Docente";
+                },
+                error: (error) => {
+                    Swal.fire(
+                        '¡Error!',
+                        'No se pudo editar al Docente',
+                        'error'
+                    );
+                    onCompleteRequest();
+                }
+            });
+        }
+    }
+
+    function refreshListaEditar() {
+        Swal.fire(
+            '¡Listo!',
+            'El Docente ha sido editado exitosamente.',
+            'success'
+        );
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("ListaDocentesView", "Docente", new { Area = ""})",
+            beforeSend: function () {
+                onBeginRequest();
+            },
+            success: function (result) {
+                onCompleteRequest();
+                $("#listadoDocentes").html(result)
+            },
+            error: function (error) {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo actualizar listado de Docentes, error: ' + error,
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    }
+</script>
+
+
+

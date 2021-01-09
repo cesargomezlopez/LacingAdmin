@@ -1,0 +1,153 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.CarreraViewModel
+
+@{
+    ViewBag.Title = "Crear Carrera";
+}
+
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.carrera.IdCarrera)
+
+        <div class="form-group">
+            <label for="txtNombreCarrera" class="col-sm-auto control-label">Nombre de la Carrera</label>
+            <div class="col-sm-10">
+
+                @Html.EditorFor(
+                    model => model.carrera.NombreCarrera,
+                    new { htmlAttributes = new { @class = "form-control", @id="txtNombreCarrera", @autocomplete = "off" } })
+
+                <span hidden id="spanNombreCarrera" class="spanVal"></span>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="cbFacultades" class="col-sm-auto control-label">Facultad</label>
+            <div class="col-sm-10">
+                @Html.DropDownListFor(model => model.carrera.IdFacultad, new SelectList(Model.ListaFacultades, "IdFacultad", "NombreFacultad")
+               , new { @class = "form-control", @id = "cbFacultades" })
+
+                <span hidden id="spanIdFacultad" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button onclick="postCrearCarrera()" class="btn btn-success">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function validarCampos(carrera) {
+        var contVal = 0;
+
+        if (carrera.NombreCarrera == "" || carrera.NombreCarrera == null) {
+            lacing.helpers.ValidationFocus("txtNombreCarrera", "spanNombreCarrera", "El campo Nombre de la Carrera es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtNombreCarrera", "spanNombreCarrera");
+
+            if (lacing.helpers.RegexTest(carrera.NombreCarrera, lacing.regexHelper.RegexSoloLetras, "txtNombreCarrera", "spanNombreCarrera", "Solo se puede ingresar letras")) contVal++;
+
+            else {
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    url: "@Url.Action("ExisteNombreCarrera", "Carrera")",
+                    data: {
+                        nombreCarrera: carrera.NombreCarrera
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: (result) => {
+                        onCompleteRequest();
+                        if (result == "existe") {
+                            lacing.helpers.ValidationFocus("txtNombreCarrera", "spanNombreCarrera", "El Nombre de la Carrera ingresado ya existe");
+                            contVal++;
+                        }
+                        else {
+                            lacing.helpers.RemoveValidationFocus("txtNombreCarrera", "spanNombreCarrera");
+                        }
+                    }
+                });
+            }
+        }
+        if (carrera.IdFacultad == "" || carrera.IdFacultad == null || carrera.IdFacultad == 0) {
+            lacing.helpers.ValidationFocus("cbFacultades", "spanIdFacultad", "El campo Facultad de la Carrera es requerido");
+            contVal++;
+        }
+
+        return contVal;
+    }
+
+    function postCrearCarrera() {
+        var carrera = {
+            NombreCarrera: $("#txtNombreCarrera").val(),
+            IdFacultad: $("#cbFacultades").val()
+        };
+
+        var model = {
+            carrera: carrera
+        };
+
+        if (validarCampos(carrera) == 0) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Crear", "Carrera")",
+                data: {
+                    "model": model
+                },
+                beforeSend: function () {
+                    lacing.helpers.CloseModal('CrearCarreraPopup');
+                    onBeginRequest();
+                },
+                success: (result) => {
+                    onCompleteRequest();
+                    refreshListaCrear();
+                },
+                error: (error) => {
+                    Swal.fire(
+                        '¡Error!',
+                        'No se pudo crear la Carrera',
+                        'error'
+                    );
+                    onCompleteRequest();
+                }
+            });
+        }
+    }
+
+    function refreshListaCrear() {
+        Swal.fire(
+            '¡Listo!',
+            'La Carrera ha sido creada exitosamente.',
+            'success'
+        );
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("ListaCarrerasView", "Carrera", new { Area = ""})",
+            beforeSend: function () {
+                onBeginRequest();
+            },
+            success: function (result) {
+                onCompleteRequest();
+                $("#listadoCarreras").html(result)
+            },
+            error: function (error) {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo actualizar listado de Carreras, error: ' + error,
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    }
+</script>
+
+
+
+
+

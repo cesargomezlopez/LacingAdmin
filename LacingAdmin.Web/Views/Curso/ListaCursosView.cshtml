@@ -1,0 +1,20 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.CursoViewModel
+
+@foreach (var item in Model.ListaCursos)
+{
+    <tr>
+        <td>@item.NombreCarrera</td>
+        <td>@item.CodigoCurso</td>
+        <td>@item.NumeroMalla</td>
+        <td>@item.NumeroCiclo</td>
+        <td>@item.NombreCurso</td>
+        <td>
+            <a href="@Url.Action("Grupos", "Curso", new { idCurso = item.IdCurso})" class="btn btn-warning" style="color:white">Administrar</a>
+        </td>
+        <td>
+            <a onclick="lacing.helpers.ShowModal('EditarCursoPopup', '@Url.Action("Editar", "Curso", new { Area = "", idCurso = item.IdCurso})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+            <a onclick="eliminarCurso(@item.IdCurso)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+        </td>
+    </tr>
+
+}

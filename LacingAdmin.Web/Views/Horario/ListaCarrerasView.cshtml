@@ -1,0 +1,28 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.HorarioViewModel
+
+@if (Model.ListaCarreras != null && Model.ListaCarreras.Count > 0)
+{
+    //@onChange = "changeComboCarreraCurso()"
+    <select id="cbCarreras" class="form-control" onChange = "changeComboCarreraCurso()">
+        <option value="0">Seleccionar Carrera</option>
+        @foreach (var item in Model.ListaCarreras)
+        {
+            <option value="@item.IdCarrera">@item.NombreCarrera</option>
+        }
+    </select>
+}
+else
+{
+    <select id="cbCarreras" class="form-control">
+        <option value="0">No hay resultados</option>
+    </select>
+}
+
+
+@*<script>
+        $(function () {
+            $("#cbFacultadesCurso option:nth-child(2)").attr("selected", "selected");
+            $("#cbFacultadesCurso option:first").attr("selected", "selected");
+            $("#cbFacultadesCurso option:nth-child(3)").attr("selected", "selected");
+        });
+    </script>*@

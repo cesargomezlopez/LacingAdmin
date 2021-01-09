@@ -1,0 +1,24 @@
+﻿@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Home";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-content">
+
+            </div>
+        </div>
+        <!-- End Page -->
+    }
+</body>
+</html>

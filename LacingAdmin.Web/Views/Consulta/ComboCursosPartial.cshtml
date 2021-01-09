@@ -1,0 +1,18 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.ConsultaViewModel
+
+@if (Model.ListaCursos != null && Model.ListaCursos.Count > 0)
+{
+    <select id="cbCursos" class="form-control" style="margin: 5px 0px">
+        <option value="0">Seleccionar Curso</option>
+        @foreach (var item in Model.ListaCursos)
+        {
+            <option value="@item.IdCurso">@item.NombreCurso</option>
+        }
+    </select>
+}
+else
+{
+    <select id="cbCarreras" class="form-control" style="margin: 5px 0px">
+        <option value="0">No hay resultados</option>
+    </select>
+}

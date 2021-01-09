@@ -1,0 +1,176 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.AlumnoViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Alumnos";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+    <style>
+        .spanVal {
+            color: red;
+            font-size: 10.5px;
+            margin: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-child"></i>Alumnos</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12">
+                        <button onclick="lacing.helpers.ShowModal('CrearAlumnoPopup', '@Url.Action("Crear", "Alumno", new { Area = ""})')" class="btn btn-block btn-success btnAgregar"><i class="icon wb-plus"></i> AGREGAR ALUMNO</button>
+                    </div>
+                </div>
+                <br />
+                <!-- Panel Basic -->
+                <div class="panel">
+                    <div class="panel-body">
+                        <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>USUARIO</th>
+                                    <th>CONTRASEÑA</th>
+                                    <th>NOMBRE COMPLETO</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>USUARIO</th>
+                                    <th>CONTRASEÑA</th>
+                                    <th>NOMBRE COMPLETO</th>
+                                    <th>ACCIONES</th>
+                                </tr>
+                            </tfoot>
+                            @if (Model.ListaAlumnos != null && Model.ListaAlumnos.Count > 0)
+                            {
+                                <tbody id="listadoAlumnos">
+                                    @Html.Action("ListaAlumnosView", "Alumno", new { Area = "" })
+                                </tbody>
+                            }
+                            else
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            No se obtuvo ningún resultado.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+
+        @Modal.CrearModal("Crear Alumno", "CrearAlumnoPopup")
+        @Modal.CrearModal("Editar Alumno", "EditarAlumnoPopup")
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+        
+        <script src="~/Scripts/sweet-alert2.js"></script>
+
+        <script type="text/javascript">
+            function eliminarAlumno(idAlumno) {
+                Swal.fire({
+                  title: '¿Estás seguro?',
+                  text: "¡No podrás revertir los cambios!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Sí, elimínalo'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Eliminar", "Alumno")",
+                            data: {
+                                "idAlumno": idAlumno
+                            },
+                            beforeSend: function () {
+                                onBeginRequest();
+                            },
+                            success: function (result) {
+                                onCompleteRequest();
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El Alumno ha sido eliminado.',
+                                    'success'
+                                );
+                                @*$.ajax({
+                                    type: "GET",
+                                    url: "@Url.Action("ListaAlumnosView", "Alumno", new { Area = ""})",
+                                    success: function (result) {
+                                        $("#listadoAlumnos").html(result)
+                                    }
+                                });*@
+                                window.location.href = "/Alumno";
+                            },
+                            error: function (error) {
+                                Swal.fire(
+                                    '¡Error!',
+                                    'No se pudo eliminar al alumno, error: ' + error,
+                                    'error'
+                                );
+                                onCompleteRequest();
+                            }
+                        });
+                  }
+                })
+            }
+        </script>
+    }
+
+
+</body>
+</html>
+
+

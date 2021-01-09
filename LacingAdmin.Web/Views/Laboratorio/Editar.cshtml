@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "Editar Laboratorio";
+}
+
+<div class="form-horizontal">
+
+    <div class="form-group">
+        <label for="txtNombreLaboratorio" class="col-sm-auto control-label">Nombre del Laboratorio</label>
+        <div class="col-sm-10">
+            <input type="text" id="txtNombreLaboratorio" class="form-control" autocomplete="off" />
+            <span hidden id="spanNombreLaboratorio" class="spanVal"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="cbFacultades" class="col-sm-auto control-label">Facultad</label>
+        <div class="col-sm-10">
+            @Html.DropDownList("cbFacultades", new SelectList(ViewBag.ListaFacultades, "IdFacultad", "NombreFacultad")
+           , new { @class = "form-control", @id = "cbFacultades" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="cbEstados" class="col-sm-auto control-label">Estado</label>
+        <div class="col-sm-10">
+
+            @Html.DropDownList("cbEstados", new SelectList(
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "1", Text = "Activo"},
+                    new SelectListItem { Value = "0", Text = "Desactivo"}
+                }
+           , "Value", "Text"), new { @class = "form-control", @id = "cbEstados" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button onclick="postEditarLaboratorio()" class="btn btn-success">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var globalLaboratorio = {};
+
+    $(document).ready(function () {
+        $("#txtNombreLaboratorio").val('@ViewBag.laboratorio.NombreLaboratorio');
+        $("#cbFacultades").val(@ViewBag.laboratorio.IdFacultad);
+        $("#cbEstados").val('@ViewBag.laboratorio.Estado');
+
+        globalLaboratorio.nombreLaboratorio = '@Html.Raw((String)ViewBag.laboratorio.NombreLaboratorio)';
+    });
+    
+    function validarCampos(laboratorio) {
+        var contVal = 0;
+
+        if (laboratorio.NombreLaboratorio == "" || laboratorio.NombreLaboratorio == null) {
+            lacing.helpers.ValidationFocus("txtNombreLaboratorio", "spanNombreLaboratorio", "El campo Nombre del Laboratorio es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtNombreLaboratorio", "spanNombreLaboratorio");
+
+            if (laboratorio.NombreLaboratorio != globalLaboratorio.nombreLaboratorio) {
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    url: "@Url.Action("ExisteNombreLaboratorio", "Laboratorio")",
+                    data: {
+                        nombreLaboratorio: laboratorio.NombreLaboratorio
+                    },
+                    success: (result) => {
+                        if (result == "existe") {
+                            lacing.helpers.ValidationFocus("txtNombreLaboratorio", "spanNombreLaboratorio", "El Nombre del Laboratorio ingresado ya existe");
+                            contVal++;
+                        }
+                        else {
+                            lacing.helpers.RemoveValidationFocus("txtNombreLaboratorio", "spanNombreLaboratorio");
+                        }
+                    }
+                });
+            }
+        }
+
+        return contVal;
+    }
+
+    function postEditarLaboratorio() {
+        var laboratorio = {
+            IdLaboratorio: '@ViewBag.laboratorio.IdLaboratorio',
+            NombreLaboratorio: $("#txtNombreLaboratorio").val(),
+            IdFacultad: $("#cbFacultades").val(),
+            Estado: $("#cbEstados").val()
+        };
+
+        if (validarCampos(laboratorio) == 0) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Editar", "Laboratorio")",
+                data: {
+                    "laboratorio": laboratorio
+                },
+                beforeSend: function () {
+                    lacing.helpers.CloseModal('EditarLaboratorioPopup');
+                    onBeginRequest();
+                },
+                success: (result) => {
+                    onCompleteRequest();
+                    refreshListaEditar();
+                },
+                error: (error) => {
+                    Swal.fire(
+                        '¡Error!',
+                        'No se pudo editar el Laboratorio',
+                        'error'
+                    );
+                    onCompleteRequest();
+                }
+            });
+        }
+    }
+
+    function refreshListaEditar() {
+        Swal.fire(
+            '¡Listo!',
+            'El Laboratorio ha sido editado exitosamente.',
+            'success'
+        );
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("ListaLaboratoriosView", "Laboratorio", new { Area = ""})",
+            beforeSend: function () {
+                onBeginRequest();
+            },
+            success: function (result) {
+                onCompleteRequest();
+                $("#listadoLaboratorios").html(result);
+                window.location.href = "/Laboratorio";
+            },
+            error: function (error) {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo actualizar listado de Laboratorios, error: ' + error,
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    }
+</script>
+
+
+
+
+

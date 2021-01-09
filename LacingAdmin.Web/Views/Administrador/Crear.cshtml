@@ -1,0 +1,242 @@
+﻿@model LacingAdmin.Model.Administrador
+
+@{
+    ViewBag.Title = "Crear Administrador";
+}
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <label for="txtNombreUsuario" class="col-sm-auto control-label">Usuario</label>
+            <div class="col-sm-10">
+                <input type="text" id="txtNombreUsuario" class="form-control" autocomplete="off" />
+                <span hidden id="spanNombreUsuario" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtContrasena" class="col-sm-auto control-label">Contraseña</label>
+            <div class="col-sm-10">
+                <input type="password" id="txtContrasena" class="form-control" autocomplete="off" />
+                <span hidden id="spanContrasena1" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtContrasena2" class="col-sm-auto control-label">Repetir Contraseña</label>
+            <div class="col-sm-10">
+                <input type="password" id="txtContrasena2" class="form-control" autocomplete="off" />
+                <span hidden id="spanContrasena" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtNombres" class="col-sm-auto control-label">Nombres</label>
+            <div class="col-sm-10">
+                <input type="text" id="txtNombres" class="form-control" autocomplete="off" />
+                <span hidden id="spanNombres" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtPaterno" class="col-sm-auto control-label">Paterno</label>
+            <div class="col-sm-10">
+                <input type="text" id="txtPaterno" class="form-control" autocomplete="off" />
+                <span hidden id="spanPaterno" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="txtMaterno" class="col-sm-auto control-label">Materno</label>
+            <div class="col-sm-10">
+                <input type="text" id="txtMaterno" class="form-control" autocomplete="off" />
+                <span hidden id="spanMaterno" class="spanVal"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="cbRoles" class="col-sm-auto control-label">Rol</label>
+            <div class="col-sm-10">
+                @Html.DropDownListFor(model => model.Rol, new SelectList(
+                    new List<SelectListItem>
+                    {
+                        new SelectListItem { Value = "Administrador General", Text = "Administrador General"},
+                        new SelectListItem { Value = "Técnico", Text = "Técnico"},
+                        new SelectListItem { Value = "Practicante", Text = "Practicante"}
+                    }
+               , "Value", "Text"), new { @class = "form-control", @id = "cbRoles" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="cbEstados" class="col-sm-auto control-label">Estado</label>
+            <div class="col-sm-10">
+
+                @Html.DropDownListFor(model => model.Estado, new SelectList(
+                    new List<SelectListItem>
+                    {
+                        new SelectListItem { Value = "1", Text = "Activo"},
+                        new SelectListItem { Value = "0", Text = "Desactivo"}
+                    }
+               , "Value", "Text"), new { @class = "form-control", @id = "cbEstados" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10 mt-20">
+                <button onclick="postCrearAdministrador()" class="btn btn-success">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function validarCampos(administrador) {
+        var contVal = 0;
+        var contraseña2 = $("#txtContrasena2").val();
+
+        if (administrador.NombreUsuario == "" || administrador.NombreUsuario == null) {
+            lacing.helpers.ValidationFocus("txtNombreUsuario", "spanNombreUsuario", "El campo Usuario es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtNombreUsuario", "spanNombreUsuario");
+
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: "@Url.Action("ExisteNombreUsuario", "Administrador")",
+                data: {
+                    nombreUsuario: administrador.NombreUsuario
+                },
+                success: (result) => {
+                    if (result == "existe") {
+                        lacing.helpers.ValidationFocus("txtNombreUsuario", "spanNombreUsuario", "El Usuario ingresado ya existe");
+                        contVal++;
+                    }
+                    else {
+                        lacing.helpers.RemoveValidationFocus("txtNombreUsuario", "spanNombreUsuario");
+                    }
+                }
+            });
+        }
+
+        if (administrador.Contraseña == "" || administrador.Contraseña == null) {
+            lacing.helpers.ValidationFocus("txtContrasena", "spanContrasena1", "El campo Contraseña es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtContrasena", "spanContrasena1");
+        }
+
+        if (contraseña2 == "" || contraseña2 == null) {
+            lacing.helpers.ValidationFocus("txtContrasena2", "spanContrasena", "El campo Repetir Contraseña es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtContrasena2", "spanContrasena");
+
+            if (contraseña2 != administrador.Contraseña) {
+                lacing.helpers.ValidationFocus("txtContrasena2", "spanContrasena", "Las contraseñas deben coincidir");
+                contVal++;
+            }
+            else {
+                lacing.helpers.RemoveValidationFocus("txtContrasena2", "spanContrasena");
+            }
+        }
+
+        if (administrador.Nombres == "" || administrador.Nombres == null) {
+            lacing.helpers.ValidationFocus("txtNombres", "spanNombres", "El campo Nombres es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtNombres", "spanNombres");
+
+            if (lacing.helpers.RegexTest(administrador.Nombres, lacing.regexHelper.RegexSoloLetras, "txtNombres", "spanNombres", "Solo se puede ingresar letras")) contVal++;
+        }
+
+        if (administrador.Paterno == "" || administrador.Paterno == null) {
+            lacing.helpers.ValidationFocus("txtPaterno", "spanPaterno", "El campo Paterno es requerido");
+            contVal++;
+        }
+        else {
+            lacing.helpers.RemoveValidationFocus("txtPaterno", "spanPaterno");
+
+            if (lacing.helpers.RegexTest(administrador.Paterno, lacing.regexHelper.RegexSoloLetras, "txtPaterno", "spanPaterno", "Solo se puede ingresar letras")) contVal++;
+        }
+
+        if (lacing.helpers.RegexTest(administrador.Materno, lacing.regexHelper.RegexSoloLetras, "txtMaterno", "spanMaterno", "Solo se puede ingresar letras")) contVal++;
+
+        return contVal;
+    }
+
+    function postCrearAdministrador() {
+        var administrador = {
+            NombreUsuario: $("#txtNombreUsuario").val(),
+            Contraseña: $("#txtContrasena").val(),
+            Nombres: $("#txtNombres").val(),
+            Paterno: $("#txtPaterno").val(),
+            Materno: $("#txtMaterno").val(),
+            Rol: $("#cbRoles").val(),
+            Estado: $("#cbEstados").val()
+        };
+
+        if (validarCampos(administrador) == 0) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Crear", "Administrador")",
+                data: {
+                    "administrador": administrador
+                },
+                beforeSend: function () {
+                    lacing.helpers.CloseModal('CrearAdministradorPopup');
+                    onBeginRequest();
+                },
+                success: function (result) {
+                    onCompleteRequest();
+                    refreshListaCrear();
+                    window.location.href = "/Administrador";
+                },
+                error: (error) => {
+                    Swal.fire(
+                        '¡Error!',
+                        'No se pudo crear al Administrador',
+                        'error'
+                    );
+                    onCompleteRequest();
+                }
+            });
+        }
+    }
+
+    function refreshListaCrear() {
+        Swal.fire(
+            '¡Listo!',
+            'El Administrador ha sido creado exitosamente.',
+            'success'
+        );
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("ListaAdministradoresView", "Administrador", new { Area = ""})",
+            beforeSend: function () {
+                onBeginRequest();
+            },
+            success: function (result) {
+                onCompleteRequest();
+                $("#listadoAdministradores").html(result)
+            },
+            error: function (error) {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo actualizar listado de Administradores, error: ' + error,
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    }
+</script>
+
+
+

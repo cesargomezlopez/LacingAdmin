@@ -1,0 +1,221 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.CursoViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Grupos X Curso";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+    <style>
+        .spanVal {
+            color: red;
+            font-size: 10.5px;
+            margin: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1><i style="cursor: pointer" onclick="regresar()" class="icon fa-arrow-left"></i>@Model.Curso.NombreCarrera - Malla @Model.Curso.NumeroMalla - Ciclo @Model.Curso.NumeroCiclo - @Model.Curso.CodigoCurso - @Model.Curso.NombreCurso</h1>
+            </div>
+
+            <div class="page-content">
+                <div style="width: 30%;">
+                    <button onclick="lacing.helpers.ShowModal('CrearGrupoPopup', '@Url.Action("CrearGrupo", "Curso", new { Area = "", idCurso = Model.Curso.IdCurso})')" class="btn btn-block btn-success"><i class="icon wb-plus"></i> AGREGAR GRUPO</button>
+                </div><br />
+                <!-- Tabla de  Basic -->
+                <div id="listadoGrupos">
+                    @Html.Action("ListaGruposView", "Curso", new { Area = ""})
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+
+        @Modal.CrearModal("Crear Grupo", "CrearGrupoPopup")
+        @Modal.CrearModal("Subgrupos del Grupo", "SubgruposXGrupoPopup")
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+
+        <script src="~/Scripts/App/Views/CursoView.js"></script>
+
+        <script src="~/Scripts/sweet-alert2.js"></script>
+
+        <script type="text/javascript">
+            function regresar() {
+                window.location.href = "/Curso";
+            }
+
+            function eliminarGrupo(idGrupo, idCurso) {
+                Swal.fire({
+                  title: '¿Estás seguro?',
+                  text: "¡No podrás revertir los cambios!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Sí, elimínalo'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("EliminarGrupo", "Curso")",
+                            data: {
+                                "idGrupo": idGrupo,
+                                "idCurso": idCurso
+                            },
+                            beforeSend: function () {
+                                onBeginRequest();
+                            },
+                            success: function (result) {
+                                onCompleteRequest();
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El Grupo ha sido eliminado.',
+                                    'success'
+                                );
+                                $.ajax({
+                                    type: "GET",
+                                    url: "@Url.Action("ListaGruposView", "Curso", new { Area = ""})",
+                                    data: {
+                                        "idCurso": idCurso
+                                    },
+                                    beforeSend: function () {
+                                        onBeginRequest();
+                                    },
+                                    success: function (result) {
+                                        onCompleteRequest();
+                                        $("#listadoGrupos").html(result);
+                                    },
+                                    error: function (error) {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'No se pudo actualizar listado de Grupos, error: ' + error,
+                                            'error'
+                                        );
+                                        onCompleteRequest();
+                                    }
+                                });
+                            },
+                            error: function (error) {
+                                Swal.fire(
+                                    '¡Error!',
+                                    'No se pudo eliminar el Grupo, error: ' + error,
+                                    'error'
+                                );
+                                onCompleteRequest();
+                            }
+                        });
+                  }
+                })
+            }
+
+
+            function eliminarSubgrupo(idSubgrupo, idCurso) {
+                lacing.helpers.CloseModal('SubgruposXGrupoPopup');
+                Swal.fire({
+                  title: '¿Estás seguro?',
+                  text: "¡No podrás revertir los cambios!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Sí, elimínalo'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("EliminarSubgrupo", "Curso")",
+                            data: {
+                                "idSubgrupo": idSubgrupo,
+                                "idCurso": idCurso
+                            },
+                            success: function (result) {
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El Subgrupo ha sido eliminado.',
+                                    'success'
+                                );
+                                $.ajax({
+                                    type: "GET",
+                                    url: "@Url.Action("ListaGruposView", "Curso", new { Area = ""})",
+                                    data: {
+                                        "idCurso": idCurso
+                                    },
+                                    beforeSend: function () {
+                                        onBeginRequest();
+                                    },
+                                    success: function (result) {
+                                        onCompleteRequest();
+                                        $("#listadoGrupos").html(result);
+                                    },
+                                    error: function (error) {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'No se pudo actualizar listado de Grupos, error: ' + error,
+                                            'error'
+                                        );
+                                        onCompleteRequest();
+                                    }
+                                });
+                            },
+                            error: function (error) {
+                                Swal.fire(
+                                    '¡Error!',
+                                    'No se pudo eliminar al subgrupo, error: ' + error,
+                                    'error'
+                                );
+                                onCompleteRequest();
+                            }
+                        });
+                  }
+                })
+            }
+        </script>
+    }
+</body>
+</html>
+
+
+

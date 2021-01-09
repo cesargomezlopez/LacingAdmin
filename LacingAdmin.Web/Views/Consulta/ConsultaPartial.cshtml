@@ -1,0 +1,64 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.ConsultaViewModel
+
+@if (Model.ListaHorariosConsulta != null && Model.ListaHorariosConsulta.Count > 0)
+{
+    <!-- Panel de Horarios de Consulta -->
+    <div class="panel">
+        <div class="panel-body">
+            <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable">
+                <thead>
+                    <tr>
+                        <th>SALÓN</th>
+                        <th>DÍA</th>
+                        <th>INICIO</th>
+                        <th>FIN</th>
+                        <th>CÓDIGO</th>
+                        <th>CURSO</th>
+                        <th>DOCENTE</th>
+                        <th>TIPO</th>
+                        <th>GRUPO</th>
+                        <th>SUBGRUPO</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>SALÓN</th>
+                        <th>DÍA</th>
+                        <th>INICIO</th>
+                        <th>FIN</th>
+                        <th>CÓDIGO</th>
+                        <th>CURSO</th>
+                        <th>DOCENTE</th>
+                        <th>TIPO</th>
+                        <th>GRUPO</th>
+                        <th>SUBGRUPO</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model.ListaHorariosConsulta)
+                    {
+                        <tr>
+                            <td>@item.NombreLaboratorio</td>
+                            <td>@item.DiaNombre</td>
+                            <td>@item.HoraInicio</td>
+                            <td>@item.HoraFin</td>
+                            <td>@item.CodigoCurso</td>
+                            <td>@item.NombreCurso</td>
+                            <td>@item.NombreDocente</td>
+                            <td>@item.TipoSubgrupo</td>
+                            <td>@item.NumeroGrupo</td>
+                            <td>@item.NumeroSubgrupo</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-primary alerta" role="alert" style="width:80%; margin: 0 auto;text-align:center">
+        No se obtuvieron resultados de la búsqueda.
+    </div>
+}
+

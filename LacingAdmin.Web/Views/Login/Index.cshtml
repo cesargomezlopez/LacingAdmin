@@ -1,0 +1,68 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    ViewBag.Panel = false;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <title>Login - LacingAdmin</title>
+
+    <link href="~/Content/themes/main/assets/examples/css/pages/login-v3.css" rel="stylesheet" />
+</head>
+<body class="animsition page-login-v3 layout-full">
+    <!-- Page -->
+    <div class="page vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
+        <div class="page-content vertical-align-middle animation-slide-top animation-duration-1">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="brand">
+                        <img class="brand-img" style="width:100%" src="~/Content/lacing/logo-lacing.png" alt="...">
+                    </div>
+                    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { Area = "" }))
+                    {
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            @Html.TextBoxFor(model => model.Administrador.NombreUsuario, new { @id = "txtNombreUsuario", @class = "form-control" })
+                            <label class="floating-label">Usuario</label>
+                        </div>
+                        <div class="form-group form-material floating" data-plugin="formMaterial">
+                            @Html.TextBoxFor(model => model.Administrador.Contraseña, new { @id = "txtContraseña", @class = "form-control", @type = "password" })
+                            <label class="floating-label">Contraseña</label>
+                        </div>
+                        if (Model != null && !String.IsNullOrWhiteSpace(Model.MensajeValidacion))
+                        {
+                            <div class="alert alert-danger">@Model.MensajeValidacion</div>
+                        }
+                        <button type="submit" id="btnLogin" style="background-image: linear-gradient(to bottom, #155ab7 0%, #061d3c 100%);" class="btn btn-primary btn-block btn-lg mt-40">ACCEDER</button>
+                    }
+                </div>
+            </div>
+
+            <footer class="page-copyright page-copyright-inverse">
+                @*<p>Creado por César Gómez López</p>*@
+                <p>© 2019. Todos los derechos reservados.</p>
+                <div class="social">
+                    <a class="btn btn-icon btn-pure" href="javascript:void(0)">
+                        <i class="icon bd-twitter" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-icon btn-pure" href="javascript:void(0)">
+                        <i class="icon bd-facebook" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-icon btn-pure" href="javascript:void(0)">
+                        <i class="icon bd-google-plus" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- End Page -->
+
+    @section scriptsAdicionales{
+        <script src="~/Content/themes/main/global/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+        <script src="~/Content/themes/main/global/js/Plugin/jquery-placeholder.js"></script>
+        <script src="~/Content/themes/main/global/js/Plugin/material.js"></script>
+    }
+</body>
+</html>

@@ -1,0 +1,161 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.CursoViewModel
+
+@if (Model.ListaSubgrupos != null && Model.ListaSubgrupos.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SUBGRUPO</th>
+                <th>TIPO</th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ListaSubgrupos)
+            {
+                <tr>
+                    <td>@item.NumeroSubgrupo</td>
+                    <td>@item.TipoSubgrupo</td>
+                    <td>
+                        <a onclick="eliminarSubgrupo(@item.IdSubgrupo, @Model.Grupo.IdCurso)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-primary center" role="alert" style="width:100%; margin: 0 auto; text-align:center">
+        No se obtuvo información de subgrupos del grupo.
+    </div>
+}
+
+<br />
+
+<div class="form-horizontal">
+    <label class="col-sm-auto control-label" style="font-weight: 500">Agregar Subgrupo:</label>
+    <div class="form-group">
+        <label class="col-sm-auto control-label">Número Subgrupo</label>
+        <div class="col-sm-10">
+            @Html.EditorFor(
+                   model => model.Subgrupo.NumeroSubgrupo,
+                   new { htmlAttributes = new { @class = "form-control", @id = "txtNumeroSubgrupo" } })
+
+            <span hidden id="spanNumeroSubgrupo" class="spanVal"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-auto control-label">Seleccione Tipo</label>
+        <div class="col-sm-10">
+            @Html.DropDownList("cbTipoSubgrupo", new SelectList(new List<SelectListItem> {
+            new SelectListItem{ Text = "Teoría", Value = "Teoría" },
+            new SelectListItem{ Text = "Taller", Value = "Taller" },
+            new SelectListItem{ Text = "Laboratorio", Value = "Laboratorio" }
+       }, "Text", "Value"), new { @class = "form-control", @id = "cbTipoSubgrupo" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <a id="btnAgregarSubgrupo" class="btn btn-success" style="color:white">Agregar</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function validarCampos(idGrupo, numeroSubgrupo) {
+        var contVal = 0;
+
+        if (numeroSubgrupo == "" || numeroSubgrupo == null) {
+            lacing.helpers.ValidationFocus("txtNumeroSubgrupo", "spanNumeroSubgrupo", "El campo Número de Subgrupo es requerido");
+            contVal++;
+        }
+        else {
+            $.ajax({
+                    type: "GET",
+                    async: false,
+                    url: "@Url.Action("ExisteNumeroSubgrupo", "Curso")",
+                    data: {
+                        idGrupo: idGrupo,
+                        numeroSubgrupo: numeroSubgrupo
+                    },
+                    success: (result) => {
+                        if (result == "existe") {
+                            lacing.helpers.ValidationFocus("txtNumeroSubgrupo", "spanNumeroSubgrupo", "El Número de Subgrupo ingresado ya existe");
+                            contVal++;
+                        }
+                        else {
+                            lacing.helpers.RemoveValidationFocus("txtNumeroSubgrupo", "spanNumeroSubgrupo");
+                        }
+                    }
+                });
+        }
+
+        return contVal;
+    }
+
+
+    $("#btnAgregarSubgrupo").on("click", function () {
+        var idGrupo = @Model.Grupo.IdGrupo;
+        var idCurso = @Model.Grupo.IdCurso;
+
+        var numeroSubgrupo = $("#txtNumeroSubgrupo").val();
+        var tipoSubgrupo = $("#cbTipoSubgrupo").val();
+
+        if (validarCampos(idGrupo, numeroSubgrupo) == 0) {
+            lacing.helpers.CloseModal('SubgruposXGrupoPopup');
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AgregarSubgrupo", "Curso")",
+                data: {
+                    "idGrupo": idGrupo,
+                    "numeroSubgrupo": numeroSubgrupo,
+                    "tipoSubgrupo": tipoSubgrupo
+                },
+                beforeSend: function () {
+                    onBeginRequest();
+                },
+                success: function (result) {
+                    onCompleteRequest();
+                    Swal.fire(
+                        '¡Listo!',
+                        'El subgrupo ha sido creado.',
+                        'success'
+                    );
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaGruposView", "Curso", new { Area = ""})",
+                        data: {
+                            "idCurso": idCurso
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#listadoGrupos").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo actualizar listado de Grupos, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                },
+                error: function (error) {
+                    Swal.fire(
+                        '¡Error!',
+                        'No se pudo agregar el subgrupo',
+                        'error'
+                    );
+                    onCompleteRequest();
+                }
+            });
+        }
+    });
+
+</script>
+

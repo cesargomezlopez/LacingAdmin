@@ -1,0 +1,37 @@
+﻿@model LacingAdmin.Web.Areas.Docentes.Models.DocenteViewModel
+
+@if (Model.ListaAsistenciasAlumnos != null && Model.ListaAsistenciasAlumnos.Count > 0)
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Alumno</th>
+                <th>Fecha</th>
+                <th>Día</th>
+                <th>Asistencia</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ListaAsistenciasAlumnos)
+            {
+                <tr>
+                    <td>@item.NombreUsuarioAlumno</td>
+                    <td>@item.NombreAlumno</td>
+                    <td>@item.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                    <td>@item.DiaNombre</td>
+                    <td class="text-center">@item.HoraEntrada</td>
+                    <td>@item.EstadoAsistencia</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info alerta" role="alert" style="width:100%; margin: 0 auto; text-align:center; font-size:14px">
+        No se obtuvieron resultados de la búsqueda.
+    </div>
+}
+

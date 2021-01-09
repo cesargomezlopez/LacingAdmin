@@ -1,0 +1,17 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.AdministradorViewModel
+
+@foreach (var item in Model.ListaAdministradores)
+{
+    <tr>
+        <td>@item.NombreUsuario</td>
+        <td>@item.Contraseña</td>
+        <td>@item.NombreCompleto</td>
+        <td>@item.Rol</td>
+        <td>@item.NombreEstado</td>
+        <td>
+            <a onclick="lacing.helpers.ShowModal('EditarAdministradorPopup', '@Url.Action("Editar", "Administrador", new { Area = "", nombreUsuario = item.NombreUsuario})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+            <a onclick="eliminarAdministrador(@item.IdAdministrador)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+        </td>
+    </tr>
+
+}

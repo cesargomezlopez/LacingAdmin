@@ -1,0 +1,286 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.ReporteViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Reporte General";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/App/ReporteGeneral.css" rel="stylesheet" />
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-file"></i>Reporte General</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="row" style="justify-content: center">
+                            <div class='col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12'>
+                                <label for="txtFechaInicio">Fecha Incio: </label>
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetimepicker6'>
+                                        <input type='text' class="form-control txtdate" id="txtFechaInicio"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12'>
+                                <label for="txtFechaFin">Fecha Fin: </label>
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetimepicker7'>
+                                        <input type='text' class="form-control txtdate" id="txtFechaFin" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="col-sm-6">
+                                <label for="txtFechaInicio">Fecha Incio: </label>
+                                <div class="input-group" id='datetimepicker6'>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="icon wb-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                    <input name="txtFechaInicio" id="txtFechaInicio" type="text" class="form-control txtdate" data-plugin="datepicker" autocomplete="off">
+                                </div>
+                            </div>*@
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" style="margin-bottom:15px;">
+                                <input type="text" name="txtBuscarDocente" id="txtBuscarDocente" class="form-control" placeholder="Escribir nombre del docente" />
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" style="margin-bottom:15px;" @*style="display: flex;justify-content: center;align-items: flex-end;"*@>
+                                @Html.DropDownList("cbDocentes", new SelectList(Model.ListaDocentes, "IdDocente", "NombreCompleto"), new { @class = "form-control" })
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6" style="margin-bottom:15px;">
+                                <button onclick="buscarReporte()" class="btn btn-block btn-success"><i class="icon fa-search"></i> Buscar</button>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
+                                <button onclick="limpiarFomulario()" class="btn btn-block btn-success"><i class="icon fa-trash"></i> Limpiar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-5 col-6">
+                        <button onclick="descargarReporte()" class="btn btn-block btn-success"><i class="icon fa-file-pdf-o"></i> Descargar</button>
+                    </div>
+                </div>
+                <br />
+                <!-- Panel de Resultados de Búsqueda -->
+                <div id="resultadoBusqueda">
+                    @Html.Action("ListaReporteGeneralPartial", "Reporte", new { Area = "", fechaInicio = ViewBag.dateInicio, fechaFin = ViewBag.dateFin })
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!--DatePicker-->
+        <script src="~/Scripts/jquery-3.3.1.js"></script>
+        <script src="~/Scripts/moment-with-locales.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+
+        <script src="~/Scripts/sweet-alert2.js"></script>
+
+        <script type="text/javascript">
+            var globalReporte = {};
+
+            $(document).ready(function () {
+                globalReporte.fechaInicio = '@ViewBag.dateInicio';
+                globalReporte.fechaFin = '@ViewBag.dateFin';
+                globalReporte.idDocente = $("#cbDocentes").val();
+
+                //$("#txtFechaInicio").keyup(function () {
+                //    globalReporte.flgConsulta = 1;
+                //});
+            });
+
+            function cambioDeFecha() {
+                if ($("#txtFechaInicio").val() != globalReporte.fechaInicio
+                    || $("#txtFechaFin").val() != globalReporte.fechaFin
+                    || $("#cbDocentes").val() != globalReporte.idDocente) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
+            function descargarReporte() {
+                if (cambioDeFecha()) {
+                    buscarReporte();
+                }
+
+                var fechaI = $("#txtFechaInicio").val();
+                var fechaF = $("#txtFechaFin").val();
+                var idDocente = $("#cbDocentes").val();
+
+                window.location.href = "/Reporte/DescargarReporteGeneral?fechaInicio=" + fechaI + "&fechaFin=" + fechaF + "&idDocente=" + idDocente;
+                setTimeout(() => {
+                    Swal.fire(
+                        '¡Listo!',
+                        'Se descargó el reporte.',
+                        'success'
+                    );
+                }, 2000);
+            }
+
+            $(function () {
+                $('#datetimepicker6').datetimepicker({
+                    locale: 'es',
+                    format: 'L'
+                });
+                $('#datetimepicker7').datetimepicker({
+                    locale: 'es',
+                    format: 'L',
+                    useCurrent: false //Important! See issue #1075
+                });
+                $("#datetimepicker6").on("dp.change", function (e) {
+                    $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+                });
+                $("#datetimepicker7").on("dp.change", function (e) {
+                    $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+                });
+
+                $('#datetimepicker6').data("DateTimePicker").date('@ViewBag.dateInicio');
+                $('#datetimepicker7').data("DateTimePicker").date('@ViewBag.dateFin');
+            });
+
+            //jQuery extension method:
+            jQuery.fn.filterByText = function (textbox) {
+                return this.each(function () {
+                    var select = this;
+                    var options = [];
+                    $(select).find('option').each(function () {
+                        options.push({
+                            value: $(this).val(),
+                            text: $(this).text()
+                        });
+                    });
+                    $(select).data('options', options);
+
+                    $(textbox).bind('change keyup', function () {
+                        var options = $(select).empty().data('options');
+                        var search = $.trim($(this).val());
+                        var regex = new RegExp(search, "gi");
+
+                        $.each(options, function (i) {
+                            var option = options[i];
+                            if (option.text.match(regex) !== null) {
+                                $(select).append(
+                                    $('<option>').text(option.text).val(option.value)
+                                );
+                            }
+                        });
+                    });
+                });
+            };
+
+            // You could use it like this:
+
+            $(function () {
+                $('#cbDocentes').filterByText($('#txtBuscarDocente'));
+            });
+
+            function buscarReporte() {
+                var fechaI = $("#txtFechaInicio").val();
+                var fechaF = $("#txtFechaFin").val();
+                var idDocente = $("#cbDocentes").val();
+
+                globalReporte.fechaInicio = fechaI;
+                globalReporte.fechaFin = fechaF;
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ListaReporteGeneralPartial", "Reporte", new { Area = "" })",
+                    data: {
+                        "fechaInicio": fechaI,
+                        "fechaFin": fechaF,
+                        "idDocente": idDocente
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#resultadoBusqueda").html(result);
+                        lacing.helpers.ShowMessageSucces("Consulta realizada exitosamente");
+                    },
+                    error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo descargar el reporte.',
+                                'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            function limpiarFomulario() {
+                $("#txtBuscarDocente").val('');
+                $("#txtBuscarDocente").trigger('keyup');
+                $("#txtFechaInicio").val('@ViewBag.dateInicio');
+                $("#txtFechaFin").val('@ViewBag.dateFin');
+                buscarReporte();
+            }
+        </script>
+    }
+
+
+</body>
+</html>
