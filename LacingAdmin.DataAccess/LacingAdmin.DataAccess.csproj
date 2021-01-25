@@ -58,6 +58,7 @@
     <Compile Include="CursoDataAccess.cs" />
     <Compile Include="DocenteDataAccess.cs" />
     <Compile Include="DocenteXCarrerDataAccess.cs" />
+    <Compile Include="HardwareDataAccess.cs" />
     <Compile Include="FacultadDataAccess.cs" />
     <Compile Include="HorarioDataAccess.cs" />
     <Compile Include="LaboratorioDataAccess.cs" />

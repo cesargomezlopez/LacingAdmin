@@ -202,6 +202,7 @@
     <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\CarreraController.cs" />
     <Compile Include="Controllers\ConsultaController.cs" />
+    <Compile Include="Controllers\EquipoComputoController.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\DocenteController.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Models\ViewModels\CarreraViewModel.cs" />
     <Compile Include="Models\ViewModels\ConsultaViewModel.cs" />
     <Compile Include="Models\ViewModels\CursoViewModel.cs" />
+    <Compile Include="Models\ViewModels\EquipoComputoViewModel.cs" />
     <Compile Include="Models\ViewModels\FacultadViewModel.cs" />
     <Compile Include="Models\ViewModels\DocenteViewModel.cs" />
     <Compile Include="Models\ViewModels\HorarioViewModel.cs" />
@@ -1300,6 +1302,10 @@
     <Content Include="Views\Consulta\ComboCursosPartial.cshtml" />
     <Content Include="Views\Horario\Editar.cshtml" />
     <Content Include="Views\Login\Autorizacion.cshtml" />
+    <Content Include="Views\EquipoComputo\Crear.cshtml" />
+    <Content Include="Views\EquipoComputo\Editar.cshtml" />
+    <Content Include="Views\EquipoComputo\Index.cshtml" />
+    <Content Include="Views\EquipoComputo\ListaEquiposComputoView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

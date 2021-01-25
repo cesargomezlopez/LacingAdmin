@@ -166,6 +166,35 @@
                                     <span class="site-menu-title">Facultad</span>
                                 </a>
                             </li>
+                            @if (SecurityHelper.GetAdministradorRol() == "Administrador General"
+                                     || SecurityHelper.GetAdministradorRol() == "Técnico"
+                                      || SecurityHelper.GetAdministradorRol() == "Practicante")
+                            {
+                                <li class="site-menu-item">
+                                    <a href="javascript:void(0)">
+                                        <span class="site-menu-title">Hardware</span>
+                                        <span class="site-menu-arrow"></span>
+                                    </a>
+                                    <ul class="site-menu-sub">
+                                        <li class="site-menu-item hidden-sm-down site-tour-trigger">
+                                            <a href=@Url.Action("Index", "EquipoComputo", new { Area = "" })>
+                                                <span class="site-menu-title">Equipos de cómputo</span>
+                                            </a>
+                                        </li>
+                                        <li class="site-menu-item hidden-sm-down site-tour-trigger">
+                                            <a href="#">
+                                                <span class="site-menu-title">Equipos en general</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="site-menu-item">
+                                    <a class="animsition-link" href="#">
+                                        <span class="site-menu-title">Software</span>
+                                        <span class="site-menu-arrow"></span>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </li>
                 }
@@ -186,12 +215,12 @@
                                     </a>
                                 </li>
                             }
-                                <li class="site-menu-item">
-                                    <a class="animsition-link" href=@Url.Action("Calendario", "Horario", new { Area = "" })>
-                                        <span class="site-menu-title">Calendario</span>
-                                    </a>
-                                </li>
-                            </ul>
+                            <li class="site-menu-item">
+                                <a class="animsition-link" href=@Url.Action("Calendario", "Horario", new { Area = "" })>
+                                    <span class="site-menu-title">Calendario</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 }
                 @if (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico")
@@ -206,6 +235,30 @@
                             <li class="site-menu-item hidden-sm-down site-tour-trigger">
                                 <a class="animsition-link" href=@Url.Action("General", "Reporte", new { Area = "" })>
                                     <span class="site-menu-title">Reporte General</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                @if (SecurityHelper.GetAdministradorRol() == "Administrador General"
+                        || SecurityHelper.GetAdministradorRol() == "Técnico"
+                        || SecurityHelper.GetAdministradorRol() == "Practicante")
+                {
+                    <li class="site-menu-item has-sub">
+                        <a href="javascript:void(0)">
+                            <i class="site-menu-icon fa-keyboard-o" aria-hidden="true"></i>
+                            <span class="site-menu-title">Inventario</span>
+                            <span class="site-menu-arrow"></span>
+                        </a>
+                        <ul class="site-menu-sub">
+                            <li class="site-menu-item hidden-sm-down site-tour-trigger">
+                                <a class="animsition-link" href="#">
+                                    <span class="site-menu-title">Hardware</span>
+                                </a>
+                            </li>
+                            <li class="site-menu-item hidden-sm-down site-tour-trigger">
+                                <a class="animsition-link" href="#">
+                                    <span class="site-menu-title">Software</span>
                                 </a>
                             </li>
                         </ul>
