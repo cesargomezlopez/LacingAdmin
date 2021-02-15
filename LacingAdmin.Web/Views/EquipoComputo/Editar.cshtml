@@ -1,150 +1,528 @@
-﻿
+﻿@model LacingAdmin.Web.Models.ViewModels.EquipoComputoViewModel
+@using LacingAdmin.Web.Common
+
 @{
-    ViewBag.Title = "Editar Facultad";
+    ViewBag.Title = "Editar Equipo Computo";
+    ViewBag.Panel = true;
 }
 
-<div class="form-horizontal">
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <link href="~/Content/themes/other/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/other/clockpicker/jquery-clockpicker.min.css" rel="stylesheet" />
 
-    <div class="form-group">
-        <label for="txtNombreFacultad" class="col-sm-auto control-label">Nombre de la Facultad</label>
-        <div class="col-sm-10">
-            <input type="text" id="txtNombreFacultad" class="form-control" autocomplete="off" />
-            <span hidden id="spanNombreFacultad" class="spanVal"></span>
-        </div>
-    </div>
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
 
-    <div class="form-group">
-        <label for="cbEstados" class="col-sm-auto control-label">Estado</label>
-        <div class="col-sm-10">
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
 
-            @Html.DropDownList("cbEstados", new SelectList(
-                new List<SelectListItem>
-                {
-                    new SelectListItem { Value = "1", Text = "Activo"},
-                    new SelectListItem { Value = "0", Text = "Desactivo"}
-                }
-           , "Value", "Text"), new { @class = "form-control", @id = "cbEstados" })
-
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10 mt-20">
-            <button onclick="postEditarFacultad()" class="btn btn-success">Guardar</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    var globalFacultad = {};
-
-    $(document).ready(function () {
-        $("#txtNombreFacultad").val('@ViewBag.facultad.NombreFacultad');
-        $("#cbEstados").val('@ViewBag.facultad.Estado');
-        
-        globalFacultad.idFacultad = '@ViewBag.facultad.IdFacultad';
-        //globalFacultad.nombreFacultad = '@ViewBag.NombreFacultad';
-        globalFacultad.nombreFacultad = '@Html.Raw((String)ViewBag.facultad.NombreFacultad)';
-    });
-
-    function validarCampos(facultad) {
-        var contVal = 0;
-
-        if (facultad.NombreFacultad == "" || facultad.NombreFacultad == null) {
-            lacing.helpers.ValidationFocus("txtNombreFacultad", "spanNombreFacultad", "El campo Nombre de la Facultad es requerido");
-            contVal++;
-        }
-        else {
-            lacing.helpers.RemoveValidationFocus("txtNombreFacultad", "spanNombreFacultad");
-
-            if (lacing.helpers.RegexTest(facultad.NombreFacultad, lacing.regexHelper.RegexSoloLetras, "txtNombreFacultad", "spanNombreFacultad", "Solo se puede ingresar letras")) contVal++;
-
-            else if (facultad.NombreFacultad != globalFacultad.nombreFacultad) {
-                $.ajax({
-                    type: "GET",
-                    async: false,
-                    url: "@Url.Action("ExisteNombreFacultad", "Facultad")",
-                    data: {
-                        nombreFacultad: facultad.NombreFacultad
-                    },
-                    success: (result) => {
-                        if (result == "existe") {
-                            lacing.helpers.ValidationFocus("txtNombreFacultad", "spanNombreFacultad", "El Nombre de la Facultad ingresado ya existe");
-                            contVal++;
-                        }
-                        else {
-                            lacing.helpers.RemoveValidationFocus("txtNombreFacultad", "spanNombreFacultad");
-                        }
-                    }
-                });
-            }
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <style>
+        .row {
+            margin-left: 20px;
         }
 
-        return contVal;
+        .somb {
+            box-shadow: 0px 0px 5px 0px #444;
+            padding: 10px 20px 10px 5px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+            color: #60676d;
+        }
+    </style>
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-book"></i>Editar Equipo de Cómputo</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="form-horizontal row" style="">
+                    @Html.HiddenFor(model => model.equipoComputoCpu.IdHardware)
+                    @Html.HiddenFor(model => model.equipoComputoMonitor.IdHardware)
+                    @Html.HiddenFor(model => model.equipoComputoTeclado.IdHardware)
+                    @Html.HiddenFor(model => model.equipoComputoMouse.IdHardware)
+
+                    <div class="col-6">
+                        <!-- USERNAME FORM -->
+                        <div class="form-group somb col-12">
+                            <label for="inputEmail3" class="col-sm-auto control-label">Usuario</label>
+                            <div class="input-group" style="padding-left: 30px;">
+                                @Html.EditorFor(model => model.usuario, new { HtmlAttributes = new { @class = "form-control", @id = "txtUsuario", @placeholder = "Usuario del equipo de cómputo", @autocomplete = "off" } })
+                            </div>
+                        </div>
+
+                        <!-- LAB FORM -->
+                        <div class="form-group somb col-12">
+                            <label for="inputEmail3" class="col-sm-auto control-label">Laboratorio</label>
+                            <div class="row">
+
+                                <div class="col-sm-6">
+
+                                    @Html.DropDownListFor(model => model.idLaboratorio,
+                                   new SelectList(Model.ListaFacultadesLaboratorio, "IdFacultad", "NombreFacultad"), new { @class = "form-control", @id = "cbFacultadesLaboratorio", @onChange = "changeComboFacultadLaboratorio()" })
+
+                                </div>
+
+                                <div class="col-sm-6" id="divComboLaboratorios">
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- MONITOR FORM -->
+                        <div class="form-group somb col-12">
+                            <label for="inputEmail3" class="col-sm-auto control-label">MONITOR</label>
+                            <div class="row">
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Marca</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoMonitor.Marca, new { HtmlAttributes = new { @class = "form-control", @id = "txtMarcaMonitor", @placeholder = "Marca", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Modelo</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoMonitor.Modelo, new { HtmlAttributes = new { @class = "form-control", @id = "txtModeloMonitor", @placeholder = "Modelo", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Serie</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoMonitor.Serie, new { HtmlAttributes = new { @class = "form-control", @id = "txtSerieMonitor", @placeholder = "Serie", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Inventario</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoMonitor.Inventario, new { HtmlAttributes = new { @class = "form-control", @id = "txtInventarioMonitor", @placeholder = "Inventario", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Observación</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.TextAreaFor(model => model.equipoComputoMonitor.Observacion, new { cols = 60, @rows = 4, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionMonitor", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CPU FORM -->
+                    <div class="col-6">
+                        <div class="form-group somb">
+                            <label for="inputEmail3" class="col-sm-auto control-label">CPU</label>
+                            <div class="row">
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Marca</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoCpu.Marca, new { HtmlAttributes = new { @class = "form-control", @id = "txtMarcaCpu", @placeholder = "Marca", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Modelo</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoCpu.Modelo, new { HtmlAttributes = new { @class = "form-control", @id = "txtModeloCpu", @placeholder = "Modelo", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Serie</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoCpu.Serie, new { HtmlAttributes = new { @class = "form-control", @id = "txtSerieCpu", @placeholder = "Serie", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Inventario</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoCpu.Inventario, new { HtmlAttributes = new { @class = "form-control", @id = "txtInventarioCpu", @placeholder = "Inventario", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Procesador</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoCpu.Procesador, new { HtmlAttributes = new { @class = "form-control", @id = "txtProcesadorCpu", @placeholder = "Procesador", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Velocidad</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoCpu.Velocidad, new { HtmlAttributes = new { @class = "form-control", @id = "txtVelocidadCpu", @placeholder = "Velocidad", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Ram</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoCpu.Ram, new { HtmlAttributes = new { @class = "form-control", @id = "txtRamCpu", @placeholder = "Ram", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Disco Duro</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoCpu.DiscoDuro, new { HtmlAttributes = new { @class = "form-control", @id = "txtDiscoDuroCpu", @placeholder = "Disco Duro", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Tarjeta Video</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoCpu.TarjetaVideo, new { HtmlAttributes = new { @class = "form-control", @id = "txtTarjetaVideoCpu", @placeholder = "Tarjeta Video", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Observación</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.TextAreaFor(model => model.equipoComputoCpu.Observacion, new { cols = 60, @rows = 3, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionCpu", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TECLADO FORM -->
+                    <div class="col-6">
+                        <div class="form-group somb">
+                            <label for="inputEmail3" class="col-sm-auto control-label">TECLADO</label>
+                            <div class="row">
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Marca</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoTeclado.Marca, new { HtmlAttributes = new { @class = "form-control", @id = "txtMarcaTeclado", @placeholder = "Marca", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Modelo</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoTeclado.Modelo, new { HtmlAttributes = new { @class = "form-control", @id = "txtModelTeclado", @placeholder = "Modelo", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Serie</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoTeclado.Serie, new { HtmlAttributes = new { @class = "form-control", @id = "txtSerieTeclado", @placeholder = "Serie", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Inventario</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoTeclado.Inventario, new { HtmlAttributes = new { @class = "form-control", @id = "txtInventarioTeclado", @placeholder = "Inventario", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Observación</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.TextAreaFor(model => model.equipoComputoTeclado.Observacion, new { cols = 60, @rows = 4, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionTeclado", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MOUSE FORM -->
+                    <div class="col-6">
+                        <div class="form-group somb">
+                            <label for="inputEmail3" class="col-sm-auto control-label">MOUSE</label>
+                            <div class="row">
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Marca</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoMouse.Marca, new { HtmlAttributes = new { @class = "form-control", @id = "txtMarcaMouse", @placeholder = "Marca", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Modelo</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoMouse.Modelo, new { HtmlAttributes = new { @class = "form-control", @id = "txtModelMouse", @placeholder = "Modelo", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Serie</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoMouse.Serie, new { HtmlAttributes = new { @class = "form-control", @id = "txtSerieMouse", @placeholder = "Serie", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Inventario</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.EditorFor(model => model.equipoComputoMouse.Inventario, new { HtmlAttributes = new { @class = "form-control", @id = "txtInventarioMouse", @placeholder = "Inventario", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 row">
+                                    <div class="col-3">
+                                        <label class="col-sm-auto control-label">Observación</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.TextAreaFor(model => model.equipoComputoMouse.Observacion, new { cols = 60, @rows = 4, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionMouse", @autocomplete = "off" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="btnActualizarHardware" class="btn btn-success">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
     }
 
-    function postEditarFacultad() {
-        var facultad = {
-            IdFacultad: globalFacultad.idFacultad,
-            NombreFacultad: $("#txtNombreFacultad").val(),
-            Estado: $("#cbEstados").val()
-        };
 
-        if (validarCampos(facultad) == 0) {
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("Editar", "Facultad")",
-                data: {
-                    "facultad": facultad
-                },
-                beforeSend: function () {
-                    lacing.helpers.CloseModal('EditarFacultadPopup');
-                    onBeginRequest();
-                },
-                success: (result) => {
-                    onCompleteRequest();
-                    refreshListaEditar();
-                },
-                error: (error) => {
-                    Swal.fire(
-                        '¡Error!',
-                        'No se pudo editar la Facultad',
-                        'error'
-                    );
-                    onCompleteRequest();
-                }
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/other/clockpicker/bootstrap-clockpicker.min.js"></script>
+        <script src="~/Content/themes/other/clockpicker/jquery-clockpicker.min.js"></script>
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+        <script src="~/Scripts/App/Views/CursoView.js"></script>
+        <script src="~/Scripts/sweet-alert2.js"></script>
+        <script src="~/Scripts/jquery-ui.js"></script>
+
+        <script type="text/javascript">
+            $('.clockpicker').clockpicker({
+                placement: 'top'
             });
-        }
-    }
+        </script>
 
-    function refreshListaEditar() {
-        Swal.fire(
-            '¡Listo!',
-            'La Facultad ha sido editada exitosamente.',
-            'success'
-        );
-        $.ajax({
-            type: "GET",
-            url: "@Url.Action("ListaFacultadesView", "Facultad", new { Area = ""})",
-            beforeSend: function () {
-                onBeginRequest();
-            },
-            success: function (result) {
-                onCompleteRequest();
-                $("#listadoFacultades").html(result)
-            },
-            error: function (error) {
-                Swal.fire(
-                    '¡Error!',
-                    'No se pudo actualizar listado de Facultades, error: ' + error,
-                    'error'
-                );
-                onCompleteRequest();
+        <script type="text/javascript">
+            var horarioGlobal = {};
+
+            $(document).ready(cargarEventos());
+
+            function changeComboFacultadLaboratorio() {
+                var idFacultad = $("#cbFacultadesLaboratorio").val();
+                if (idFacultad != null && idFacultad != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaLaboratoriosView", "Horario")",
+                        data: {
+                            "idFacultad": idFacultad
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboLaboratorios").html(result);
+
+                            if (horarioGlobal.flgLaboratorio == 0) {
+                                $("#cbLaboratorios").val(@Model.equipoComputoCpu.IdLaboratorio);
+                                horarioGlobal.flgLaboratorio = 1;
+                            }
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Laboratorios, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
             }
-        });
-    }
-</script>
 
+            $("#btnActualizarHardware").on("click", function () {
+                var idLaboratorio = $("#cbLaboratorios").val();
+                var usuario = $("#txtUsuario").val();
+                var equipoComputoCpu = {
+                    "TipoEquipo": "CPU",
+                    "Marca": $("#txtMarcaCpu").val(),
+                    "Modelo": $("#txtModeloCpu").val(),
+                    "Serie": $("#txtSerieCpu").val(),
+                    "Inventario": $("#txtInventarioCpu").val(),
+                    "Procesador": $("#txtProcesadorCpu").val(),
+                    "Velocidad": $("#txtVelocidadCpu").val(),
+                    "Ram": $("#txtRamCpu").val(),
+                    "DiscoDuro": $("#txtDiscoDuroCpu").val(),
+                    "TarjetaVideo": $("#txtTarjetaVideoCpu").val(),
+                    "Usuario": usuario,
+                    "Observacion": $("#txtObservacionCpu").val(),
+                    "Estado": "Operativo",
+                    "FlgEquipoComputo": "1"
+                };
+                var equipoComputoMonitor = {
+                    "TipoEquipo": "MONITOR",
+                    "Marca": $("#txtMarcaMonitor").val(),
+                    "Modelo": $("#txtModeloMonitor").val(),
+                    "Serie": $("#txtSerieMonitor").val(),
+                    "Inventario": $("#txtInventarioMonitor").val(),
+                    "Usuario": usuario,
+                    "Observacion": $("#txtObservacionMonitor").val(),
+                    "Estado": "Operativo",
+                    "FlgEquipoComputo": "1"
+                };
+                var equipoComputoTeclado = {
+                    "TipoEquipo": "TECLADO",
+                    "Marca": $("#txtMarcaTeclado").val(),
+                    "Modelo": $("#txtModelTeclado").val(),
+                    "Serie": $("#txtSerieTeclado").val(),
+                    "Inventario": $("#txtInventarioTeclado").val(),
+                    "Usuario": usuario,
+                    "Observacion": $("#txtObservacionTeclado").val(),
+                    "Estado": "Operativo",
+                    "FlgEquipoComputo": "1"
+                };
+                var equipoComputoMouse = {
+                    "TipoEquipo": "MOUSE",
+                    "Marca": $("#txtMarcaMouse").val(),
+                    "Modelo": $("#txtModelMouse").val(),
+                    "Serie": $("#txtSerieMouse").val(),
+                    "Inventario": $("#txtInventarioMouse").val(),
+                    "Usuario": usuario,
+                    "Observacion": $("#txtObservacionMouse").val(),
+                    "Estado": "Operativo",
+                    "FlgEquipoComputo": "1"
+                };
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Editar", "EquipoComputo")",
+                        data: {
+                            "equipoComputoCpu": equipoComputoCpu,
+                            "equipoComputoMonitor": equipoComputoMonitor,
+                            "equipoComputoTeclado": equipoComputoTeclado,
+                            "equipoComputoMouse": equipoComputoMouse,
+                            "idLaboratorio": idLaboratorio
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            Swal.fire(
+                                    '¡Listo!',
+                                    'Se creo el horario exitosamente',
+                                    'success'
+                            );
+                            setTimeout(function(){
+                                window.location.href = "@Url.Action("Index", "EquipoComputo")";
+                            }, 2000);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                    '¡Error!',
+                                    'No se pudo crear el equipo de cómputo, error: ' + error,
+                                    'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+            });
+
+            function cargarEventos() {
+                horarioGlobal.flgEvents = 0;
+                horarioGlobal.flgLaboratorio = 0;
+
+                changeComboFacultadLaboratorio();
+
+                horarioGlobal.flgEvents = 1;
+            }
+        </script>
+    }
+
+</body>
+</html>
 
 
 

@@ -182,7 +182,7 @@
                                             </a>
                                         </li>
                                         <li class="site-menu-item hidden-sm-down site-tour-trigger">
-                                            <a href="#">
+                                            <a href=@Url.Action("Index", "EquipoGeneral", new { Area = "" })>
                                                 <span class="site-menu-title">Equipos en general</span>
                                             </a>
                                         </li>
@@ -252,12 +252,12 @@
                         </a>
                         <ul class="site-menu-sub">
                             <li class="site-menu-item hidden-sm-down site-tour-trigger">
-                                <a class="animsition-link" href="#">
+                                <a href=@Url.Action("Hardware", "Inventario", new { Area = "" })>
                                     <span class="site-menu-title">Hardware</span>
                                 </a>
                             </li>
                             <li class="site-menu-item hidden-sm-down site-tour-trigger">
-                                <a class="animsition-link" href="#">
+                                <a href=@Url.Action("Software", "Inventario", new { Area = "" })>
                                     <span class="site-menu-title">Software</span>
                                 </a>
                             </li>

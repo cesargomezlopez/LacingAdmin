@@ -1,0 +1,206 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.EquipoComputoViewModel
+
+<html>
+<head>
+    <link href="~/Content/themes/main/assets/css/site.min.css" rel="stylesheet" />
+
+    <style>
+        html {
+            min-height: 100%;
+            position: relative;
+        }
+
+        body {
+            margin: 0;
+            margin-bottom: 40px;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+        }
+
+        .centerdata {
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="padding-top:25px;">
+    <div class="row" style="height:120px">
+        <div style="text-align:left; width:20%; float:left">
+            <img style="height:90px" src="~/Content/lacing/urp_logo_png.png" />
+        </div>
+        <div style="text-align:center; width:60%; float:left">
+            <h1 style="font-size:34px">Reporte General Lacing</h1>
+        </div>
+        <div style="text-align:right; width:20%; float:right">
+            <img style="height:80px" src="~/Content/lacing/logo-lacing.png" />
+        </div>
+    </div>
+    <div class="row">
+        @if (Model.ListaEquiposComputo != null && Model.ListaEquiposComputo.Count > 0)
+        {
+            {
+                this.Model.contador = 0;
+                this.Model.lastUser = "";
+            }
+            <table border="1" class="table table-hover dataTable table-striped w-full" id="tableEquiposComputo" data-plugin="dataTable">
+                <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>ITEM</th>
+                        <th>MARCA</th>
+                        <th>MODELO</th>
+                        <th>SERIE</th>
+                        <th>INVENT.</th>
+                        <th>Proces.</th>
+                        <th>Veloc.</th>
+                        <th>RAM</th>
+                        <th>Disco D.</th>
+                        <th>T.video</th>
+                        <th>Usuario</th>
+                        <th>Ubicación</th>
+                        <th>Facultad</th>
+                        <th>Observación</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>N°</th>
+                        <th>ITEM</th>
+                        <th>MARCA</th>
+                        <th>MODELO</th>
+                        <th>SERIE</th>
+                        <th>INVENT.</th>
+                        <th>Proces.</th>
+                        <th>Veloc.</th>
+                        <th>RAM</th>
+                        <th>Disco D.</th>
+                        <th>T.video</th>
+                        <th>Usuario</th>
+                        <th>Ubicación</th>
+                        <th>Facultad</th>
+                        <th>Observación</th>
+                    </tr>
+                </tfoot>
+
+                <tbody>
+                    @foreach (var item in Model.ListaEquiposComputo)
+                    {
+                        {
+                            if (this.Model.lastUser != item.Usuario)
+                            {
+                                this.Model.contador++;
+                                this.Model.lastUser = item.Usuario;
+                            }
+                        }
+                        <tr>
+                            <td class="centerdata">@this.Model.contador</td>
+                            <td class="centerdata">@item.TipoEquipo</td>
+                            <td class="centerdata">@item.Marca</td>
+                            <td class="centerdata">@item.Modelo</td>
+                            <td class="centerdata">@item.Serie</td>
+                            <td class="centerdata">@item.Inventario</td>
+                            <td class="centerdata">@item.Procesador</td>
+                            <td class="centerdata">@item.Velocidad</td>
+                            <td class="centerdata">@item.Ram</td>
+                            <td class="centerdata">@item.DiscoDuro</td>
+                            <td class="centerdata">@item.TarjetaVideo</td>
+                            <td class="centerdata">@item.Usuario</td>
+                            <td class="centerdata">@item.NombreLaboratorio</td>
+                            <td class="centerdata">@item.NombreFacultad</td>
+                            <td class="centerdata">@item.Observacion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (Model.ListaEquiposGeneral != null && Model.ListaEquiposGeneral.Count > 0)
+        {
+            {
+                this.Model.contador = 0;
+            }
+            <table border="1" class="table table-hover dataTable table-striped w-full" id="tableEquiposGeneral" data-plugin="dataTable">
+                <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>TIPO</th>
+                        <th>MARCA</th>
+                        <th>MODELO</th>
+                        <th>SERIE</th>
+                        <th>INVENT.</th>
+                        <th>Ubicación</th>
+                        <th>Facultad</th>
+                        <th>Estado</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>N°</th>
+                        <th>TIPO</th>
+                        <th>MARCA</th>
+                        <th>MODELO</th>
+                        <th>SERIE</th>
+                        <th>INVENT.</th>
+                        <th>Ubicación</th>
+                        <th>Facultad</th>
+                        <th>Estado</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </tfoot>
+
+                <tbody>
+                    @foreach (var item in Model.ListaEquiposGeneral)
+                    {
+                        {
+                            this.Model.contador++;
+                        }
+                        <tr>
+                            <td class="centerdata">@this.Model.contador</td>
+                            <td class="centerdata">@item.TipoEquipo</td>
+                            <td class="centerdata">@item.Marca</td>
+                            <td class="centerdata">@item.Modelo</td>
+                            <td class="centerdata">@item.Serie</td>
+                            <td class="centerdata">@item.Inventario</td>
+                            <td class="centerdata">@item.NombreLaboratorio</td>
+                            <td class="centerdata">@item.NombreFacultad</td>
+                            <td class="centerdata">@item.Estado</td>
+                            <td class="centerdata">@item.Observacion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else if (Model.ListaEquiposComputo != null && Model.ListaEquiposComputo.Count > 0 && Model.ListaEquiposGeneral != null && Model.ListaEquiposGeneral.Count > 0)
+        {
+            <div class="alert alert-info alerta" role="alert" style="width:100%; margin: 0 auto; text-align:center; font-size:14px">
+                No se obtuvieron registros de equipos.
+            </div>
+        }
+    </div>
+    <footer>
+        @*<p style="font-size:14px">Generado el @DateTime.Now.ToString("dd/MM/yyyy hh:mm")</p>*@
+        <div class="site-footer-legal">© 2021 Lacing Administrador</div>
+    </footer>
+</body>
+</html>
+
+@if (Model.ListaEquiposComputo != null && Model.ListaEquiposComputo.Count > 0)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            lacing.helpers.UpdateDataTable("tableEquiposComputo");
+        });
+    </script>
+}
+@if (Model.ListaEquiposGeneral != null && Model.ListaEquiposGeneral.Count > 0)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            lacing.helpers.UpdateDataTable("tableEquiposGeneral");
+        });
+    </script>
+}

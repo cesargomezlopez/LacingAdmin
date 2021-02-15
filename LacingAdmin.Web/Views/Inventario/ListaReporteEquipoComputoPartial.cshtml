@@ -26,7 +26,6 @@
                         <th>Ubicación</th>
                         <th>Facultad</th>
                         <th>Observación</th>
-                        <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -75,10 +74,6 @@
                             <td>@item.NombreLaboratorio</td>
                             <td>@item.NombreFacultad</td>
                             <td>@item.Observacion</td>
-                            <td>
-                                <a href="@Url.Action("Editar", "EquipoComputo", new { Area = "", usuario = item.Usuario})" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
-                                <a onclick="eliminarEquipoComputo('@item.Usuario')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
-                            </td>
                         </tr>
                     }
                 </tbody>

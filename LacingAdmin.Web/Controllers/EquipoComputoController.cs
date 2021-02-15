@@ -14,9 +14,17 @@ namespace LacingAdmin.Web.Controllers
     public class EquipoComputoController : BaseController
     {
         private readonly IHardwareDataAccess hardwareDataAccess;
-        public EquipoComputoController(IHardwareDataAccess _hardwareDataAccess)
+        private readonly IFacultadDataAccess facultadDataAccess;
+        private readonly ILaboratorioDataAccess laboratorioDataAccess;
+
+        public EquipoComputoController(IHardwareDataAccess _hardwareDataAccess,
+            IFacultadDataAccess _facultadDataAccess,
+            ILaboratorioDataAccess _laboratorioDataAccess
+            )
         {
             hardwareDataAccess = _hardwareDataAccess;
+            facultadDataAccess = _facultadDataAccess;
+            laboratorioDataAccess = _laboratorioDataAccess;
         }
 
         [HttpGet]
@@ -51,74 +59,173 @@ namespace LacingAdmin.Web.Controllers
             }
         }
 
-        //[HttpGet]
-        //public ActionResult Crear()
-        //{
-        //    if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico"))
-        //    {
-        //        return PartialView();
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Index", "Login", new { Area = "" });
-        //    }
-        //}
+        [HttpGet]
+        public ActionResult Crear()
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General"
+                    || SecurityHelper.GetAdministradorRol() == "Técnico"
+                    || SecurityHelper.GetAdministradorRol() == "Practicante"))
+            {
+                EquipoComputoViewModel model = new EquipoComputoViewModel();
 
-        //[HttpPost]
-        //public ActionResult Crear(Facultad facultad)
-        //{
-        //    if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico"))
-        //    {
-        //        facultadDataAccess.CreateFacultad(facultad);
-        //        return RedirectToAction("Index", "Facultad", new { Area = "" });
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Index", "Login", new { Area = "" });
-        //    }
-        //}
+                model.ListaFacultadesLaboratorio = facultadDataAccess.GetListaFacultades();
+                model.ListaLaboratorios = laboratorioDataAccess.GetListaLaboratorios();
 
-        //[HttpGet]
-        //public ActionResult Editar(int idFacultad)
-        //{
-        //    if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico"))
-        //    {
-        //        ViewBag.facultad = facultadDataAccess.GetFacultadById(idFacultad);
-        //        return PartialView();
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Index", "Login", new { Area = "" });
-        //    }
-        //}
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
 
-        //[HttpPost]
-        //public ActionResult Editar(Facultad facultad)
-        //{
-        //    if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico"))
-        //    {
-        //        facultadDataAccess.UpdateFacultad(facultad);
-        //        return RedirectToAction("Index", "Facultad", new { Area = "" });
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Index", "Login", new { Area = "" });
-        //    }
-        //}
+        [HttpPost]
+        public ActionResult Crear(Hardware equipoComputoCpu, Hardware equipoComputoMonitor, Hardware equipoComputoTeclado, Hardware equipoComputoMouse, string idLaboratorio)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General"
+                    || SecurityHelper.GetAdministradorRol() == "Técnico"
+                    || SecurityHelper.GetAdministradorRol() == "Practicante"))
+            {
+                EquipoComputoViewModel model = new EquipoComputoViewModel();
+                model.equipoComputoCpu = equipoComputoCpu;
+                model.equipoComputoMonitor = equipoComputoMonitor;
+                model.equipoComputoTeclado = equipoComputoTeclado;
+                model.equipoComputoMouse = equipoComputoMouse;
 
-        //[HttpPost]
-        //public ActionResult Eliminar(int idFacultad)
-        //{
-        //    if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico"))
-        //    {
-        //        facultadDataAccess.DeleteFacultad(idFacultad);
-        //        return RedirectToAction("Index", "Facultad", new { Area = "" });
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Index", "Login", new { Area = "" });
-        //    }
-        //}
+                model.equipoComputoCpu.IdLaboratorio = int.Parse(idLaboratorio);
+                model.equipoComputoMonitor.IdLaboratorio = int.Parse(idLaboratorio);
+                model.equipoComputoTeclado.IdLaboratorio = int.Parse(idLaboratorio);
+                model.equipoComputoMouse.IdLaboratorio = int.Parse(idLaboratorio);
+
+                List<Hardware> equiposComputoList = new List<Hardware>();
+                equiposComputoList.Add(model.equipoComputoCpu);
+                equiposComputoList.Add(model.equipoComputoMonitor);
+                equiposComputoList.Add(model.equipoComputoTeclado);
+                equiposComputoList.Add(model.equipoComputoMouse);
+
+                hardwareDataAccess.CreateHardware(equiposComputoList);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Editar(string usuario)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General"
+                    || SecurityHelper.GetAdministradorRol() == "Técnico"
+                    || SecurityHelper.GetAdministradorRol() == "Practicante"))
+            {
+                EquipoComputoViewModel model = new EquipoComputoViewModel();
+
+                model.ListaEquiposComputoGetByUsuario = hardwareDataAccess.GetEquiposComputoByUsuario(usuario);
+                for (int i = 0; i < model.ListaEquiposComputoGetByUsuario.Count; i++)
+                {
+                    string tipoEquipoComputo = model.ListaEquiposComputoGetByUsuario[i].TipoEquipo;
+                    if (tipoEquipoComputo.Equals("CPU"))
+                    {
+                        model.equipoComputoCpu = model.ListaEquiposComputoGetByUsuario[i];
+                    }
+                    else if (tipoEquipoComputo.Equals("MONITOR"))
+                    {
+                        model.equipoComputoMonitor = model.ListaEquiposComputoGetByUsuario[i];
+                    }
+                    else if (tipoEquipoComputo.Equals("TECLADO"))
+                    {
+                        model.equipoComputoTeclado = model.ListaEquiposComputoGetByUsuario[i];
+                    }
+                    else if (tipoEquipoComputo.Equals("MOUSE"))
+                    {
+                        model.equipoComputoMouse = model.ListaEquiposComputoGetByUsuario[i];
+                    }
+                }
+
+                model.ListaFacultadesLaboratorio = facultadDataAccess.GetListaFacultades();
+                model.ListaLaboratorios = laboratorioDataAccess.GetListaLaboratorios();
+
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Editar(Hardware equipoComputoCpu, Hardware equipoComputoMonitor, Hardware equipoComputoTeclado, Hardware equipoComputoMouse, string idLaboratorio)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General"
+                    || SecurityHelper.GetAdministradorRol() == "Técnico"
+                    || SecurityHelper.GetAdministradorRol() == "Practicante"))
+            {
+                EquipoComputoViewModel model = new EquipoComputoViewModel();
+                model.equipoComputoCpu = equipoComputoCpu;
+                model.equipoComputoMonitor = equipoComputoMonitor;
+                model.equipoComputoTeclado = equipoComputoTeclado;
+                model.equipoComputoMouse = equipoComputoMouse;
+
+                model.equipoComputoCpu.IdLaboratorio = int.Parse(idLaboratorio);
+                model.equipoComputoMonitor.IdLaboratorio = int.Parse(idLaboratorio);
+                model.equipoComputoTeclado.IdLaboratorio = int.Parse(idLaboratorio);
+                model.equipoComputoMouse.IdLaboratorio = int.Parse(idLaboratorio);
+
+                model.ListaEquiposComputoGetByUsuario = hardwareDataAccess.GetEquiposComputoByUsuario(model.equipoComputoCpu.Usuario);
+                for (int i = 0; i < model.ListaEquiposComputoGetByUsuario.Count; i++)
+                {
+                    string tipoEquipoComputo = model.ListaEquiposComputoGetByUsuario[i].TipoEquipo;
+                    if (tipoEquipoComputo.Equals("CPU"))
+                    {
+                        model.equipoComputoCpu.IdHardware = model.ListaEquiposComputoGetByUsuario[i].IdHardware;
+                    }
+                    else if (tipoEquipoComputo.Equals("MONITOR"))
+                    {
+                        model.equipoComputoMonitor.IdHardware = model.ListaEquiposComputoGetByUsuario[i].IdHardware;
+                    }
+                    else if (tipoEquipoComputo.Equals("TECLADO"))
+                    {
+                        model.equipoComputoTeclado.IdHardware = model.ListaEquiposComputoGetByUsuario[i].IdHardware;
+                    }
+                    else if (tipoEquipoComputo.Equals("MOUSE"))
+                    {
+                        model.equipoComputoMouse.IdHardware = model.ListaEquiposComputoGetByUsuario[i].IdHardware;
+                    }
+                }
+
+                List<Hardware> equiposComputoList = new List<Hardware>();
+                equiposComputoList.Add(model.equipoComputoCpu);
+                equiposComputoList.Add(model.equipoComputoMonitor);
+                equiposComputoList.Add(model.equipoComputoTeclado);
+                equiposComputoList.Add(model.equipoComputoMouse);
+
+                hardwareDataAccess.UpdateHardware(equiposComputoList);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Eliminar(string usuario)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General"
+                    || SecurityHelper.GetAdministradorRol() == "Técnico"
+                    || SecurityHelper.GetAdministradorRol() == "Practicante"))
+            {
+                hardwareDataAccess.DeleteEquipoComputoByUsuario(usuario);
+                return RedirectToAction("Index", "EquipoComputo", new { Area = "" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
 
         //[HttpGet]
         //public string ExisteNombreFacultad(string nombreFacultad)

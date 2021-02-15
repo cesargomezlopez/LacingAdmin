@@ -203,6 +203,8 @@
     <Compile Include="Controllers\CarreraController.cs" />
     <Compile Include="Controllers\ConsultaController.cs" />
     <Compile Include="Controllers\EquipoComputoController.cs" />
+    <Compile Include="Controllers\EquipoGeneralController.cs" />
+    <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\DocenteController.cs" />
@@ -1302,10 +1304,19 @@
     <Content Include="Views\Consulta\ComboCursosPartial.cshtml" />
     <Content Include="Views\Horario\Editar.cshtml" />
     <Content Include="Views\Login\Autorizacion.cshtml" />
-    <Content Include="Views\EquipoComputo\Crear.cshtml" />
-    <Content Include="Views\EquipoComputo\Editar.cshtml" />
     <Content Include="Views\EquipoComputo\Index.cshtml" />
     <Content Include="Views\EquipoComputo\ListaEquiposComputoView.cshtml" />
+    <Content Include="Views\EquipoComputo\Crear.cshtml" />
+    <Content Include="Views\EquipoComputo\Editar.cshtml" />
+    <Content Include="Views\EquipoGeneral\Crear.cshtml" />
+    <Content Include="Views\EquipoGeneral\Index.cshtml" />
+    <Content Include="Views\EquipoGeneral\ListaEquiposGeneralView.cshtml" />
+    <Content Include="Views\EquipoGeneral\Editar.cshtml" />
+    <Content Include="Views\Inventario\Hardware.cshtml" />
+    <Content Include="Views\Inventario\ListaReporteGeneralPartial.cshtml" />
+    <Content Include="Views\Inventario\ReporteGeneralContent.cshtml" />
+    <Content Include="Views\Inventario\ListaReporteEquipoComputoPartial.cshtml" />
+    <Content Include="Views\Inventario\ListaReporteEquipoGeneralPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

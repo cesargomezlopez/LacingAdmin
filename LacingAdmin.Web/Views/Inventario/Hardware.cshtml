@@ -1,0 +1,246 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.EquipoComputoViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Reporte Hardware";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/App/ReporteGeneral.css" rel="stylesheet" />
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-file"></i>Hardware</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="row" style="justify-content: center">
+                            <!-- LAB FORM -->
+                            <div class="form-group somb col-12">
+                                <label for="inputEmail3" class="col-sm-auto control-label">Laboratorio</label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(model => model.idLaboratorio,
+                                       new SelectList(Model.ListaFacultadesLaboratorio, "IdFacultad", "NombreFacultad"), new { @class = "form-control", @id = "cbFacultadesLaboratorio", @onChange = "changeComboFacultadLaboratorio()" })
+                                    </div>
+                                    <div class="col-sm-6" id="divComboLaboratorios">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TIPO -->
+                        <div class="row" style="justify-content: center">
+                            <div class="form-group col-12">
+                                <label for="cbEstados" class="col-sm-auto control-label">Tipo de Equipo</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.DropDownList("cbTipoHardware", new SelectList(
+                                            new List<SelectListItem>
+                                            {
+                                                new SelectListItem { Value = "1", Text = "Equipo de Computo"},
+                                                new SelectListItem { Value = "0", Text = "Equipo en General"}
+                                            }
+                                       , "Value", "Text"), new { @class = "form-control", @id = "cbTipoHardware" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6" style="margin-bottom:15px;">
+                            <button onclick="buscarReporte()" class="btn btn-block btn-success"><i class="icon fa-search"></i> Buscar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-5 col-6">
+                        <button onclick="descargarReporte()" class="btn btn-block btn-success"><i class="icon fa-file-pdf-o"></i> Descargar</button>
+                    </div>
+                </div>
+                <br />
+                <!-- Panel de Resultados de Búsqueda -->
+                <div id="resultadoBusqueda">
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!--DatePicker-->
+        <script src="~/Scripts/jquery-3.3.1.js"></script>
+        <script src="~/Scripts/moment-with-locales.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+
+        <script src="~/Scripts/sweet-alert2.js"></script>
+
+        <script type="text/javascript">
+            var globalReporte = {};
+
+            $(document).ready(cargarEventos());
+
+            function changeComboFacultadLaboratorio() {
+                var idFacultad = $("#cbFacultadesLaboratorio").val();
+                if (idFacultad != null && idFacultad != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaLaboratoriosView", "Horario")",
+                        data: {
+                            "idFacultad": idFacultad
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboLaboratorios").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Laboratorios, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+            }
+
+            function cargarEventos() {
+                changeComboFacultadLaboratorio();
+            }
+
+            function listarEquiposComputo() {
+                var idLaboratorio = $("#cbLaboratorios").val();
+                globalReporte.idLaboratorio = idLaboratorio;
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ListaReporteEquipoComputoPartial", "Inventario", new { Area = ""})",
+                    data: {
+                        "idLaboratorio": idLaboratorio
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#resultadoBusqueda").html(result);
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                            '¡Error!',
+                            'No se pudo actualizar listado de Equipos de Cómputo, error: ' + error,
+                            'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            function listarEquiposGeneral() {
+                var idLaboratorio = $("#cbLaboratorios").val();
+                globalReporte.idLaboratorio = idLaboratorio;
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ListaReporteEquipoGeneralPartial", "Inventario", new { Area = ""})",
+                    data: {
+                        "idLaboratorio": idLaboratorio
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#resultadoBusqueda").html(result);
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                            '¡Error!',
+                            'No se pudo actualizar listado de Equipos, error: ' + error,
+                            'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            function buscarReporte() {
+                var tipoHardware = $("#cbTipoHardware").val();
+
+                if (tipoHardware == "1") {
+                    globalReporte.tipoHardware = "1";
+                    this.listarEquiposComputo();
+                } else if (tipoHardware == "0") {
+                    globalReporte.tipoHardware = "0";
+                    this.listarEquiposGeneral();
+                }
+            }
+
+
+
+            function descargarReporte() {
+                var tipoHardware = globalReporte.tipoHardware;
+                var idLaboratorio = globalReporte.idLaboratorio;
+
+                window.location.href = "/Inventario/DescargarReporteInventario?flgReporteEquipoComputo=" + tipoHardware + "&idLaboratorio=" + idLaboratorio;
+                setTimeout(() => {
+                    Swal.fire(
+                        '¡Listo!',
+                        'Se descargó el reporte.',
+                        'success'
+                    );
+                }, 2000);
+            }
+        </script>
+    }
+
+
+</body>
+</html>

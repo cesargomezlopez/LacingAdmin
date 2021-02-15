@@ -1,0 +1,204 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.EquipoComputoViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Agregar Equipo";
+}
+
+<div class="form-horizontal">
+
+    <div class="form-group col-12">
+        <label for="cbEstados" class="col-sm-auto control-label">Tipo</label>
+        <div class="row">
+            <div class="col-sm-12">
+                @Html.DropDownList("cbTipoEquipoGeneral", new SelectList(
+                    new List<SelectListItem>
+                    {
+                        new SelectListItem { Value = "Proyector", Text = "Proyector"},
+                        new SelectListItem { Value = "Pizarra", Text = "Pizarra"},
+                        new SelectListItem { Value = "Pizarra Interactiva", Text = "Pizarra Interactiva"},
+                        new SelectListItem { Value = "Televisor", Text = "Televisor"},
+                        new SelectListItem { Value = "Aire Acondicionado", Text = "Aire Acondicionado"}
+                    }
+               , "Value", "Text"), new { @class = "form-control", @id = "cbTipoEquipoGeneral" })
+
+            </div>
+        </div>
+    </div>
+
+    <!-- LAB FORM -->
+    <div class="form-group somb col-12">
+        <label for="inputEmail3" class="col-sm-auto control-label">Laboratorio</label>
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.DropDownListFor(model => model.idLaboratorio,
+               new SelectList(Model.ListaFacultadesLaboratorio, "IdFacultad", "NombreFacultad"), new { @class = "form-control", @id = "cbFacultadesLaboratorio", @onChange = "changeComboFacultadLaboratorio()" })
+            </div>
+            <div class="col-sm-6" id="divComboLaboratorios">
+            </div>
+        </div>
+    </div>
+
+    <!-- MOUSE FORM -->
+    <div class="col-12">
+        <div class="form-group somb">
+            <div class="row">
+                <div class="col-12 row mt-10">
+                    <div class="col-3">
+                        <label class="col-sm-auto control-label">Marca</label>
+                    </div>
+                    <div class="col-9">
+                        @Html.EditorFor(model => model.hardware.Marca, new { HtmlAttributes = new { @class = "form-control", @id = "txtMarcaHardware", @placeholder = "Marca", @autocomplete = "off" } })
+                    </div>
+                </div>
+
+                <div class="col-12 row mt-10">
+                    <div class="col-3">
+                        <label class="col-sm-auto control-label">Modelo</label>
+                    </div>
+                    <div class="col-9">
+                        @Html.EditorFor(model => model.hardware.Modelo, new { HtmlAttributes = new { @class = "form-control", @id = "txtModeloHardware", @placeholder = "Modelo", @autocomplete = "off" } })
+                    </div>
+                </div>
+
+                <div class="col-12 row mt-10">
+                    <div class="col-3">
+                        <label class="col-sm-auto control-label">Serie</label>
+                    </div>
+                    <div class="col-9">
+                        @Html.EditorFor(model => model.hardware.Serie, new { HtmlAttributes = new { @class = "form-control", @id = "txtSerieHardware", @placeholder = "Serie", @autocomplete = "off" } })
+                    </div>
+                </div>
+
+                <div class="col-12 row mt-10">
+                    <div class="col-3">
+                        <label class="col-sm-auto control-label">Inventario</label>
+                    </div>
+                    <div class="col-9">
+                        @Html.EditorFor(model => model.hardware.Inventario, new { HtmlAttributes = new { @class = "form-control", @id = "txtInventarioHardware", @placeholder = "Inventario", @autocomplete = "off" } })
+                    </div>
+                </div>
+
+                <div class="col-12 row mt-10">
+                    <div class="col-3">
+                        <label class="col-sm-auto control-label">Estado</label>
+                    </div>
+                    <div class="col-9">
+                        @Html.DropDownList("cbEstadosHardware", new SelectList(
+                            new List<SelectListItem>
+                            {
+                                new SelectListItem { Value = "Operativo", Text = "Operativo"},
+                                new SelectListItem { Value = "Inoperativo", Text = "Inoperativo"}
+                            }
+                       , "Value", "Text"), new { @class = "form-control", @id = "cbEstadosHardware" })
+                    </div>
+                </div>
+
+                <div class="col-12 row mt-10">
+                    <div class="col-3">
+                        <label class="col-sm-auto control-label">Observación</label>
+                    </div>
+                    <div class="col-9">
+                        @Html.TextAreaFor(model => model.hardware.Observacion, new { cols = 52, @rows = 4, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionHardware", @autocomplete = "off" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button onclick="postCrearEquipoGeneral()" class="btn btn-success">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var horarioGlobal = {};
+
+    $(document).ready(cargarEventos());
+
+    function changeComboFacultadLaboratorio() {
+        var idFacultad = $("#cbFacultadesLaboratorio").val();
+        if (idFacultad != null && idFacultad != "") {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("ListaLaboratoriosView", "Horario")",
+                data: {
+                    "idFacultad": idFacultad
+                },
+                beforeSend: function () {
+                    onBeginRequest();
+                },
+                success: function (result) {
+                    onCompleteRequest();
+                    $("#divComboLaboratorios").html(result);
+                },
+                error: function (error) {
+                    Swal.fire(
+                        '¡Error!',
+                        'No se pudo obtener listado de Laboratorios, error: ' + error,
+                        'error'
+                    );
+                    onCompleteRequest();
+                }
+            });
+        }
+    }
+
+    function cargarEventos() {
+        changeComboFacultadLaboratorio();
+    }
+
+
+    function postCrearEquipoGeneral() {
+        var idLaboratorio = $("#cbLaboratorios").val();
+        var hardware = {
+            "TipoEquipo": $("#cbTipoEquipoGeneral").val(),
+            "Marca": $("#txtMarcaHardware").val(),
+            "Modelo": $("#txtModeloHardware").val(),
+            "Serie": $("#txtSerieHardware").val(),
+            "Inventario": $("#txtInventarioHardware").val(),
+            "Observacion": $("#txtObservacionHardware").val(),
+            "Estado": "Operativo",
+            "FlgEquipoComputo": "0",
+            "Usuario": "Administrador"
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Crear", "EquipoGeneral")",
+            data: {
+                "hardware": hardware,
+                "idLaboratorio": idLaboratorio
+            },
+            beforeSend: function () {
+                lacing.helpers.CloseModal('CrearEquipoGeneralPopup');
+                onBeginRequest();
+            },
+            success: (result) => {
+                onCompleteRequest();
+                Swal.fire(
+                    '¡Listo!',
+                    'El Equipo ha sido creado exitosamente.',
+                    'success'
+                );
+                setTimeout(function () {
+                    window.location.href = "/EquipoGeneral";
+                }, 2000);
+            },
+            error: (error) => {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo crear el Equipo',
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    }
+</script>
+
+
+

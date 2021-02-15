@@ -2,62 +2,47 @@
 
 @{
     this.Model.contador = 0;
-    this.Model.lastUser = "";
 }
-@if (Model.ListaEquiposComputo != null && Model.ListaEquiposComputo.Count > 0)
+@if (Model.ListaEquiposGeneral != null && Model.ListaEquiposGeneral.Count > 0)
 {
     <div class="panel">
         <div class="panel-body">
-            <table class="table table-hover dataTable table-striped w-full" id="tableEquiposComputo" data-plugin="dataTable">
+            <table class="table table-hover dataTable table-striped w-full" id="tableEquiposGeneral" data-plugin="dataTable">
                 <thead>
                     <tr>
                         <th>N°</th>
-                        <th>ITEM</th>
+                        <th>TIPO</th>
                         <th>MARCA</th>
                         <th>MODELO</th>
                         <th>SERIE</th>
                         <th>INVENT.</th>
-                        <th>Proces.</th>
-                        <th>Veloc.</th>
-                        <th>RAM</th>
-                        <th>Disco D.</th>
-                        <th>T.video</th>
-                        <th>Usuario</th>
                         <th>Ubicación</th>
                         <th>Facultad</th>
-                        <th>Observación</th>
+                        <th>Estado</th>
+                        <th>Observaciones</th>
                         <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>N°</th>
-                        <th>ITEM</th>
+                        <th>TIPO</th>
                         <th>MARCA</th>
                         <th>MODELO</th>
                         <th>SERIE</th>
                         <th>INVENT.</th>
-                        <th>Proces.</th>
-                        <th>Veloc.</th>
-                        <th>RAM</th>
-                        <th>Disco D.</th>
-                        <th>T.video</th>
-                        <th>Usuario</th>
                         <th>Ubicación</th>
                         <th>Facultad</th>
-                        <th>Observación</th>
+                        <th>Estado</th>
+                        <th>Observaciones</th>
                     </tr>
                 </tfoot>
 
                 <tbody>
-                    @foreach (var item in Model.ListaEquiposComputo)
+                    @foreach (var item in Model.ListaEquiposGeneral)
                     {
                         {
-                            if (this.Model.lastUser != item.Usuario)
-                            {
-                                this.Model.contador++;
-                                this.Model.lastUser = item.Usuario;
-                            }
+                            this.Model.contador++;
                         }
                         <tr>
                             <td>@this.Model.contador</td>
@@ -66,18 +51,13 @@
                             <td>@item.Modelo</td>
                             <td>@item.Serie</td>
                             <td>@item.Inventario</td>
-                            <td>@item.Procesador</td>
-                            <td>@item.Velocidad</td>
-                            <td>@item.Ram</td>
-                            <td>@item.DiscoDuro</td>
-                            <td>@item.TarjetaVideo</td>
-                            <td>@item.Usuario</td>
                             <td>@item.NombreLaboratorio</td>
                             <td>@item.NombreFacultad</td>
+                            <td>@item.Estado</td>
                             <td>@item.Observacion</td>
                             <td>
-                                <a href="@Url.Action("Editar", "EquipoComputo", new { Area = "", usuario = item.Usuario})" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
-                                <a onclick="eliminarEquipoComputo('@item.Usuario')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+                                <a onclick="lacing.helpers.ShowModal('EditarEquipoGeneralPopup', '@Url.Action("Editar", "EquipoGeneral", new { Area = "", idHardware = item.IdHardware})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+                                <a onclick="eliminarEquipoGeneral('@item.IdHardware')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
                             </td>
                         </tr>
                     }
@@ -88,13 +68,13 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            lacing.helpers.UpdateDataTable("tableEquiposComputo");
+            lacing.helpers.UpdateDataTable("tableEquiposGeneral");
         });
     </script>
 }
 else
 {
     <div class="alert alert-info alerta" role="alert" style="width:100%; margin: 0 auto; text-align:center; font-size:14px">
-        No se obtuvieron registros de equipos de cómputo.
+        No se obtuvieron registros de equipos.
     </div>
 }
