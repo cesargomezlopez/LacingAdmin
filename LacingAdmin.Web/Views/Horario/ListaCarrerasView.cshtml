@@ -3,7 +3,7 @@
 @if (Model.ListaCarreras != null && Model.ListaCarreras.Count > 0)
 {
     //@onChange = "changeComboCarreraCurso()"
-    <select id="cbCarreras" class="form-control" onChange = "changeComboCarreraCurso()">
+    <select id="cbCarreras" class="form-control" onChange = "changeComboCarreraCurso(this)">
         <option value="0">Seleccionar Carrera</option>
         @foreach (var item in Model.ListaCarreras)
         {

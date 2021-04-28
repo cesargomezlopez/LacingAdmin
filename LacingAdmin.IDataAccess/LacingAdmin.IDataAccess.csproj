@@ -50,6 +50,7 @@
     <Compile Include="ICursoDataAccess.cs" />
     <Compile Include="IDocenteDataAccess.cs" />
     <Compile Include="IDocenteXCarreraDataAccess.cs" />
+    <Compile Include="ISoftwareDataAccess.cs" />
     <Compile Include="IHardwareDataAccess.cs" />
     <Compile Include="IFacultadDataAccess.cs" />
     <Compile Include="IHorarioDataAccess.cs" />

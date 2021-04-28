@@ -1,0 +1,249 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.SoftwareViewModel
+@using LacingAdmin.Web.Common
+@{
+    ViewBag.Title = "Reporte Software";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/App/ReporteGeneral.css" rel="stylesheet" />
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-file"></i>Software</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="row" style="justify-content: center">
+                            <!-- LAB FORM -->
+                            <div class="form-group somb col-6" style="padding: 0px 40px;">
+                                <label for="cbFacultadesLaboratorio" class="col-sm-auto control-label">Facultad</label>
+                                <div class="row">
+                                    <div class="col-12">
+                                        @Html.DropDownListFor(model => model.idLaboratorio,
+                                       new SelectList(Model.ListaFacultadesLaboratorio, "IdFacultad", "NombreFacultad"), new { @class = "form-control", @id = "cbFacultadesLaboratorio", @onChange = "changeComboFacultadLaboratorio()" })
+                                    </div>
+                                    <div class="col-12">
+                                        <button onclick="buscarSoftwares(1)" class="btn btn-block btn-success" style="width: 30%; margin-top: 15px; margin-bottom: 15px;"><i class="icon fa-search"></i>Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group somb col-6" style="padding: 0px 40px;">
+                                <label for="txtNombreSoftware" class="col-sm-auto control-label">Laboratorio</label>
+                                <div class="row">
+                                    <div class="col-12" id="divComboLaboratorios">
+                                    </div>
+                                    <div class="col-12">
+                                        <button onclick="buscarSoftwares(2)" class="btn btn-block btn-success" style="width: 30%; margin-top: 15px; margin-bottom: 15px;"><i class="icon fa-search"></i>Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group somb col-6" style="padding: 0px 40px;">
+                                <label for="txtNombreSoftware" class="col-sm-auto control-label">Nombre de software</label>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" id="txtNombreSoftware" class="form-control" autocomplete="off">
+                                    </div>
+                                    <div class="col-12">
+                                        <button onclick="buscarSoftwares(3)" class="btn btn-block btn-success" style="width: 30%; margin-top: 15px; margin-bottom: 15px;"><i class="icon fa-search"></i>Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group somb col-6" style="padding: 0px 40px;">
+                                <label for="cbTipoSoftware" class="col-sm-auto control-label">Tipo de Software</label>
+                                <div class="row">
+                                    <div class="col-12">
+                                        @Html.DropDownList("cbTipoSoftware", new SelectList(
+                                            new List<SelectListItem>
+                                            {
+                                                new SelectListItem { Value = "Libre", Text = "Libre"},
+                                                new SelectListItem { Value = "Licenciado", Text = "Licenciado"}
+                                            }
+                                       , "Value", "Text"), new { @class = "form-control", @id = "cbTipoSoftware" })
+                                    </div>
+                                    <div class="col-12">
+                                        <button onclick="buscarSoftwares(4)" class="btn btn-block btn-success" style="width: 30%; margin-top: 15px; margin-bottom: 15px;"><i class="icon fa-search"></i>Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-5 col-6">
+                        <button onclick="descargarReporte()" class="btn btn-block btn-success"><i class="icon fa-file-pdf-o"></i> Descargar</button>
+                    </div>
+                </div>
+                <br />
+                <!-- Panel de Resultados de Búsqueda -->
+                <div id="resultadoBusqueda">
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!--DatePicker-->
+        <script src="~/Scripts/jquery-3.3.1.js"></script>
+        <script src="~/Scripts/moment-with-locales.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+
+        <script src="~/Scripts/sweet-alert2.js"></script>
+
+        <script type="text/javascript">
+            var globalReporte = {};
+
+            $(document).ready(cargarEventos());
+
+            function changeComboFacultadLaboratorio() {
+                var idFacultad = $("#cbFacultadesLaboratorio").val();
+                if (idFacultad != null && idFacultad != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaLaboratoriosView", "Horario")",
+                        data: {
+                            "idFacultad": idFacultad
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboLaboratorios").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Laboratorios, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+            }
+
+            function cargarEventos() {
+                changeComboFacultadLaboratorio();
+            }
+
+            function buscarSoftwares(numFiltro) {
+                // numFiltro 1: Filtro por facultad
+                // numFiltro 2: Filtro por laboratorio
+                // numFiltro 3: Filtro por nombre de software
+                // numFiltro 4: Filtro por tipo de software
+                var idFacultad = "";
+                var idLaboratorio = "";
+                var nombreSoftware = "";
+                var tipoSoftware = "";
+                if (numFiltro == 1) {
+                    idFacultad = $("#cbFacultadesLaboratorio").val();
+                } else if (numFiltro == 2) {
+                    idLaboratorio = $("#cbLaboratorios").val();
+                } else if (numFiltro == 3) {
+                    nombreSoftware = $("#txtNombreSoftware").val();
+                } else if (numFiltro == 4) {
+                    tipoSoftware = $("#cbTipoSoftware").val();
+                }
+
+                globalReporte.idFacultad = idFacultad;
+                globalReporte.idLaboratorio = idLaboratorio;
+                globalReporte.nombreSoftware = nombreSoftware;
+                globalReporte.tipoSoftware = tipoSoftware;
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("ListaReporteSoftwarePartial", "Inventario", new { Area = ""})",
+                    data: {
+                        "idFacultad": idFacultad,
+                        "idLaboratorio": idLaboratorio,
+                        "nombreSoftware": nombreSoftware,
+                        "tipoSoftware": tipoSoftware
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        $("#resultadoBusqueda").html(result);
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                            '¡Error!',
+                            'No se pudo actualizar listado de Software, error: ' + error,
+                            'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+
+            function descargarReporte() {
+                var idFacultad = globalReporte.idFacultad;
+                var idLaboratorio = globalReporte.idLaboratorio;
+                var nombreSoftware = globalReporte.nombreSoftware;
+                var tipoSoftware = globalReporte.tipoSoftware;
+
+                window.location.href = "/Inventario/DescargarReporteInventarioSoftware?idFacultad=" + idFacultad + "&idLaboratorio=" + idLaboratorio + "&nombreSoftware=" + nombreSoftware + "&tipoSoftware=" + tipoSoftware;
+                setTimeout(() => {
+                    Swal.fire(
+                        '¡Listo!',
+                        'Se descargó el reporte.',
+                        'success'
+                    );
+                }, 2000);
+            }
+        </script>
+    }
+
+
+</body>
+</html>

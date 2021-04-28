@@ -1,0 +1,319 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.SoftwareViewModel
+@using LacingAdmin.Web.Common
+
+@{
+    ViewBag.Title = "Crear Software";
+    ViewBag.Panel = true;
+}
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <!-- Plugins -->
+    <link href="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/main/assets/examples/css/tables/datatable.css" rel="stylesheet" />
+
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <style>
+        .row {
+            margin-left: 20px;
+        }
+
+        .somb {
+            box-shadow: 0px 0px 5px 0px #444;
+            padding: 10px 20px 10px 5px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+            color: #60676d;
+        }
+    </style>
+</head>
+<body class="animsition site-navbar-small ">
+    @if (SecurityHelper.GetAdministradorID() > 0)
+    {
+        <!-- Page -->
+        <div class="page">
+            <div class="page-header">
+                <h1 class="page-title"><i class="icon fa-book"></i>Nuevo Software</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="form-horizontal row" style="">
+                    @Html.HiddenFor(model => model.Software.IdSoftware)
+
+                    <!-- SOFTWARE FORM -->
+                    <div class="form-group somb row col-12" style="margin: 15px 0px; height: 100px;">
+                        <div class="col-4">
+                            <label for="inputEmail3" class="col-sm-auto control-label">Nombre</label>
+                            <div class="input-group" style="padding-left: 30px;">
+                                @Html.EditorFor(model => model.Software.Nombre, new { HtmlAttributes = new { @class = "form-control", @id = "txtNombreSoftware", @placeholder = "Nombre del software", @autocomplete = "off" } })
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label for="inputEmail3" class="col-sm-auto control-label">Versión</label>
+                            <div class="input-group" style="padding-left: 30px;">
+                                @Html.EditorFor(model => model.Software.Version, new { HtmlAttributes = new { @class = "form-control", @id = "txtVersionSoftware", @placeholder = "Versión del software", @autocomplete = "off" } })
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label for="cbTipoSoftware" class="col-sm-auto control-label">Tipo</label>
+                            <div class="input-group" style="padding-left: 30px;">
+                                @Html.DropDownList("cbTipoSoftware", new SelectList(new List<SelectListItem>
+                                    {
+                                        new SelectListItem { Value = "Libre", Text = "Libre"},
+                                        new SelectListItem { Value = "Licenciado", Text = "Licenciado"}
+                                    }
+                               , "Value", "Text"), new { @class = "form-control", @id = "cbTipoSoftware" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group somb col-12" style="margin: 15px 0px; height: 100px;">
+                        <label for="cbFacultadesLaboratorio" class="col-sm-auto control-label">Facultad</label>
+                        <div class="input-group" style="padding-left: 30px;">
+                            @Html.DropDownListFor(model => model.idLaboratorio,
+                                       new SelectList(Model.ListaFacultadesLaboratorioForm, "IdFacultad", "NombreFacultad"), new { @class = "form-control", @id = "cbFacultadesLaboratorio", @onChange = "changeComboFacultadLaboratorio()" })
+                        </div>
+                    </div>
+
+                    <div class="row col-12" style="margin: 15px 0px;">
+                        <!-- CARRERA FORM -->
+                        <div class="form-group somb col-5" style="margin-right: 50px; margin-left: 75px;">
+                            <label class="col-sm-auto control-label">Carrera</label>
+                            <div class="row">
+                                <div class="row col-sm-7" style="margin-left: 0px; padding-left: 0px;">
+                                    <div class="col-sm-10" id="divComboCarreras">
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button id="btnAddCarrera" class="btn btn-success" style="border-radius: 20px">+</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <textarea id="txtareaCarrerasList" name="txtareaCarrerasList" rows="10" cols="25"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- LAB FORM -->
+                        <div class="form-group somb col-5">
+                            <label class="col-sm-auto control-label">Laboratorio</label>
+                            <div class="row">
+                                <div class="row col-sm-7" style="margin-left: 0px; padding-left: 0px;">
+                                    <div class="col-sm-10" id="divComboLaboratorios">
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button id="btnAddLaboratorio" class="btn btn-success" style="border-radius: 20px">+</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <textarea id="txtareaLaboratoriosList" name="txtareaLaboratoriosList" rows="10" cols="25"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin: auto; display: block;">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="btnCrearSoftware" class="btn btn-success">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+    }
+
+
+    @section scriptsAdicionales{
+        <!-- Plugins -->
+        <script src="~/Content/themes/main/global/vendor/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+        <script src="~/Content/themes/main/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+        <script src="~/Content/themes/main/global/vendor/asrange/jquery-asRange.min.js"></script>
+        <script src="~/Content/themes/main/global/vendor/bootbox/bootbox.js"></script>
+
+        <!-- Page -->
+        <script src="~/Content/themes/main/global/js/Plugin/datatables.js"></script>
+        <script src="~/Content/themes/main/assets/examples/js/tables/datatable.js"></script>
+        <script src="~/Scripts/App/Views/CursoView.js"></script>
+        <script src="~/Scripts/sweet-alert2.js"></script>
+        <script src="~/Scripts/jquery-ui.js"></script>
+
+        <script type="text/javascript">
+            var softwareGlobal = {};
+
+            $(document).ready(cargarEventos());
+
+            function changeComboFacultadLaboratorio() {
+                var idFacultad = $("#cbFacultadesLaboratorio").val();
+
+                if (idFacultad != null && idFacultad != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaLaboratoriosView", "Horario")",
+                        data: {
+                            "idFacultad": idFacultad
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboLaboratorios").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Laboratorios, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+
+                // Code from method changeComboFacultadCurso()
+                if (idFacultad != null && idFacultad != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaCarrerasView", "Horario")",
+                        data: {
+                            "idFacultad": idFacultad
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#divComboCarreras").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo obtener listado de Carreras, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
+            }
+
+            function changeCbLabotoriosSelected(sel) {
+                softwareGlobal.laboratorioSelectedText = sel.options[sel.selectedIndex].text;
+            }
+
+            function changeComboCarreraCurso(sel) {
+                softwareGlobal.carreraSelectedText = sel.options[sel.selectedIndex].text;
+            }
+
+            $("#btnAddCarrera").on("click", function () {
+                var idCarrera = $("#cbCarreras").val();
+
+                if (idCarrera != null && idCarrera != "" && idCarrera != "0" && idCarrera != 0) {
+                    var textoCarrerasList = $("#txtareaCarrerasList").val();
+                    if (textoCarrerasList == null || textoCarrerasList == "") {
+                        textoCarrerasList = softwareGlobal.carreraSelectedText;
+                    } else if (textoCarrerasList.includes(softwareGlobal.carreraSelectedText)) {
+                        textoCarrerasList = textoCarrerasList;
+                    } else {
+                        textoCarrerasList = textoCarrerasList + "\n" + softwareGlobal.carreraSelectedText;
+                    }
+
+                    $("#txtareaCarrerasList").val(textoCarrerasList);
+                }
+            })
+
+            $("#btnAddLaboratorio").on("click", function () {
+                var idLaboratorio = $("#cbLaboratorios").val();
+
+                if (idLaboratorio != null && idLaboratorio != "" && idLaboratorio != "0" && idLaboratorio != 0) {
+                    var textoLaboratoriosList = $("#txtareaLaboratoriosList").val();
+                    if (textoLaboratoriosList == null || textoLaboratoriosList == "") {
+                        textoLaboratoriosList = softwareGlobal.laboratorioSelectedText;
+                    } else if (textoLaboratoriosList.includes(softwareGlobal.laboratorioSelectedText)) {
+                        textoLaboratoriosList = textoLaboratoriosList;
+                    } else {
+                        textoLaboratoriosList = textoLaboratoriosList + "\n" + softwareGlobal.laboratorioSelectedText;
+                    }
+
+                    $("#txtareaLaboratoriosList").val(textoLaboratoriosList);
+                }
+            })
+
+            $("#btnCrearSoftware").on("click", function () {
+                var software = {
+                    "Nombre": $("#txtNombreSoftware").val(),
+                    "Version": $("#txtVersionSoftware").val(),
+                    "Tipo": $("#cbTipoSoftware").val(),
+                    "LaboratoriosStringList": $("#txtareaLaboratoriosList").val(),
+                    "CarrerasStringList": $("#txtareaCarrerasList").val()
+                };
+                $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Crear", "Software")",
+                        data: {
+                            "software": software
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            Swal.fire(
+                                    '¡Listo!',
+                                    'Se creó el software exitosamente',
+                                    'success'
+                            );
+                            setTimeout(function(){
+                                window.location.href = "@Url.Action("Index", "Software")";
+                            }, 2000);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                    '¡Error!',
+                                    'No se pudo crear el software, error: ' + error,
+                                    'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+            });
+
+            function cargarEventos() {
+                softwareGlobal.flgEvents = 0;
+
+                changeComboFacultadLaboratorio();
+
+                softwareGlobal.flgEvents = 1;
+            }
+        </script>
+    }
+
+</body>
+</html>
+
+
+
+

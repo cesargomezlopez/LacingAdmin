@@ -33,6 +33,7 @@ namespace LacingAdmin.Web.App_Start
             container.Register<IReporteDataAccess, ReporteDataAccess>();
             container.Register<IConsultaDataAccess, ConsultaDataAccess>();
             container.Register<IHardwareDataAccess, HardwareDataAccess>();
+            container.Register<ISoftwareDataAccess, SoftwareDataAccess>();
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.Verify();

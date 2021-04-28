@@ -1,0 +1,123 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.SoftwareViewModel
+
+<html>
+<head>
+    <link href="~/Content/themes/main/assets/css/site.min.css" rel="stylesheet" />
+    
+    <style>
+        html {
+            min-height: 100%;
+            position: relative;
+        }
+
+        body {
+            margin: 0;
+            margin-bottom: 40px;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+        }
+
+        .centerdata {
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="padding-top:25px;">
+    <div class="row" style="height:120px">
+        <div style="text-align:left; width:20%; float:left">
+            <img style="height:90px" src="~/Content/lacing/urp_logo_png.png" />
+        </div>
+        <div style="text-align:center; width:60%; float:left">
+            <h1 style="font-size:34px">Reporte General Lacing</h1>
+        </div>
+        <div style="text-align:right; width:20%; float:right">
+            <img style="height:80px" src="~/Content/lacing/logo-lacing.png" />
+        </div>
+    </div>
+    <div class="row">
+        @if (Model.ListaSoftware != null && Model.ListaSoftware.Count > 0)
+        {
+            {
+                this.Model.contador = 0;
+            }
+            <table border="1" class="table table-hover dataTable table-striped w-full" id="tableSoftwares" data-plugin="dataTable">
+                <thead>
+                    <tr>
+                        <th>ITEM</th>
+                        <th>SOFTWARE</th>
+                        <th>VERSION</th>
+                        <th>UBICACIÓN</th>
+                        <th>FACULTAD</th>
+                        <th>CARRERA</th>
+                        <th>TIPO</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>ITEM</th>
+                        <th>SOFTWARE</th>
+                        <th>VERSION</th>
+                        <th>UBICACIÓN</th>
+                        <th>FACULTAD</th>
+                        <th>CARRERA</th>
+                        <th>TIPO</th>
+                    </tr>
+                </tfoot>
+
+                <tbody>
+                    @foreach (var item in Model.ListaSoftware)
+                    {
+                        {
+                            this.Model.contador++;
+                        }
+                        <tr>
+                            <td class="centerdata">@this.Model.contador</td>
+                            <td class="centerdata">@item.Nombre</td>
+                            <td class="centerdata">@item.Version</td>
+                            <td class="centerdata">
+                                @foreach (var itemLab in item.ListaLaboratorios)
+                                {
+                                    <ul>
+                                        <li>@itemLab.NombreLaboratorio</li>
+                                    </ul>
+                                }
+                            </td>
+                            <td class="centerdata">@item.NombreFacultad</td>
+                            <td class="centerdata">
+                                @foreach (var itemCar in item.ListaCarreras)
+                                {
+                                    <ul>
+                                        <li>@itemCar.NombreCarrera</li>
+                                    </ul>
+                                }
+                            </td>
+                            <td class="centerdata">@item.Tipo</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info alerta" role="alert" style="width:100%; margin: 0 auto; text-align:center; font-size:14px">
+                No se obtuvieron registros de softwares.
+            </div>
+        }
+    </div>
+    <footer>
+        @*<p style="font-size:14px">Generado el @DateTime.Now.ToString("dd/MM/yyyy hh:mm")</p>*@
+        <div class="site-footer-legal">© 2021 Lacing Administrador</div>
+    </footer>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        lacing.helpers.UpdateDataTable("tableSoftwares");
+    });
+</script>

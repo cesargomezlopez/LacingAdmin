@@ -1,0 +1,85 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.SoftwareViewModel
+
+@{
+    this.Model.contador = 0;
+}
+@if (Model.ListaSoftware != null && Model.ListaSoftware.Count > 0)
+{
+    <div class="panel">
+        <div class="panel-body">
+            <table class="table table-hover dataTable table-striped w-full" id="tableSoftwares" data-plugin="dataTable">
+                <thead>
+                    <tr>
+                        <th>ITEM</th>
+                        <th>SOFTWARE</th>
+                        <th>VERSION</th>
+                        <th>UBICACIÓN</th>
+                        <th>FACULTAD</th>
+                        <th>CARRERA</th>
+                        <th>TIPO</th>
+                        <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>ITEM</th>
+                        <th>SOFTWARE</th>
+                        <th>VERSION</th>
+                        <th>UBICACIÓN</th>
+                        <th>FACULTAD</th>
+                        <th>CARRERA</th>
+                        <th>TIPO</th>
+                    </tr>
+                </tfoot>
+
+                <tbody>
+                    @foreach (var item in Model.ListaSoftware)
+                    {
+                        {
+                            this.Model.contador++;
+                        }
+                        <tr>
+                            <td>@this.Model.contador</td>
+                            <td>@item.Nombre</td>
+                            <td>@item.Version</td>
+                            <td>
+                                @foreach (var itemLab in item.ListaLaboratorios)
+                                {
+                                    <ul>
+                                        <li>@itemLab.NombreLaboratorio</li>
+                                    </ul>
+                                }
+                            </td>
+                            <td>@item.NombreFacultad</td>
+                            <td>
+                                @foreach (var itemCar in item.ListaCarreras)
+                                {
+                                    <ul>
+                                        <li>@itemCar.NombreCarrera</li>
+                                    </ul>
+                                }
+                            </td>
+                            <td>@item.Tipo</td>
+                            <td>
+                                <a href="@Url.Action("Editar", "Software", new { Area = "", idSoftware = item.IdSoftware})" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+                                <a onclick="eliminarSoftware('@item.IdSoftware')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            lacing.helpers.UpdateDataTable("tableSoftwares");
+        });
+    </script>
+}
+else
+{
+    <div class="alert alert-info alerta" role="alert" style="width:100%; margin: 0 auto; text-align:center; font-size:14px">
+        No se obtuvieron registros de softwares.
+    </div>
+}

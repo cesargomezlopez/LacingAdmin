@@ -1,7 +1,7 @@
-﻿@model LacingAdmin.Web.Models.ViewModels.EquipoComputoViewModel
+﻿@model LacingAdmin.Web.Models.ViewModels.SoftwareViewModel
 @using LacingAdmin.Web.Common
 @{
-    ViewBag.Title = "Equipos de cómputo";
+    ViewBag.Title = "Software";
     ViewBag.Panel = true;
 }
 
@@ -35,19 +35,19 @@
         <!-- Page -->
         <div class="page">
             <div class="page-header">
-                <h1 class="page-title"><i class="icon fa-building"></i>Equipos de Cómputo</h1>
+                <h1 class="page-title"><i class="icon fa-building"></i>Software</h1>
             </div>
 
             <div class="page-content">
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12">
-                        <button onclick="redirectCrearEquipoComputo()" class="btn btn-block btn-success btnAgregar"><i class="icon wb-plus"></i> Agregar Equipo de Cómputo</button>
+                        <button onclick="redirectCrearSoftware()" class="btn btn-block btn-success btnAgregar"><i class="icon wb-plus"></i> Agregar Software</button>
                     </div>
                 </div>
                 <br />
-                <!-- Panel Listado de Equipos de Cómputo -->
-                <div id="listadoEquiposComputo">
-                    @Html.Action("ListaEquiposComputoView", "EquipoComputo", new { Area = "" })
+                <!-- Panel Listado de Softwares -->
+                <div id="listadoSoftwares">
+                    @Html.Action("ListaSoftwaresView", "Software", new { Area = "" })
                 </div>
             </div>
         </div>
@@ -79,11 +79,11 @@
         <script src="~/Scripts/sweet-alert2.js"></script>
 
         <script type="text/javascript">
-            function redirectCrearEquipoComputo() {
-                window.location.href = "@Url.Action("Crear", "EquipoComputo")";
+            function redirectCrearSoftware() {
+                window.location.href = "@Url.Action("Crear", "Software")";
             }
 
-            function eliminarEquipoComputo(nombreUsuarioComputo) {
+            function eliminarSoftware(idSoftware) {
                 Swal.fire({
                   title: '¿Estás seguro?',
                   text: "¡No podrás revertir los cambios!",
@@ -96,9 +96,9 @@
                     if (result.value) {
                         $.ajax({
                             type: "POST",
-                            url: "@Url.Action("Eliminar", "EquipoComputo")",
+                            url: "@Url.Action("Eliminar", "Software")",
                             data: {
-                                "usuario": nombreUsuarioComputo
+                                "idSoftware": idSoftware
                             },
                             beforeSend: function () {
                                 onBeginRequest();
@@ -107,25 +107,15 @@
                                 onCompleteRequest();
                                 Swal.fire(
                                     '¡Eliminado!',
-                                    'El Equipo de cómputo ha sido eliminado.',
+                                    'El Software ha sido eliminado.',
                                     'success'
                                 );
-                                $.ajax({
-                                    type: "GET",
-                                    url: "@Url.Action("ListaEquiposComputoView", "EquipoComputo", new { Area = ""})",
-                                    beforeSend: function () {
-                                        onBeginRequest();
-                                    },
-                                    success: function (result) {
-                                        onCompleteRequest();
-                                        $("#listadoEquiposComputo").html(result)
-                                    }
-                                });
+                                window.location.href = "/Software";
                             },
                             error: function (error) {
                                 Swal.fire(
                                     '¡Error!',
-                                    'No se pudo eliminar el equipo de cómputo, error: ' + error,
+                                    'No se pudo eliminar el software, error: ' + error,
                                     'error'
                                 );
                                 onCompleteRequest();
@@ -136,7 +126,6 @@
             }
         </script>
     }
-
 </body>
 </html>
 

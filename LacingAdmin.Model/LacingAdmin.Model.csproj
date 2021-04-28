@@ -54,6 +54,9 @@
     <Compile Include="Grupo.cs" />
     <Compile Include="Hardware.cs" />
     <Compile Include="Horario.cs" />
+    <Compile Include="SoftwareXCarrera.cs" />
+    <Compile Include="SoftwareXLaboratorio.cs" />
+    <Compile Include="Software.cs" />
     <Compile Include="Laboratorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReporteGeneral.cs" />

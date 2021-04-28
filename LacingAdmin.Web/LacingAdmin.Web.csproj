@@ -203,6 +203,7 @@
     <Compile Include="Controllers\CarreraController.cs" />
     <Compile Include="Controllers\ConsultaController.cs" />
     <Compile Include="Controllers\EquipoComputoController.cs" />
+    <Compile Include="Controllers\SoftwareController.cs" />
     <Compile Include="Controllers\EquipoGeneralController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Models\ViewModels\CarreraViewModel.cs" />
     <Compile Include="Models\ViewModels\ConsultaViewModel.cs" />
     <Compile Include="Models\ViewModels\CursoViewModel.cs" />
+    <Compile Include="Models\ViewModels\SoftwareViewModel.cs" />
     <Compile Include="Models\ViewModels\EquipoComputoViewModel.cs" />
     <Compile Include="Models\ViewModels\FacultadViewModel.cs" />
     <Compile Include="Models\ViewModels\DocenteViewModel.cs" />
@@ -1317,6 +1319,13 @@
     <Content Include="Views\Inventario\ReporteGeneralContent.cshtml" />
     <Content Include="Views\Inventario\ListaReporteEquipoComputoPartial.cshtml" />
     <Content Include="Views\Inventario\ListaReporteEquipoGeneralPartial.cshtml" />
+    <Content Include="Views\Software\Index.cshtml" />
+    <Content Include="Views\Software\ListaSoftwaresView.cshtml" />
+    <Content Include="Views\Inventario\Software.cshtml" />
+    <Content Include="Views\Inventario\ListaReporteSoftwarePartial.cshtml" />
+    <Content Include="Views\Inventario\ReporteSoftwareContent.cshtml" />
+    <Content Include="Views\Software\Crear.cshtml" />
+    <Content Include="Views\Software\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

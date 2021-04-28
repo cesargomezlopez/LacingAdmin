@@ -332,7 +332,7 @@
                 }
             }
 
-            function changeComboCarreraCurso() {
+            function changeComboCarreraCurso(sel) { // Se agrego parametro para uso del option selected en software, sin uso en esta parte
                 var idCarrera = $("#cbCarreras").val();
                 if (idCarrera != null && idCarrera != "") {
                     $.ajax({
@@ -541,7 +541,7 @@
 
                 changeComboFacultadLaboratorio();
                 changeComboFacultadCurso();
-                changeComboCarreraCurso();
+                changeComboCarreraCurso(horarioGlobal.flgEvents); // Se agrego parametro para uso del option selected en software, sin uso en esta parte
                 changeComboCurso();
                 changeComboGrupo();
                 

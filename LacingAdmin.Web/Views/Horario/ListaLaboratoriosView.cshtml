@@ -2,7 +2,7 @@
 
 @if (Model.ListaLaboratorios != null && Model.ListaLaboratorios.Count > 0)
 {
-    <select id="cbLaboratorios" class="form-control">
+    <select id="cbLaboratorios" class="form-control" onChange="changeCbLabotoriosSelected(this);">
         <option value="0">Seleccionar Laboratorio</option>
         @foreach (var item in Model.ListaLaboratorios)
         {
