@@ -27,6 +27,13 @@ namespace LacingAdmin.Web.Areas.Alumnos.Controllers
         {
             if (SecurityHelper.GetAlumnoID() > 0)
             {
+                string numeroCiclo = "0";
+                DateTime date = DateTime.Now;
+                int month = date.Month;
+                int year = date.Year;
+                numeroCiclo = month > 2 && month < 8 ? "I" : "II";
+                this.ViewBag.ciclo = numeroCiclo;
+                this.ViewBag.year = year;
                 return View();
             }
             else
