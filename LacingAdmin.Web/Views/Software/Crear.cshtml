@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <textarea id="txtareaCarrerasList" name="txtareaCarrerasList" rows="10" cols="25"></textarea>
+                                    <textarea id="txtareaCarrerasList" name="txtareaCarrerasList" rows="10" cols="25" oninput="validateFacultadSelected()"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <textarea id="txtareaLaboratoriosList" name="txtareaLaboratoriosList" rows="10" cols="25"></textarea>
+                                    <textarea id="txtareaLaboratoriosList" name="txtareaLaboratoriosList" rows="10" cols="25" oninput="validateFacultadSelected()"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -164,6 +164,16 @@
             var softwareGlobal = {};
 
             $(document).ready(cargarEventos());
+
+            function validateFacultadSelected() {
+                document.getElementById("cbFacultadesLaboratorio").disabled = true;
+
+                var carreraTextAreaValue = $("#txtareaCarrerasList").val();
+                var laboratorioTextAreaValue = $("#txtareaLaboratoriosList").val();
+                if (carreraTextAreaValue == "" && laboratorioTextAreaValue == "") {
+                    $("#cbFacultadesLaboratorio").removeAttr("disabled");
+                }
+            }
 
             function changeComboFacultadLaboratorio() {
                 var idFacultad = $("#cbFacultadesLaboratorio").val();
@@ -243,6 +253,8 @@
 
                     $("#txtareaCarrerasList").val(textoCarrerasList);
                 }
+
+                validateFacultadSelected();
             })
 
             $("#btnAddLaboratorio").on("click", function () {
@@ -260,6 +272,8 @@
 
                     $("#txtareaLaboratoriosList").val(textoLaboratoriosList);
                 }
+
+                validateFacultadSelected();
             })
 
             $("#btnCrearSoftware").on("click", function () {
