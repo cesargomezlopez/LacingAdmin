@@ -50,10 +50,16 @@ namespace LacingAdmin.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ListaReporteEquipoComputoPartial(string idLaboratorio)
+        public ActionResult ListaReporteEquipoComputoPartial(string idLaboratorio, string nombreUsuario)
         {
             EquipoComputoViewModel model = new EquipoComputoViewModel();
-            model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipo(int.Parse(idLaboratorio), "1");
+            if (String.IsNullOrEmpty(nombreUsuario))
+            {
+                model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipo(int.Parse(idLaboratorio), "1");
+            } else
+            {
+                model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipoAndNombreUsuario(int.Parse(idLaboratorio), "1", nombreUsuario);
+            }
             return PartialView(model);
         }
 
@@ -66,14 +72,21 @@ namespace LacingAdmin.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ReporteGeneralContent(string flgReporteEquipoComputo, string idLaboratorio)
+        public ActionResult ReporteGeneralContent(string flgReporteEquipoComputo, string idLaboratorio, string nombreUsuario)
         {
             EquipoComputoViewModel model = new EquipoComputoViewModel();
 
             if (flgReporteEquipoComputo == "1")
             {
-                model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipo(int.Parse(idLaboratorio), "1");
-                return PartialView(model);
+                if (!String.IsNullOrEmpty(nombreUsuario))
+                {
+                    model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipoAndNombreUsuario(int.Parse(idLaboratorio), "1", nombreUsuario);
+                    return PartialView(model);
+                } else
+                {
+                    model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipo(int.Parse(idLaboratorio), "1");
+                    return PartialView(model);
+                }
             }
             else
             {
@@ -82,13 +95,13 @@ namespace LacingAdmin.Web.Controllers
             }
         }
 
-        public ActionResult DescargarReporteInventario(string flgReporteEquipoComputo, string idLaboratorio)
+        public ActionResult DescargarReporteInventario(string flgReporteEquipoComputo, string idLaboratorio, string nombreUsuario)
         {
             if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General"
                     || SecurityHelper.GetAdministradorRol() == "Técnico"
                     || SecurityHelper.GetAdministradorRol() == "Practicante"))
             {
-                return new ActionAsPdf("ReporteGeneralContent", new { flgReporteEquipoComputo = flgReporteEquipoComputo, idLaboratorio = idLaboratorio }) { FileName = "ReporteInventarioEquipoComputoLacing.pdf" };
+                return new ActionAsPdf("ReporteGeneralContent", new { flgReporteEquipoComputo = flgReporteEquipoComputo, idLaboratorio = idLaboratorio, nombreUsuario = nombreUsuario }) { FileName = "ReporteInventarioEquipoComputoLacing.pdf" };
             }
             else
             {

@@ -277,5 +277,48 @@ namespace LacingAdmin.DataAccess
             return listaEquiposComputo;
         }
 
+
+        public List<Hardware> GetListaHardwareByLaboratorioAndTipoAndNombreUsuario(int idLaboratorio, string flgEquipoComputo, string nombreUsuario)
+        {
+            List<Hardware> listaEquiposComputo = new List<Hardware>();
+
+            using (DbCommand command = Database.GetStoredProcCommand("[dbo].[SP_GET_LISTA_HARDWARE_BY_LABORATORIO_AND_TIPO_AND_NOMBRE_USUARIO]"))
+            {
+                Database.AddInParameter(command, "@ID_LABORATORIO", DbType.Int32, idLaboratorio);
+                Database.AddInParameter(command, "@FLG_EQUIPO_COMPUTO", DbType.String, flgEquipoComputo);
+                Database.AddInParameter(command, "@NOMBRE_USUARIO", DbType.String, nombreUsuario);
+
+                using (IDataReader reader = Database.ExecuteReader(command))
+                {
+                    while (reader.Read())
+                    {
+                        Hardware equipoComputo = new Hardware();
+
+                        equipoComputo.IdHardware = DataUtil.DbValueToDefault<int>(reader["idHardware"]);
+                        equipoComputo.IdLaboratorio = DataUtil.DbValueToDefault<int>(reader["idLaboratorio"]);
+                        equipoComputo.TipoEquipo = DataUtil.DbValueToDefault<string>(reader["tipoEquipo"]);
+                        equipoComputo.Marca = DataUtil.DbValueToDefault<string>(reader["marca"]);
+                        equipoComputo.Modelo = DataUtil.DbValueToDefault<string>(reader["modelo"]);
+                        equipoComputo.Serie = DataUtil.DbValueToDefault<string>(reader["serie"]);
+                        equipoComputo.Inventario = DataUtil.DbValueToDefault<string>(reader["inventario"]);
+                        equipoComputo.Procesador = DataUtil.DbValueToDefault<string>(reader["procesador"]);
+                        equipoComputo.Velocidad = DataUtil.DbValueToDefault<string>(reader["velocidad"]);
+                        equipoComputo.Ram = DataUtil.DbValueToDefault<string>(reader["ram"]);
+                        equipoComputo.DiscoDuro = DataUtil.DbValueToDefault<string>(reader["discoDuro"]);
+                        equipoComputo.TarjetaVideo = DataUtil.DbValueToDefault<string>(reader["tarjetaVideo"]);
+                        equipoComputo.Usuario = DataUtil.DbValueToDefault<string>(reader["usuario"]);
+                        equipoComputo.Observacion = DataUtil.DbValueToDefault<string>(reader["observacion"]);
+                        equipoComputo.Estado = DataUtil.DbValueToDefault<string>(reader["estado"]);
+                        equipoComputo.FlgEquipoComputo = DataUtil.DbValueToDefault<string>(reader["flgEquipoComputo"]);
+                        equipoComputo.NombreLaboratorio = DataUtil.DbValueToDefault<string>(reader["nombreLaboratorio"]);
+                        equipoComputo.NombreFacultad = DataUtil.DbValueToDefault<string>(reader["nombreFacultad"]);
+
+                        listaEquiposComputo.Add(equipoComputo);
+                    }
+                }
+            }
+
+            return listaEquiposComputo;
+        }
     }
 }

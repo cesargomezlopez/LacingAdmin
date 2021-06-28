@@ -54,7 +54,7 @@
 
                         <!-- TIPO -->
                         <div class="row" style="justify-content: center">
-                            <div class="form-group col-12">
+                            <div id="divComboTipoHardware" class="form-group col-6">
                                 <label for="cbEstados" class="col-sm-auto control-label">Tipo de Equipo</label>
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -64,8 +64,17 @@
                                                 new SelectListItem { Value = "1", Text = "Equipo de Computo"},
                                                 new SelectListItem { Value = "0", Text = "Equipo en General"}
                                             }
-                                       , "Value", "Text"), new { @class = "form-control", @id = "cbTipoHardware" })
+                                       , "Value", "Text"), new { @class = "form-control", @id = "cbTipoHardware", @onChange = "validarMostrarTextNombreUsuarioEquipoComputo()" })
 
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="divTextNombreUsuarioEquipoComputo" class="form-group col-6">
+                                <label for="cbEstados" class="col-sm-auto control-label">Nombre de Usuario del Equipo de Cómputo</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input class="form-control" type="text" id="txtNombreUsuarioEquipoComputo" value="" />
                                     </div>
                                 </div>
                             </div>
@@ -125,6 +134,23 @@
 
             $(document).ready(cargarEventos());
 
+            function validarMostrarTextNombreUsuarioEquipoComputo() {
+                var tipoHardware = $("#cbTipoHardware").val();
+                if (tipoHardware == "0") {
+                    document.getElementById("divTextNombreUsuarioEquipoComputo").style.display = "none";
+                    //document.getElementById("divTextNombreUsuarioEquipoComputo").disabled = true;
+                    var element = document.getElementById("divComboTipoHardware");
+                    element.classList.remove("col-6");
+                    element.classList.add("col-12");
+                } else if (tipoHardware == "1") {
+                    document.getElementById("divTextNombreUsuarioEquipoComputo").style.display = null;
+                    //document.getElementById("divTextNombreUsuarioEquipoComputo").disabled = false;
+                    var element = document.getElementById("divComboTipoHardware");
+                    element.classList.remove("col-12");
+                    element.classList.add("col-6");
+                }
+            }
+
             function changeComboFacultadLaboratorio() {
                 var idFacultad = $("#cbFacultadesLaboratorio").val();
                 if (idFacultad != null && idFacultad != "") {
@@ -155,6 +181,7 @@
 
             function cargarEventos() {
                 changeComboFacultadLaboratorio();
+                globalReporte.busquedaRealizada = 0;
             }
 
             function listarEquiposComputo() {
@@ -164,7 +191,8 @@
                     type: "GET",
                     url: "@Url.Action("ListaReporteEquipoComputoPartial", "Inventario", new { Area = ""})",
                     data: {
-                        "idLaboratorio": idLaboratorio
+                        "idLaboratorio": idLaboratorio,
+                        "nombreUsuario": globalReporte.nombreUsuario
                     },
                     beforeSend: function () {
                         onBeginRequest();
@@ -212,13 +240,16 @@
             }
 
             function buscarReporte() {
+                globalReporte.busquedaRealizada = 1;
                 var tipoHardware = $("#cbTipoHardware").val();
-
                 if (tipoHardware == "1") {
                     globalReporte.tipoHardware = "1";
+                    globalReporte.nombreUsuario = $("#txtNombreUsuarioEquipoComputo").val();
                     this.listarEquiposComputo();
                 } else if (tipoHardware == "0") {
+                    $("#txtNombreUsuarioEquipoComputo").val("");
                     globalReporte.tipoHardware = "0";
+                    globalReporte.nombreUsuario = "";
                     this.listarEquiposGeneral();
                 }
             }
@@ -226,17 +257,26 @@
 
 
             function descargarReporte() {
-                var tipoHardware = globalReporte.tipoHardware;
-                var idLaboratorio = globalReporte.idLaboratorio;
+                if (globalReporte.busquedaRealizada != 0) {
+                    var tipoHardware = globalReporte.tipoHardware;
+                    var idLaboratorio = globalReporte.idLaboratorio;
+                    var nombreUsuario = globalReporte.nombreUsuario;
 
-                window.location.href = "/Inventario/DescargarReporteInventario?flgReporteEquipoComputo=" + tipoHardware + "&idLaboratorio=" + idLaboratorio;
-                setTimeout(() => {
+                    window.location.href = "/Inventario/DescargarReporteInventario?flgReporteEquipoComputo=" + tipoHardware + "&idLaboratorio=" + idLaboratorio + "&nombreUsuario=" + nombreUsuario;
+                    setTimeout(() => {
+                        Swal.fire(
+                            '¡Listo!',
+                            'Se descargó el reporte.',
+                            'success'
+                        );
+                    }, 2000);
+                } else {
                     Swal.fire(
-                        '¡Listo!',
-                        'Se descargó el reporte.',
-                        'success'
+                        '¡Error!',
+                        'Primero se debe realizar una consulta',
+                        'error'
                     );
-                }, 2000);
+                }
             }
         </script>
     }

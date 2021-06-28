@@ -29,5 +29,7 @@ namespace LacingAdmin.IDataAccess
 
         // Reporte de Inventario
         List<Hardware> GetListaHardwareByLaboratorioAndTipo(int idLaboratorio, string flgEquipoComputo);
+
+        List<Hardware> GetListaHardwareByLaboratorioAndTipoAndNombreUsuario(int idLaboratorio, string flgEquipoComputo, string nombreUsuario);
     }
 }
