@@ -10,14 +10,15 @@
         <label for="cbEstados" class="col-sm-auto control-label">Tipo</label>
         <div class="row">
             <div class="col-sm-12">
-                @Html.DropDownList("cbTipoEquipoGeneral", new SelectList(
+                @Html.DropDownListFor(model => model.hardware.TipoEquipo, new SelectList(
                     new List<SelectListItem>
                     {
                         new SelectListItem { Value = "Proyector", Text = "Proyector"},
                         new SelectListItem { Value = "Pizarra", Text = "Pizarra"},
                         new SelectListItem { Value = "Pizarra Interactiva", Text = "Pizarra Interactiva"},
                         new SelectListItem { Value = "Televisor", Text = "Televisor"},
-                        new SelectListItem { Value = "Aire Acondicionado", Text = "Aire Acondicionado"}
+                        new SelectListItem { Value = "Aire Acondicionado", Text = "Aire Acondicionado"},
+                        new SelectListItem { Value = "Impresora", Text = "Impresora"}
                     }
                , "Value", "Text"), new { @class = "form-control", @id = "cbTipoEquipoGeneral" })
 
@@ -83,22 +84,13 @@
                         <label class="col-sm-auto control-label">Estado</label>
                     </div>
                     <div class="col-9">
-                        @Html.DropDownList("cbEstadosHardware", new SelectList(
+                        @Html.DropDownListFor(model => model.hardware.Estado, new SelectList(
                             new List<SelectListItem>
                             {
                                 new SelectListItem { Value = "Operativo", Text = "Operativo"},
                                 new SelectListItem { Value = "Inoperativo", Text = "Inoperativo"}
                             }
                        , "Value", "Text"), new { @class = "form-control", @id = "cbEstadosHardware" })
-                    </div>
-                </div>
-
-                <div class="col-12 row mt-10">
-                    <div class="col-3">
-                        <label class="col-sm-auto control-label">Observación</label>
-                    </div>
-                    <div class="col-9">
-                        @Html.TextAreaFor(model => model.hardware.Observacion, new { cols = 52, @rows = 4, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionHardware" } })
                     </div>
                 </div>
             </div>
@@ -166,8 +158,7 @@
             "Modelo": $("#txtModeloHardware").val(),
             "Serie": $("#txtSerieHardware").val(),
             "Inventario": $("#txtInventarioHardware").val(),
-            "Observacion": $("#txtObservacionHardware").val(),
-            "Estado": "Operativo",
+            "Estado": $("#cbEstadosHardware").val(),
             "FlgEquipoComputo": "0",
             "Usuario": "Administrador"
         };

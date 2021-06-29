@@ -17,7 +17,8 @@
                         new SelectListItem { Value = "Pizarra", Text = "Pizarra"},
                         new SelectListItem { Value = "Pizarra Interactiva", Text = "Pizarra Interactiva"},
                         new SelectListItem { Value = "Televisor", Text = "Televisor"},
-                        new SelectListItem { Value = "Aire Acondicionado", Text = "Aire Acondicionado"}
+                        new SelectListItem { Value = "Aire Acondicionado", Text = "Aire Acondicionado"},
+                        new SelectListItem { Value = "Impresora", Text = "Impresora"}
                     }
                , "Value", "Text"), new { @class = "form-control", @id = "cbTipoEquipoGeneral" })
 
@@ -92,15 +93,6 @@
                        , "Value", "Text"), new { @class = "form-control", @id = "cbEstadosHardware" })
                     </div>
                 </div>
-
-                <div class="col-12 row mt-10">
-                    <div class="col-3">
-                        <label class="col-sm-auto control-label">Observación</label>
-                    </div>
-                    <div class="col-9">
-                        @Html.TextAreaFor(model => model.hardware.Observacion, new { cols = 52, @rows = 4, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionHardware", @autocomplete = "off" } })
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -160,7 +152,6 @@
             "Modelo": $("#txtModeloHardware").val(),
             "Serie": $("#txtSerieHardware").val(),
             "Inventario": $("#txtInventarioHardware").val(),
-            "Observacion": $("#txtObservacionHardware").val(),
             "Estado": "Operativo",
             "FlgEquipoComputo": "0",
             "Usuario": "Administrador"

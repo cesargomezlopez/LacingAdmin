@@ -146,6 +146,7 @@ namespace LacingAdmin.Web.Controllers
 
                 model.ListaFacultadesLaboratorio = facultadDataAccess.GetListaFacultades();
                 model.ListaLaboratorios = laboratorioDataAccess.GetListaLaboratorios();
+                ViewBag.nombreUsuarioEquipoAEditar = model.equipoComputoCpu.Usuario;
 
                 return View(model);
             }
@@ -156,7 +157,7 @@ namespace LacingAdmin.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Editar(Hardware equipoComputoCpu, Hardware equipoComputoMonitor, Hardware equipoComputoTeclado, Hardware equipoComputoMouse, string idLaboratorio)
+        public ActionResult Editar(Hardware equipoComputoCpu, Hardware equipoComputoMonitor, Hardware equipoComputoTeclado, Hardware equipoComputoMouse, string idLaboratorio, string nombreUsuarioEquipoAEditar)
         {
             if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General"
                     || SecurityHelper.GetAdministradorRol() == "Técnico"
@@ -173,7 +174,7 @@ namespace LacingAdmin.Web.Controllers
                 model.equipoComputoTeclado.IdLaboratorio = int.Parse(idLaboratorio);
                 model.equipoComputoMouse.IdLaboratorio = int.Parse(idLaboratorio);
 
-                model.ListaEquiposComputoGetByUsuario = hardwareDataAccess.GetEquiposComputoByUsuario(model.equipoComputoCpu.Usuario);
+                model.ListaEquiposComputoGetByUsuario = hardwareDataAccess.GetEquiposComputoByUsuario(nombreUsuarioEquipoAEditar);
                 for (int i = 0; i < model.ListaEquiposComputoGetByUsuario.Count; i++)
                 {
                     string tipoEquipoComputo = model.ListaEquiposComputoGetByUsuario[i].TipoEquipo;

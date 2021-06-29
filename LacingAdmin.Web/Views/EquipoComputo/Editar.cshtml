@@ -123,15 +123,6 @@
                                         @Html.EditorFor(model => model.equipoComputoMonitor.Inventario, new { HtmlAttributes = new { @class = "form-control", @id = "txtInventarioMonitor", @placeholder = "Inventario", @autocomplete = "off" } })
                                     </div>
                                 </div>
-
-                                <div class="col-12 row">
-                                    <div class="col-3">
-                                        <label class="col-sm-auto control-label">Observación</label>
-                                    </div>
-                                    <div class="col-9">
-                                        @Html.TextAreaFor(model => model.equipoComputoMonitor.Observacion, new { cols = 60, @rows = 4, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionMonitor", @autocomplete = "off" } })
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -222,16 +213,6 @@
                                         @Html.EditorFor(model => model.equipoComputoCpu.TarjetaVideo, new { HtmlAttributes = new { @class = "form-control", @id = "txtTarjetaVideoCpu", @placeholder = "Tarjeta Video", @autocomplete = "off" } })
                                     </div>
                                 </div>
-
-                                <div class="col-12 row">
-                                    <div class="col-3">
-                                        <label class="col-sm-auto control-label">Observación</label>
-                                    </div>
-                                    <div class="col-9">
-                                        @Html.TextAreaFor(model => model.equipoComputoCpu.Observacion, new { cols = 60, @rows = 3, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionCpu", @autocomplete = "off" } })
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -276,15 +257,6 @@
                                         @Html.EditorFor(model => model.equipoComputoTeclado.Inventario, new { HtmlAttributes = new { @class = "form-control", @id = "txtInventarioTeclado", @placeholder = "Inventario", @autocomplete = "off" } })
                                     </div>
                                 </div>
-
-                                <div class="col-12 row">
-                                    <div class="col-3">
-                                        <label class="col-sm-auto control-label">Observación</label>
-                                    </div>
-                                    <div class="col-9">
-                                        @Html.TextAreaFor(model => model.equipoComputoTeclado.Observacion, new { cols = 60, @rows = 4, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionTeclado", @autocomplete = "off" } })
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -327,15 +299,6 @@
                                     </div>
                                     <div class="col-9">
                                         @Html.EditorFor(model => model.equipoComputoMouse.Inventario, new { HtmlAttributes = new { @class = "form-control", @id = "txtInventarioMouse", @placeholder = "Inventario", @autocomplete = "off" } })
-                                    </div>
-                                </div>
-
-                                <div class="col-12 row">
-                                    <div class="col-3">
-                                        <label class="col-sm-auto control-label">Observación</label>
-                                    </div>
-                                    <div class="col-9">
-                                        @Html.TextAreaFor(model => model.equipoComputoMouse.Observacion, new { cols = 60, @rows = 4, HtmlAttributes = new { @class = "form-control", @id = "txtObservacionMouse", @autocomplete = "off" } })
                                     </div>
                                 </div>
                             </div>
@@ -438,7 +401,6 @@
                     "DiscoDuro": $("#txtDiscoDuroCpu").val(),
                     "TarjetaVideo": $("#txtTarjetaVideoCpu").val(),
                     "Usuario": usuario,
-                    "Observacion": $("#txtObservacionCpu").val(),
                     "Estado": "Operativo",
                     "FlgEquipoComputo": "1"
                 };
@@ -449,7 +411,6 @@
                     "Serie": $("#txtSerieMonitor").val(),
                     "Inventario": $("#txtInventarioMonitor").val(),
                     "Usuario": usuario,
-                    "Observacion": $("#txtObservacionMonitor").val(),
                     "Estado": "Operativo",
                     "FlgEquipoComputo": "1"
                 };
@@ -460,7 +421,6 @@
                     "Serie": $("#txtSerieTeclado").val(),
                     "Inventario": $("#txtInventarioTeclado").val(),
                     "Usuario": usuario,
-                    "Observacion": $("#txtObservacionTeclado").val(),
                     "Estado": "Operativo",
                     "FlgEquipoComputo": "1"
                 };
@@ -471,10 +431,10 @@
                     "Serie": $("#txtSerieMouse").val(),
                     "Inventario": $("#txtInventarioMouse").val(),
                     "Usuario": usuario,
-                    "Observacion": $("#txtObservacionMouse").val(),
                     "Estado": "Operativo",
                     "FlgEquipoComputo": "1"
                 };
+                var nombreUsuarioEquipoAEditar = "@ViewBag.nombreUsuarioEquipoAEditar";
                 $.ajax({
                         type: "POST",
                         url: "@Url.Action("Editar", "EquipoComputo")",
@@ -483,7 +443,8 @@
                             "equipoComputoMonitor": equipoComputoMonitor,
                             "equipoComputoTeclado": equipoComputoTeclado,
                             "equipoComputoMouse": equipoComputoMouse,
-                            "idLaboratorio": idLaboratorio
+                            "idLaboratorio": idLaboratorio,
+                            "nombreUsuarioEquipoAEditar": nombreUsuarioEquipoAEditar,
                         },
                         beforeSend: function () {
                             onBeginRequest();
