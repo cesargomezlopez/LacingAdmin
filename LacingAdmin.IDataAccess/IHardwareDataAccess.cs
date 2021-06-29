@@ -20,6 +20,8 @@ namespace LacingAdmin.IDataAccess
 
         void UpdateHardware(List<Hardware> hardwareList);
 
+        void UpdateEstadoHardwareById(int idHardware, string estado);
+
         // Equipos General
         List<Hardware> GetListaEquiposGeneral();
 

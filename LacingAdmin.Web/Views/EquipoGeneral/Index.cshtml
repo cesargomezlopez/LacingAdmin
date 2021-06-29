@@ -146,6 +146,39 @@
                   }
                 })
             }
+
+            function actualizarEstadoHardware(idHardware, estado) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ActualizarEstadoHardware", "EquipoComputo")",
+                    data: {
+                        "idHardware": idHardware,
+                        "estado": estado
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        Swal.fire(
+                            '¡Actualizado!',
+                            'El estado del Equipo ha sido actualizado.',
+                            'success'
+                        );
+                        setTimeout(function(){
+                            window.location.href = "/EquipoGeneral";
+                        }, 1100);
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                            '¡Error!',
+                            'No se pudo actualizar el estado del equipo, error: ' + error,
+                            'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
         </script>
     }
 

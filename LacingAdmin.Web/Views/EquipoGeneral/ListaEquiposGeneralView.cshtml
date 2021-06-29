@@ -39,6 +39,7 @@
                 <tbody>
                     @foreach (var item in Model.ListaEquiposGeneral)
                     {
+                        Model.hardwareInList = item;
                         {
                             this.Model.contador++;
                         }
@@ -51,7 +52,15 @@
                             <td>@item.Inventario</td>
                             <td>@item.NombreLaboratorio</td>
                             <td>@item.NombreFacultad</td>
-                            <td>@item.Estado</td>
+                            <td>
+                                @Html.DropDownListFor(model => model.hardwareInList.Estado, new SelectList(
+                                    new List<SelectListItem>
+                                    {
+                                        new SelectListItem { Value = "Inoperativo", Text = "Inoperativo"},
+                                        new SelectListItem { Value = "Operativo", Text = "Operativo"}
+                                    }
+                               , "Value", "Text"), new { @class = "form-control", @id = "cbEstadosEquipoComputo", @onChange = "actualizarEstadoHardware(" + @item.IdHardware + ", this.value)" })
+                            </td>
                             <td>
                                 <a onclick="lacing.helpers.ShowModal('EditarEquipoGeneralPopup', '@Url.Action("Editar", "EquipoGeneral", new { Area = "", idHardware = item.IdHardware})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
                                 <a onclick="eliminarEquipoGeneral('@item.IdHardware')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>

@@ -29,5 +29,8 @@ namespace LacingAdmin.Web.Models.ViewModels
 
         public Hardware hardware { get; set; }
         public List<Hardware> ListaEquiposGeneral { get; set; }
+
+
+        public Hardware hardwareInList { get; set; }
     }
 }

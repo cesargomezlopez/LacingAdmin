@@ -235,6 +235,17 @@ namespace LacingAdmin.DataAccess
             }
         }
 
+        public void UpdateEstadoHardwareById(int idHardware, string estado)
+        {
+            using (DbCommand command = Database.GetStoredProcCommand("[dbo].[SP_UPDATE_HARDWARE_ESTADO]"))
+            {
+                Database.AddInParameter(command, "@ID_HARDWARE", DbType.Int32, idHardware);
+                Database.AddInParameter(command, "@ESTADO", DbType.String, estado);
+
+                Database.ExecuteNonQuery(command);
+            }
+        }
+
         public List<Hardware> GetListaHardwareByLaboratorioAndTipo(int idLaboratorio, string flgEquipoComputo)
         {
             List<Hardware> listaEquiposComputo = new List<Hardware>();
