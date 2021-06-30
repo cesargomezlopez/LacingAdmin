@@ -52,6 +52,7 @@
     <Compile Include="DocenteXCarrera.cs" />
     <Compile Include="Facultad.cs" />
     <Compile Include="Grupo.cs" />
+    <Compile Include="ObservacionXHardware.cs" />
     <Compile Include="Hardware.cs" />
     <Compile Include="Horario.cs" />
     <Compile Include="SoftwareXCarrera.cs" />

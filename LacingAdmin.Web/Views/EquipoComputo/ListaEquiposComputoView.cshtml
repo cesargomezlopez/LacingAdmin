@@ -22,10 +22,12 @@
                         <th>RAM</th>
                         <th>Disco D.</th>
                         <th>T.video</th>
+                        <th>Software</th>
+                        <th>Hardware</th>
+                        <th>Estado</th>
                         <th>Usuario</th>
                         <th>Ubicación</th>
                         <th>Facultad</th>
-                        <th>Estado</th>
                         <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
                     </tr>
                 </thead>
@@ -42,10 +44,12 @@
                         <th>RAM</th>
                         <th>Disco D.</th>
                         <th>T.video</th>
+                        <th>Software</th>
+                        <th>Hardware</th>
+                        <th>Estado</th>
                         <th>Usuario</th>
                         <th>Ubicación</th>
                         <th>Facultad</th>
-                        <th>Estado</th>
                     </tr>
                 </tfoot>
 
@@ -60,35 +64,44 @@
                                 this.Model.lastUser = item.Usuario;
                             }
                         }
-                        <tr>
-                            <td>@this.Model.contador</td>
-                            <td>@item.TipoEquipo</td>
-                            <td>@item.Marca</td>
-                            <td>@item.Modelo</td>
-                            <td>@item.Serie</td>
-                            <td>@item.Inventario</td>
-                            <td>@item.Procesador</td>
-                            <td>@item.Velocidad</td>
-                            <td>@item.Ram</td>
-                            <td>@item.DiscoDuro</td>
-                            <td>@item.TarjetaVideo</td>
-                            <td>@item.Usuario</td>
-                            <td>@item.NombreLaboratorio</td>
-                            <td>@item.NombreFacultad</td>
-                            <td>
-                                @Html.DropDownListFor(model => model.hardwareInList.Estado, new SelectList(
-                                    new List<SelectListItem>
-                                    {
-                                        new SelectListItem { Value = "Inoperativo", Text = "Inoperativo"},
-                                        new SelectListItem { Value = "Operativo", Text = "Operativo"}
-                                    }
-                               , "Value", "Text"), new { @class = "form-control", @id = "cbEstadosEquipoComputo", @onChange = "actualizarEstadoHardware(" + @item.IdHardware + ", this.value)"})
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Editar", "EquipoComputo", new { Area = "", usuario = item.Usuario})" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
-                                <a onclick="eliminarEquipoComputo('@item.Usuario')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>@this.Model.contador</td>
+                        <td>@item.TipoEquipo</td>
+                        <td>@item.Marca</td>
+                        <td>@item.Modelo</td>
+                        <td>@item.Serie</td>
+                        <td>@item.Inventario</td>
+                        <td>@item.Procesador</td>
+                        <td>@item.Velocidad</td>
+                        <td>@item.Ram</td>
+                        <td>@item.DiscoDuro</td>
+                        <td>@item.TarjetaVideo</td>
+                        <td>
+                            @if (item.TipoEquipo.Equals("CPU"))
+                            {
+                                <a onclick="lacing.helpers.ShowModal('ObservacionesSoftwarePopup', '@Url.Action("ObservacionesView", "EquipoComputo", new { Area = "", idHardware = item.IdHardware, tipoEquipo = 1})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-eye"></i></a>
+                            }
+                        </td>
+                        <td>
+                            <a onclick="lacing.helpers.ShowModal('ObservacionesHardwarePopup', '@Url.Action("ObservacionesView", "EquipoComputo", new { Area = "", idHardware = item.IdHardware, tipoEquipo = 2})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-eye"></i></a>
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.hardwareInList.Estado, new SelectList(
+                                new List<SelectListItem>
+                                {
+                                    new SelectListItem { Value = "Inoperativo", Text = "Inoperativo"},
+                                    new SelectListItem { Value = "Operativo", Text = "Operativo"}
+                                }
+                           , "Value", "Text"), new { @class = "form-control", @id = "cbEstadosEquipoComputo", @onChange = "actualizarEstadoHardware(" + @item.IdHardware + ", this.value)" })
+                        </td>
+                        <td>@item.Usuario</td>
+                        <td>@item.NombreLaboratorio</td>
+                        <td>@item.NombreFacultad</td>
+                        <td>
+                            <a href="@Url.Action("Editar", "EquipoComputo", new { Area = "", usuario = item.Usuario})" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+                            <a onclick="eliminarEquipoComputo('@item.Usuario')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

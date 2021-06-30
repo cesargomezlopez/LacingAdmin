@@ -16,15 +16,18 @@ namespace LacingAdmin.Web.Controllers
         private readonly IHardwareDataAccess hardwareDataAccess;
         private readonly IFacultadDataAccess facultadDataAccess;
         private readonly ILaboratorioDataAccess laboratorioDataAccess;
+        private readonly IObservacionXHardwareDataAccess observacionXHardwareDataAccess;
 
         public EquipoComputoController(IHardwareDataAccess _hardwareDataAccess,
             IFacultadDataAccess _facultadDataAccess,
-            ILaboratorioDataAccess _laboratorioDataAccess
+            ILaboratorioDataAccess _laboratorioDataAccess,
+            IObservacionXHardwareDataAccess _observacionXHardwareDataAccess
             )
         {
             hardwareDataAccess = _hardwareDataAccess;
             facultadDataAccess = _facultadDataAccess;
             laboratorioDataAccess = _laboratorioDataAccess;
+            observacionXHardwareDataAccess = _observacionXHardwareDataAccess;
         }
 
         [HttpGet]
@@ -236,6 +239,49 @@ namespace LacingAdmin.Web.Controllers
                     || SecurityHelper.GetAdministradorRol() == "Practicante"))
             {
                 hardwareDataAccess.UpdateEstadoHardwareById(idHardware, estado);
+                return RedirectToAction("Index", "EquipoComputo", new { Area = "" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ObservacionesView(int idHardware, int tipoEquipo)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && SecurityHelper.GetAdministradorRol() == "Administrador General")
+            {
+                string tipoObservacion = tipoEquipo.Equals(1) ? "Software" : "Hardware";
+                ObservacionXHardwareViewModel model = new ObservacionXHardwareViewModel();
+                model.ObservacionXHardware = new ObservacionXHardware();
+                model.ObservacionXHardware.IdHardware = idHardware;
+                model.ObservacionXHardware.Tipo = tipoObservacion;
+                model.TipoObservacion = tipoObservacion;
+                model.ListaObservacionesXHardware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(idHardware, tipoObservacion);
+
+                return PartialView(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ObservacionesView(ObservacionXHardware observacion)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && SecurityHelper.GetAdministradorRol() == "Administrador General")
+            {
+                if (observacion.Tipo.Equals("Hardware"))
+                {
+                    observacionXHardwareDataAccess.CreateObservacionTipoHardware(observacion);
+                }
+                else if (observacion.Tipo.Equals("Software"))
+                {
+                    //observacionXHardwareDataAccess.CreateObservacionTipoSoftware(observacion);
+                }
+
                 return RedirectToAction("Index", "EquipoComputo", new { Area = "" });
             }
             else

@@ -222,6 +222,7 @@
     <Compile Include="Models\ViewModels\AlumnoViewModel.cs" />
     <Compile Include="Models\ViewModels\CarreraViewModel.cs" />
     <Compile Include="Models\ViewModels\ConsultaViewModel.cs" />
+    <Compile Include="Models\ViewModels\ObservacionXHardwareViewModel.cs" />
     <Compile Include="Models\ViewModels\CursoViewModel.cs" />
     <Compile Include="Models\ViewModels\SoftwareViewModel.cs" />
     <Compile Include="Models\ViewModels\EquipoComputoViewModel.cs" />
@@ -1326,6 +1327,7 @@
     <Content Include="Views\Inventario\ReporteSoftwareContent.cshtml" />
     <Content Include="Views\Software\Crear.cshtml" />
     <Content Include="Views\Software\Editar.cshtml" />
+    <Content Include="Views\EquipoComputo\ObservacionesView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
