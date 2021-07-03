@@ -13,6 +13,21 @@ namespace LacingAdmin.DataAccess
 {
     public class ObservacionXHardwareDataAccess : RepositoryBase, IObservacionXHardwareDataAccess
     {
+        public void CreateObservacionTipoSoftware(ObservacionXHardware observacionXHardware)
+        {
+            using (DbCommand command = Database.GetStoredProcCommand("[dbo].[SP_CREATE_OBSERVACION_TIPO_SOFTWARE]"))
+            {
+                Database.AddInParameter(command, "@ID_HARDWARE", DbType.Int32, observacionXHardware.IdHardware);
+                Database.AddInParameter(command, "@TIPO", DbType.String, "Software");
+                Database.AddInParameter(command, "@OBSERVACION", DbType.String, observacionXHardware.Observacion);
+                Database.AddInParameter(command, "@NOMBRE_SOFTWARE", DbType.String, observacionXHardware.NombreSoftware);
+                Database.AddInParameter(command, "@VERSION_SOFTWARE", DbType.String, observacionXHardware.VersionSoftware);
+                Database.AddInParameter(command, "@TIPO_SOFTWARE", DbType.String, observacionXHardware.TipoSoftware);
+
+                Database.ExecuteNonQuery(command);
+            }
+        }
+
         public void CreateObservacionTipoHardware(ObservacionXHardware observacionXHardware)
         {
             using (DbCommand command = Database.GetStoredProcCommand("[dbo].[SP_CREATE_OBSERVACION_TIPO_HARDWARE]"))
@@ -44,10 +59,13 @@ namespace LacingAdmin.DataAccess
                         observacion.Tipo = DataUtil.DbValueToDefault<string>(reader["tipo"]);
                         observacion.Observacion = DataUtil.DbValueToDefault<string>(reader["observacion"]);
                         observacion.Fecha = DataUtil.DbValueToDefault<DateTime>(reader["fecha"]);
-                        //observacion.NombreSoftware = DataUtil.DbValueToDefault<string>(reader["nombreSoftware"]);
-                        //observacion.VersionSoftware = DataUtil.DbValueToDefault<string>(reader["versionSoftware"]);
-                        //observacion.TipoSoftware = DataUtil.DbValueToDefault<string>(reader["tipoSoftware"]);
+                        if (tipo.Equals("Software"))
+                        {
+                            observacion.NombreSoftware = DataUtil.DbValueToDefault<string>(reader["nombreSoftware"]);
+                            observacion.VersionSoftware = DataUtil.DbValueToDefault<string>(reader["versionSoftware"]);
+                            observacion.TipoSoftware = DataUtil.DbValueToDefault<string>(reader["tipoSoftware"]);
 
+                        }
                         listaObservaciones.Add(observacion);
                     }
                 }

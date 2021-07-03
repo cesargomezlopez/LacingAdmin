@@ -279,7 +279,7 @@ namespace LacingAdmin.Web.Controllers
                 }
                 else if (observacion.Tipo.Equals("Software"))
                 {
-                    //observacionXHardwareDataAccess.CreateObservacionTipoSoftware(observacion);
+                    observacionXHardwareDataAccess.CreateObservacionTipoSoftware(observacion);
                 }
 
                 return RedirectToAction("Index", "EquipoComputo", new { Area = "" });

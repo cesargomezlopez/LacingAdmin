@@ -9,6 +9,8 @@ namespace LacingAdmin.IDataAccess
 {
     public interface IObservacionXHardwareDataAccess
     {
+        void CreateObservacionTipoSoftware(ObservacionXHardware observacionXHardware);
+
         void CreateObservacionTipoHardware(ObservacionXHardware observacionXHardware);
 
         List<ObservacionXHardware> GetListaObservacionesXHardwareByIdAndTipo(int idHardware, string tipo);
