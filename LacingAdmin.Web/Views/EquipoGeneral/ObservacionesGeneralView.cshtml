@@ -1,0 +1,90 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.ObservacionXHardwareViewModel
+
+@if (Model.ListaObservacionesXHardware != null && Model.ListaObservacionesXHardware.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>FECHA</th>
+                <th>OBSERVACION</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ListaObservacionesXHardware)
+            {
+                <tr>
+                    <td>@item.Fecha</td>
+                    <td>@item.Observacion</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-primary center" role="alert" style="width:100%; margin: 0 auto; text-align:center">
+        No se obtuvo información de observaciones del hardware.
+    </div>
+}
+
+<br />
+
+<div class="form-horizontal">
+    <label class="col-sm-auto control-label" style="font-weight: 500">Agregar Observacion:</label>
+    <div class="form-group">
+        <div class="col-sm-10">
+            @Html.Editor("txtObservacionEquipoGeneral",
+                   new { htmlAttributes = new { @class = "form-control", @id = "txtObservacionEquipoGeneral" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <a id="btnAgregarObservacionEquipoGeneral" class="btn btn-success" style="color:white">Agregar</a>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $("#btnAgregarObservacionEquipoGeneral").on("click", function () {
+        lacing.helpers.CloseModal('ObservacionesEquipoGeneralPopup');
+
+        var observacion = {
+            "IdHardware": "@Model.ObservacionXHardware.IdHardware",
+            "Tipo": "EquipoGeneral",
+            "Observacion": $("#txtObservacionEquipoGeneral").val()
+        };
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ObservacionesGeneralView", "EquipoGeneral")",
+            data: {
+                "observacion": observacion
+            },
+            beforeSend: function () {
+                onBeginRequest();
+            },
+            success: function (result) {
+                onCompleteRequest();
+                Swal.fire(
+                    '¡Listo!',
+                    'La observación ha sido registrada.',
+                    'success'
+                );
+                setTimeout(function () {
+                    window.location.href = "/EquipoGeneral";
+                }, 1100);
+            },
+            error: function (error) {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo registrar la observación',
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    });
+
+</script>
+

@@ -16,15 +16,18 @@ namespace LacingAdmin.Web.Controllers
         private readonly IHardwareDataAccess hardwareDataAccess;
         private readonly IFacultadDataAccess facultadDataAccess;
         private readonly ILaboratorioDataAccess laboratorioDataAccess;
+        private readonly IObservacionXHardwareDataAccess observacionXHardwareDataAccess;
 
         public EquipoGeneralController(IHardwareDataAccess _hardwareDataAccess,
             IFacultadDataAccess _facultadDataAccess,
-            ILaboratorioDataAccess _laboratorioDataAccess
+            ILaboratorioDataAccess _laboratorioDataAccess,
+            IObservacionXHardwareDataAccess _observacionXHardwareDataAccess
             )
         {
             hardwareDataAccess = _hardwareDataAccess;
             facultadDataAccess = _facultadDataAccess;
             laboratorioDataAccess = _laboratorioDataAccess;
+            observacionXHardwareDataAccess = _observacionXHardwareDataAccess;
         }
 
         [HttpGet]
@@ -174,6 +177,39 @@ namespace LacingAdmin.Web.Controllers
                     || SecurityHelper.GetAdministradorRol() == "Practicante"))
             {
                 hardwareDataAccess.UpdateEstadoHardwareById(idHardware, estado);
+                return RedirectToAction("Index", "EquipoGeneral", new { Area = "" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ObservacionesGeneralView(int idHardware)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && SecurityHelper.GetAdministradorRol() == "Administrador General")
+            {
+                ObservacionXHardwareViewModel model = new ObservacionXHardwareViewModel();
+                model.ObservacionXHardware = new ObservacionXHardware();
+                model.ObservacionXHardware.IdHardware = idHardware;
+                model.ObservacionXHardware.Tipo = "EquipoGeneral";
+                model.ListaObservacionesXHardware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(idHardware, "EquipoGeneral");
+
+                return PartialView(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ObservacionesGeneralView(ObservacionXHardware observacion)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && SecurityHelper.GetAdministradorRol() == "Administrador General")
+            {
+                observacionXHardwareDataAccess.CreateObservacionTipoEquipoGeneral(observacion);
                 return RedirectToAction("Index", "EquipoGeneral", new { Area = "" });
             }
             else

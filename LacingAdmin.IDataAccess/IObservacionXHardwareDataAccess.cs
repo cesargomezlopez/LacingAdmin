@@ -13,6 +13,8 @@ namespace LacingAdmin.IDataAccess
 
         void CreateObservacionTipoHardware(ObservacionXHardware observacionXHardware);
 
+        void CreateObservacionTipoEquipoGeneral(ObservacionXHardware observacionXHardware);
+
         List<ObservacionXHardware> GetListaObservacionesXHardwareByIdAndTipo(int idHardware, string tipo);
     }
 }

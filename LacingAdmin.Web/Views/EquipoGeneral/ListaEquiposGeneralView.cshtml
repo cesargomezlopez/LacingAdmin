@@ -19,6 +19,7 @@
                         <th>Ubicación</th>
                         <th>Facultad</th>
                         <th>Estado</th>
+                        <th>Observaciones</th>
                         <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 149px;">ACCIONES</th>
                     </tr>
                 </thead>
@@ -33,6 +34,7 @@
                         <th>Ubicación</th>
                         <th>Facultad</th>
                         <th>Estado</th>
+                        <th>Observaciones</th>
                     </tr>
                 </tfoot>
 
@@ -43,29 +45,32 @@
                         {
                             this.Model.contador++;
                         }
-                        <tr>
-                            <td>@this.Model.contador</td>
-                            <td>@item.TipoEquipo</td>
-                            <td>@item.Marca</td>
-                            <td>@item.Modelo</td>
-                            <td>@item.Serie</td>
-                            <td>@item.Inventario</td>
-                            <td>@item.NombreLaboratorio</td>
-                            <td>@item.NombreFacultad</td>
-                            <td>
-                                @Html.DropDownListFor(model => model.hardwareInList.Estado, new SelectList(
-                                    new List<SelectListItem>
-                                    {
-                                        new SelectListItem { Value = "Inoperativo", Text = "Inoperativo"},
-                                        new SelectListItem { Value = "Operativo", Text = "Operativo"}
-                                    }
-                               , "Value", "Text"), new { @class = "form-control", @id = "cbEstadosEquipoComputo", @onChange = "actualizarEstadoHardware(" + @item.IdHardware + ", this.value)" })
-                            </td>
-                            <td>
-                                <a onclick="lacing.helpers.ShowModal('EditarEquipoGeneralPopup', '@Url.Action("Editar", "EquipoGeneral", new { Area = "", idHardware = item.IdHardware})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
-                                <a onclick="eliminarEquipoGeneral('@item.IdHardware')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>@this.Model.contador</td>
+                        <td>@item.TipoEquipo</td>
+                        <td>@item.Marca</td>
+                        <td>@item.Modelo</td>
+                        <td>@item.Serie</td>
+                        <td>@item.Inventario</td>
+                        <td>@item.NombreLaboratorio</td>
+                        <td>@item.NombreFacultad</td>
+                        <td>
+                            @Html.DropDownListFor(model => model.hardwareInList.Estado, new SelectList(
+                                new List<SelectListItem>
+                                {
+                                    new SelectListItem { Value = "Inoperativo", Text = "Inoperativo"},
+                                    new SelectListItem { Value = "Operativo", Text = "Operativo"}
+                                }
+                           , "Value", "Text"), new { @class = "form-control", @id = "cbEstadosEquipoComputo", @onChange = "actualizarEstadoHardware(" + @item.IdHardware + ", this.value)" })
+                        </td>
+                        <td>
+                            <a onclick="lacing.helpers.ShowModal('ObservacionesEquipoGeneralPopup', '@Url.Action("ObservacionesGeneralView", "EquipoGeneral", new { Area = "", idHardware = item.IdHardware})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-eye"></i></a>
+                        </td>
+                        <td>
+                            <a onclick="lacing.helpers.ShowModal('EditarEquipoGeneralPopup', '@Url.Action("Editar", "EquipoGeneral", new { Area = "", idHardware = item.IdHardware})')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
+                            <a onclick="eliminarEquipoGeneral('@item.IdHardware')" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

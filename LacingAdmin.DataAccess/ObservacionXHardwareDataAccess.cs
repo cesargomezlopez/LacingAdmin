@@ -40,6 +40,18 @@ namespace LacingAdmin.DataAccess
             }
         }
 
+        public void CreateObservacionTipoEquipoGeneral(ObservacionXHardware observacionXHardware)
+        {
+            using (DbCommand command = Database.GetStoredProcCommand("[dbo].[SP_CREATE_OBSERVACION_TIPO_HARDWARE]"))
+            {
+                Database.AddInParameter(command, "@ID_HARDWARE", DbType.Int32, observacionXHardware.IdHardware);
+                Database.AddInParameter(command, "@TIPO", DbType.String, "EquipoGeneral");
+                Database.AddInParameter(command, "@OBSERVACION", DbType.String, observacionXHardware.Observacion);
+
+                Database.ExecuteNonQuery(command);
+            }
+        }
+
         public List<ObservacionXHardware> GetListaObservacionesXHardwareByIdAndTipo(int idHardware, string tipo)
         {
             List<ObservacionXHardware> listaObservaciones = new List<ObservacionXHardware>();
