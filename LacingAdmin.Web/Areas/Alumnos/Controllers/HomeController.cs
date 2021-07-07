@@ -32,6 +32,10 @@ namespace LacingAdmin.Web.Areas.Alumnos.Controllers
                 int month = date.Month;
                 int year = date.Year;
                 numeroCiclo = month > 2 && month < 8 ? "I" : "II";
+                if (month < 3)
+                {
+                    numeroCiclo = "0";
+                }
                 this.ViewBag.ciclo = numeroCiclo;
                 this.ViewBag.year = year;
                 return View();
