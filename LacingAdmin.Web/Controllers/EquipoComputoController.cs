@@ -290,6 +290,20 @@ namespace LacingAdmin.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult EliminarObservacion(int idObservacion)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico"))
+            {
+                observacionXHardwareDataAccess.DeleteObservacion(idObservacion);
+                return RedirectToAction("Index", "EquipoComputo", new { Area = "" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
+
         //[HttpGet]
         //public string ExisteNombreFacultad(string nombreFacultad)
         //{

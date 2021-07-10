@@ -26,6 +26,7 @@
                         <td>@item.Observacion</td>
                         <td>
                             <a onclick="agregarObservacion('@item.NombreSoftware', '@item.VersionSoftware', '@item.TipoSoftware')" class="btn btn-sm btn-icon btn-pure btn-default on-default fa-plus-circle"></a>
+                            <a onclick="eliminarObservacion(@item.IdObservacionXHardware)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
                         </td>
                     </tr>
                 }
@@ -39,6 +40,7 @@
                 <tr>
                     <th>FECHA</th>
                     <th>OBSERVACION</th>
+                    <th class="sorting_disabled" rowspan="1" colspan="1">ACCIONES</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +49,9 @@
                     <tr>
                         <td>@item.Fecha</td>
                         <td>@item.Observacion</td>
+                        <td>
+                            <a onclick="eliminarObservacion(@item.IdObservacionXHardware)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -64,42 +69,42 @@ else
 
 @if (Model.TipoObservacion.Equals("Software"))
 {
-<div class="form-horizontal">
-    <label class="col-sm-auto control-label" style="font-weight: 500">Nueva Observacion:</label>
-    <div class="form-group">
-        <label class="padding-sides-35 control-label">Nombre:</label>
-        <div class="padding-sides-35">
-            @Html.Editor("txtNombreSoftware",
-                   new { htmlAttributes = new { @class = "form-control", @id = "txtNombreSoftware" } })
+    <div class="form-horizontal">
+        <label class="col-sm-auto control-label" style="font-weight: 500">Nueva Observacion:</label>
+        <div class="form-group">
+            <label class="padding-sides-35 control-label">Nombre:</label>
+            <div class="padding-sides-35">
+                @Html.Editor("txtNombreSoftware",
+                       new { htmlAttributes = new { @class = "form-control", @id = "txtNombreSoftware" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="padding-sides-35 control-label">Versión:</label>
+            <div class="padding-sides-35">
+                @Html.Editor("txtVersionSoftware",
+                       new { htmlAttributes = new { @class = "form-control", @id = "txtVersionSoftware" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="padding-sides-35 control-label">Tipo:</label>
+            <div class="padding-sides-35">
+                @Html.Editor("txtTipoSoftware",
+                       new { htmlAttributes = new { @class = "form-control", @id = "txtTipoSoftware" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="padding-sides-35 control-label">Observación:</label>
+            <div class="padding-sides-35">
+                @Html.Editor("txtObservacionSoftware",
+                       new { htmlAttributes = new { @class = "form-control", @id = "txtObservacionSoftware" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="padding-sides-35">
+                <a id="btnAgregarObservacionSoftware" class="btn btn-success" style="color:white">Agregar</a>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <label class="padding-sides-35 control-label">Versión:</label>
-        <div class="padding-sides-35">
-            @Html.Editor("txtVersionSoftware",
-                   new { htmlAttributes = new { @class = "form-control", @id = "txtVersionSoftware" } })
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="padding-sides-35 control-label">Tipo:</label>
-        <div class="padding-sides-35">
-            @Html.Editor("txtTipoSoftware",
-                   new { htmlAttributes = new { @class = "form-control", @id = "txtTipoSoftware" } })
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="padding-sides-35 control-label">Observación:</label>
-        <div class="padding-sides-35">
-            @Html.Editor("txtObservacionSoftware",
-                   new { htmlAttributes = new { @class = "form-control", @id = "txtObservacionSoftware" } })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="padding-sides-35">
-            <a id="btnAgregarObservacionSoftware" class="btn btn-success" style="color:white">Agregar</a>
-        </div>
-    </div>
-</div>
 }
 else if (Model.TipoObservacion.Equals("Hardware"))
 {
@@ -207,6 +212,52 @@ else if (Model.TipoObservacion.Equals("Hardware"))
             }
         });
     });
+
+    function eliminarObservacion(idObservacion) {
+        lacing.helpers.CloseModal('ObservacionesHardwarePopup');
+        lacing.helpers.CloseModal('ObservacionesSoftwarePopup');
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir los cambios!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, elimínalo'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EliminarObservacion", "EquipoComputo")",
+                    data: {
+                        "idObservacion": idObservacion
+                    },
+                    beforeSend: function () {
+                        onBeginRequest();
+                    },
+                    success: function (result) {
+                        onCompleteRequest();
+                        Swal.fire(
+                            '¡Eliminado!',
+                            'La observación ha sido eliminado.',
+                            'success'
+                        );
+                        setTimeout(function(){
+                            window.location.href = "/EquipoComputo";
+                        }, 1100);
+                        },
+                    error: function (error) {
+                        Swal.fire(
+                            '¡Error!',
+                            'No se pudo eliminar la observación, error: ' + error,
+                            'error'
+                        );
+                        onCompleteRequest();
+                    }
+                });
+            }
+        })
+    }
 
 </script>
 

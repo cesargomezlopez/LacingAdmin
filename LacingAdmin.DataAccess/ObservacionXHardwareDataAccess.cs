@@ -52,6 +52,16 @@ namespace LacingAdmin.DataAccess
             }
         }
 
+        public void DeleteObservacion(int idObservacion)
+        {
+            using (DbCommand command = Database.GetStoredProcCommand("[dbo].[SP_DELETE_OBSERVACION_HARDWARE]"))
+            {
+                Database.AddInParameter(command, "@ID_OBSERVACION", DbType.Int32, idObservacion);
+
+                Database.ExecuteNonQuery(command);
+            }
+        }
+
         public List<ObservacionXHardware> GetListaObservacionesXHardwareByIdAndTipo(int idHardware, string tipo)
         {
             List<ObservacionXHardware> listaObservaciones = new List<ObservacionXHardware>();

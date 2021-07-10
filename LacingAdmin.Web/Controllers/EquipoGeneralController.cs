@@ -169,22 +169,6 @@ namespace LacingAdmin.Web.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult ActualizarEstadoHardware(int idHardware, string estado)
-        {
-            if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General"
-                    || SecurityHelper.GetAdministradorRol() == "Técnico"
-                    || SecurityHelper.GetAdministradorRol() == "Practicante"))
-            {
-                hardwareDataAccess.UpdateEstadoHardwareById(idHardware, estado);
-                return RedirectToAction("Index", "EquipoGeneral", new { Area = "" });
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login", new { Area = "" });
-            }
-        }
-
         [HttpGet]
         public ActionResult ObservacionesGeneralView(int idHardware)
         {
