@@ -291,6 +291,28 @@ namespace LacingAdmin.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult EditarObservacion(ObservacionXHardware observacion)
+        {
+            if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico"))
+            {
+                if (observacion.Tipo.Equals("Hardware"))
+                {
+                    observacionXHardwareDataAccess.UpdateObservacionTipoHardware(observacion);
+                }
+                else if (observacion.Tipo.Equals("Software"))
+                {
+                    observacionXHardwareDataAccess.UpdateObservacionTipoSoftware(observacion);
+                }
+
+                return RedirectToAction("Index", "EquipoComputo", new { Area = "" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login", new { Area = "" });
+            }
+        }
+
+        [HttpPost]
         public ActionResult EliminarObservacion(int idObservacion)
         {
             if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General" || SecurityHelper.GetAdministradorRol() == "Técnico"))

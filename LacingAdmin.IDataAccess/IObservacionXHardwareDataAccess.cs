@@ -17,6 +17,10 @@ namespace LacingAdmin.IDataAccess
 
         void DeleteObservacion(int idObservacion);
 
+        void UpdateObservacionTipoHardware(ObservacionXHardware observacionXHardware);
+
+        void UpdateObservacionTipoSoftware(ObservacionXHardware observacionXHardware);
+
         List<ObservacionXHardware> GetListaObservacionesXHardwareByIdAndTipo(int idHardware, string tipo);
     }
 }

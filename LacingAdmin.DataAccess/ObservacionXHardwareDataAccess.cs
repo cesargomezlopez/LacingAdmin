@@ -62,6 +62,31 @@ namespace LacingAdmin.DataAccess
             }
         }
 
+        public void UpdateObservacionTipoHardware(ObservacionXHardware observacionXHardware)
+        {
+            using (DbCommand command = Database.GetStoredProcCommand("[dbo].[SP_UPDATE_OBSERVACION_TIPO_HARDWARE]"))
+            {
+                Database.AddInParameter(command, "@ID_OBSERVACION_X_HARDWARE", DbType.Int32, observacionXHardware.IdObservacionXHardware);
+                Database.AddInParameter(command, "@OBSERVACION", DbType.String, observacionXHardware.Observacion);
+
+                Database.ExecuteNonQuery(command);
+            }
+        }
+
+        public void UpdateObservacionTipoSoftware(ObservacionXHardware observacionXHardware)
+        {
+            using (DbCommand command = Database.GetStoredProcCommand("[dbo].[SP_UPDATE_OBSERVACION_TIPO_SOFTWARE]"))
+            {
+                Database.AddInParameter(command, "@ID_OBSERVACION_X_HARDWARE", DbType.Int32, observacionXHardware.IdObservacionXHardware);
+                Database.AddInParameter(command, "@OBSERVACION", DbType.String, observacionXHardware.Observacion);
+                Database.AddInParameter(command, "@NOMBRE_SOFTWARE", DbType.String, observacionXHardware.NombreSoftware);
+                Database.AddInParameter(command, "@VERSION_SOFTWARE", DbType.String, observacionXHardware.VersionSoftware);
+                Database.AddInParameter(command, "@TIPO_SOFTWARE", DbType.String, observacionXHardware.TipoSoftware);
+
+                Database.ExecuteNonQuery(command);
+            }
+        }
+
         public List<ObservacionXHardware> GetListaObservacionesXHardwareByIdAndTipo(int idHardware, string tipo)
         {
             List<ObservacionXHardware> listaObservaciones = new List<ObservacionXHardware>();

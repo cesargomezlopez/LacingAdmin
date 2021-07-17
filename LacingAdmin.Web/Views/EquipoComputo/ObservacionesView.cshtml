@@ -26,6 +26,7 @@
                         <td>@item.Observacion</td>
                         <td>
                             <a onclick="agregarObservacion('@item.NombreSoftware', '@item.VersionSoftware', '@item.TipoSoftware')" class="btn btn-sm btn-icon btn-pure btn-default on-default fa-plus-circle"></a>
+                            <a onclick="editarObservacionSoftware(@item.IdObservacionXHardware, '@item.Observacion', '@item.NombreSoftware', '@item.VersionSoftware', '@item.TipoSoftware')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
                             <a onclick="eliminarObservacion(@item.IdObservacionXHardware)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
                         </td>
                     </tr>
@@ -50,6 +51,7 @@
                         <td>@item.Fecha</td>
                         <td>@item.Observacion</td>
                         <td>
+                            <a onclick="editarObservacionHardware(@item.IdObservacionXHardware, '@item.Observacion')" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"><i class="icon wb-edit"></i></a>
                             <a onclick="eliminarObservacion(@item.IdObservacionXHardware)" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row"><i class="icon wb-trash"></i></a>
                         </td>
                     </tr>
@@ -70,7 +72,7 @@ else
 @if (Model.TipoObservacion.Equals("Software"))
 {
     <div class="form-horizontal">
-        <label class="col-sm-auto control-label" style="font-weight: 500">Nueva Observacion:</label>
+        <label class="col-sm-auto control-label" style="font-weight: 500">Datos de la Observacion:</label>
         <div class="form-group">
             <label class="padding-sides-35 control-label">Nombre:</label>
             <div class="padding-sides-35">
@@ -102,6 +104,7 @@ else
         <div class="form-group">
             <div class="padding-sides-35">
                 <a id="btnAgregarObservacionSoftware" class="btn btn-success" style="color:white">Agregar</a>
+                <a id="btnEditarObservacionSoftware" class="btn btn-success" style="color:white">Editar</a>
             </div>
         </div>
     </div>
@@ -109,7 +112,7 @@ else
 else if (Model.TipoObservacion.Equals("Hardware"))
 {
     <div class="form-horizontal">
-        <label class="col-sm-auto control-label" style="font-weight: 500">Agregar Observacion:</label>
+        <label class="col-sm-auto control-label" style="font-weight: 500">Observacion:</label>
         <div class="form-group">
             <div class="col-sm-10">
                 @Html.Editor("txtObservacionHardware",
@@ -119,6 +122,7 @@ else if (Model.TipoObservacion.Equals("Hardware"))
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <a id="btnAgregarObservacionHardware" class="btn btn-success" style="color:white">Agregar</a>
+                <a id="btnEditarObservacionHardware" class="btn btn-success" style="color:white">Editar</a>
             </div>
         </div>
     </div>
@@ -126,6 +130,8 @@ else if (Model.TipoObservacion.Equals("Hardware"))
 
 
 <script type="text/javascript">
+    var global = {};
+
     function agregarObservacion(nombreSoftware, versionSoftware, tipoSoftware) {
         $("#txtNombreSoftware").val(nombreSoftware);
         $("#txtVersionSoftware").val(versionSoftware);
@@ -206,6 +212,100 @@ else if (Model.TipoObservacion.Equals("Hardware"))
                 Swal.fire(
                     '¡Error!',
                     'No se pudo registrar la observación',
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    });
+
+    function editarObservacionSoftware(idObservacionXHardware, observacion, nombreSoftware, versionSoftware, tipoSoftware) {
+        global.idObservacionEditar = idObservacionXHardware;
+        $("#txtObservacionSoftware").val(observacion);
+        $("#txtNombreSoftware").val(nombreSoftware);
+        $("#txtVersionSoftware").val(versionSoftware);
+        $("#txtTipoSoftware").val(tipoSoftware);
+    }
+
+    function editarObservacionHardware(idObservacionXHardware, observacion) {
+        global.idObservacionEditar = idObservacionXHardware;
+        $("#txtObservacionHardware").val(observacion);
+    }
+
+    $("#btnEditarObservacionSoftware").on("click", function () {
+        lacing.helpers.CloseModal('ObservacionesHardwarePopup');
+        lacing.helpers.CloseModal('ObservacionesSoftwarePopup');
+        var observacion = {
+            "IdObservacionXHardware": global.idObservacionEditar,
+            "Observacion": $("#txtObservacionSoftware").val(),
+            "NombreSoftware": $("#txtNombreSoftware").val(),
+            "VersionSoftware": $("#txtVersionSoftware").val(),
+            "TipoSoftware": $("#txtTipoSoftware").val(),
+            "Tipo": "Software"
+        };
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditarObservacion", "EquipoComputo")",
+            data: {
+                "observacion": observacion
+            },
+            beforeSend: function () {
+                onBeginRequest();
+            },
+            success: function (result) {
+                onCompleteRequest();
+                Swal.fire(
+                    '¡Listo!',
+                    'La observación ha sido editada.',
+                    'success'
+                );
+                setTimeout(function () {
+                    window.location.href = "/EquipoComputo";
+                }, 1100);
+            },
+            error: function (error) {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo editar la observación',
+                    'error'
+                );
+                onCompleteRequest();
+            }
+        });
+    });
+
+    $("#btnEditarObservacionHardware").on("click", function () {
+        lacing.helpers.CloseModal('ObservacionesHardwarePopup');
+        lacing.helpers.CloseModal('ObservacionesSoftwarePopup');
+        var observacion = {
+            "IdObservacionXHardware": global.idObservacionEditar,
+            "Observacion": $("#txtObservacionHardware").val(),
+            "Tipo": "Hardware"
+        };
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditarObservacion", "EquipoComputo")",
+            data: {
+                "observacion": observacion
+            },
+            beforeSend: function () {
+                onBeginRequest();
+            },
+            success: function (result) {
+                onCompleteRequest();
+                Swal.fire(
+                    '¡Listo!',
+                    'La observación ha sido editada.',
+                    'success'
+                );
+                setTimeout(function () {
+                    window.location.href = "/EquipoComputo";
+                }, 1100);
+            },
+            error: function (error) {
+                Swal.fire(
+                    '¡Error!',
+                    'No se pudo editar la observación',
                     'error'
                 );
                 onCompleteRequest();
