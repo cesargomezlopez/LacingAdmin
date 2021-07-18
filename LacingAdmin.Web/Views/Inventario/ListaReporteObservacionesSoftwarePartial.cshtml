@@ -1,0 +1,72 @@
+﻿@model LacingAdmin.Web.Models.ViewModels.EquipoComputoViewModel
+
+@{
+    this.Model.contador = 0;
+    this.Model.lastUser = "";
+}
+@if (Model.ListaEquiposComputo != null && Model.ListaEquiposComputo.Count > 0)
+{
+    <div class="panel">
+        <div class="panel-body">
+            <table class="table table-hover dataTable table-striped w-full" id="tableEquiposComputo" data-plugin="dataTable">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Ubicación</th>
+                        <th>Facultad</th>
+                        <th>Observaciones del Software</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Ubicación</th>
+                        <th>Facultad</th>
+                        <th>Observaciones del Software</th>
+                    </tr>
+                </tfoot>
+
+                <tbody>
+                    @foreach (var item in Model.ListaEquiposComputo)
+                    {
+                        {
+                            if (this.Model.lastUser != item.Usuario)
+                            {
+                                this.Model.contador++;
+                                this.Model.lastUser = item.Usuario;
+                            }
+                        }
+                        <tr>
+                            <td>@item.Usuario</td>
+                            <td>@item.NombreLaboratorio</td>
+                            <td>@item.NombreFacultad</td>
+                            <td width="750px">
+                                @if (item.ListaObservacionesTipoSoftware.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var observacionh in item.ListaObservacionesTipoSoftware)
+                                        {
+                                        <li> @observacionh.Fecha | @observacionh.NombreSoftware @observacionh.VersionSoftware @observacionh.TipoSoftware | @observacionh.Observacion</li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            lacing.helpers.UpdateDataTable("tableEquiposComputo");
+        });
+    </script>
+}
+else
+{
+    <div class="alert alert-info alerta" role="alert" style="width:100%; margin: 0 auto; text-align:center; font-size:14px">
+        No se obtuvieron registros de equipos de cómputo.
+    </div>
+}

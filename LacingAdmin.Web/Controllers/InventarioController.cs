@@ -91,7 +91,33 @@ namespace LacingAdmin.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ReporteGeneralContent(string flgReporteEquipoComputo, string idLaboratorio, string nombreUsuario)
+        public ActionResult ListaReporteObservacionesSoftwarePartial(string idLaboratorio, string nombreUsuario)
+        {
+            EquipoComputoViewModel model = new EquipoComputoViewModel();
+            if (String.IsNullOrEmpty(nombreUsuario))
+            {
+                model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipo(int.Parse(idLaboratorio), "1");
+            }
+            else
+            {
+                model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipoAndNombreUsuario(int.Parse(idLaboratorio), "1", nombreUsuario);
+            }
+
+            model.ListaEquiposComputo = model.ListaEquiposComputo.Where(x => x.TipoEquipo.Equals("CPU")).ToList();
+
+            if (model.ListaEquiposComputo.Count > 0)
+            {
+                for (int i = 0; i < model.ListaEquiposComputo.Count; i++)
+                {
+                    model.ListaEquiposComputo[i].ListaObservacionesTipoSoftware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(model.ListaEquiposComputo[i].IdHardware, "Software");
+                }
+            }
+
+            return PartialView(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult ReporteGeneralContent(string flgReporteEquipoComputo, string idLaboratorio, string nombreUsuario, string tipoObservacion)
         {
             EquipoComputoViewModel model = new EquipoComputoViewModel();
 
@@ -107,9 +133,24 @@ namespace LacingAdmin.Web.Controllers
 
                 if (model.ListaEquiposComputo.Count > 0)
                 {
-                    for (int i = 0; i < model.ListaEquiposComputo.Count; i++)
+                    ViewBag.TipoObservacion = tipoObservacion;
+                    if (tipoObservacion.Equals("Hardware"))
                     {
-                        model.ListaEquiposComputo[i].ListaObservacionesTipoHardware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(model.ListaEquiposComputo[i].IdHardware, "Hardware");
+                        for (int i = 0; i < model.ListaEquiposComputo.Count; i++)
+                        {
+                            model.ListaEquiposComputo[i].ListaObservacionesTipoHardware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(model.ListaEquiposComputo[i].IdHardware, "Hardware");
+                        }
+                    }
+                    else if (tipoObservacion.Equals("Software"))
+                    {
+                        model.ListaEquiposComputo = model.ListaEquiposComputo.Where(x => x.TipoEquipo.Equals("CPU")).ToList();
+                        if (model.ListaEquiposComputo.Count > 0)
+                        {
+                            for (int i = 0; i < model.ListaEquiposComputo.Count; i++)
+                            {
+                                model.ListaEquiposComputo[i].ListaObservacionesTipoSoftware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(model.ListaEquiposComputo[i].IdHardware, "Software");
+                            }
+                        }
                     }
                 }
 
@@ -129,13 +170,13 @@ namespace LacingAdmin.Web.Controllers
             }
         }
 
-        public ActionResult DescargarReporteInventario(string flgReporteEquipoComputo, string idLaboratorio, string nombreUsuario)
+        public ActionResult DescargarReporteInventario(string flgReporteEquipoComputo, string idLaboratorio, string nombreUsuario, string tipoObservacion)
         {
             if (SecurityHelper.GetAdministradorID() > 0 && (SecurityHelper.GetAdministradorRol() == "Administrador General"
                     || SecurityHelper.GetAdministradorRol() == "Técnico"
                     || SecurityHelper.GetAdministradorRol() == "Practicante"))
             {
-                return new ActionAsPdf("ReporteGeneralContent", new { flgReporteEquipoComputo = flgReporteEquipoComputo, idLaboratorio = idLaboratorio, nombreUsuario = nombreUsuario }) { FileName = "ReporteInventarioEquipoComputoLacing.pdf", PageOrientation = Rotativa.Options.Orientation.Landscape };
+                return new ActionAsPdf("ReporteGeneralContent", new { flgReporteEquipoComputo = flgReporteEquipoComputo, idLaboratorio = idLaboratorio, nombreUsuario = nombreUsuario, tipoObservacion = tipoObservacion }) { FileName = "ReporteInventarioEquipoComputoLacing.pdf", PageOrientation = Rotativa.Options.Orientation.Landscape };
             }
             else
             {

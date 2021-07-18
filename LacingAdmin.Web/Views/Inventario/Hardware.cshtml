@@ -203,31 +203,59 @@
             }
 
             function listarEquiposComputo() {
+                var tipoDeObservacion = $("#cbTiposDeObservacion").val();
                 var idLaboratorio = $("#cbLaboratorios").val();
                 globalReporte.idLaboratorio = idLaboratorio;
-                $.ajax({
-                    type: "GET",
-                    url: "@Url.Action("ListaReporteEquipoComputoPartial", "Inventario", new { Area = ""})",
-                    data: {
-                        "idLaboratorio": idLaboratorio,
-                        "nombreUsuario": globalReporte.nombreUsuario
-                    },
-                    beforeSend: function () {
-                        onBeginRequest();
-                    },
-                    success: function (result) {
-                        onCompleteRequest();
-                        $("#resultadoBusqueda").html(result);
-                    },
-                    error: function (error) {
-                        Swal.fire(
-                            '¡Error!',
-                            'No se pudo actualizar listado de Equipos de Cómputo, error: ' + error,
-                            'error'
-                        );
-                        onCompleteRequest();
-                    }
-                });
+
+                if (tipoDeObservacion == "Hardware") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaReporteEquipoComputoPartial", "Inventario", new { Area = ""})",
+                        data: {
+                            "idLaboratorio": idLaboratorio,
+                            "nombreUsuario": globalReporte.nombreUsuario
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#resultadoBusqueda").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo actualizar listado de Equipos de Cómputo, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                } else if (tipoDeObservacion == "Software") {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("ListaReporteObservacionesSoftwarePartial", "Inventario", new { Area = ""})",
+                        data: {
+                            "idLaboratorio": idLaboratorio,
+                            "nombreUsuario": globalReporte.nombreUsuario
+                        },
+                        beforeSend: function () {
+                            onBeginRequest();
+                        },
+                        success: function (result) {
+                            onCompleteRequest();
+                            $("#resultadoBusqueda").html(result);
+                        },
+                        error: function (error) {
+                            Swal.fire(
+                                '¡Error!',
+                                'No se pudo actualizar listado de Equipos de Cómputo, error: ' + error,
+                                'error'
+                            );
+                            onCompleteRequest();
+                        }
+                    });
+                }
             }
 
             function listarEquiposGeneral() {
@@ -263,6 +291,7 @@
                 if (tipoHardware == "1") {
                     globalReporte.tipoHardware = "1";
                     globalReporte.nombreUsuario = $("#txtNombreUsuarioEquipoComputo").val();
+                    globalReporte.tipoDeObservacion = $("#cbTiposDeObservacion").val();
                     this.listarEquiposComputo();
                 } else if (tipoHardware == "0") {
                     $("#txtNombreUsuarioEquipoComputo").val("");
@@ -279,8 +308,9 @@
                     var tipoHardware = globalReporte.tipoHardware;
                     var idLaboratorio = globalReporte.idLaboratorio;
                     var nombreUsuario = globalReporte.nombreUsuario;
+                    var tipoDeObservacion = globalReporte.tipoDeObservacion;
 
-                    window.location.href = "/Inventario/DescargarReporteInventario?flgReporteEquipoComputo=" + tipoHardware + "&idLaboratorio=" + idLaboratorio + "&nombreUsuario=" + nombreUsuario;
+                    window.location.href = "/Inventario/DescargarReporteInventario?flgReporteEquipoComputo=" + tipoHardware + "&idLaboratorio=" + idLaboratorio + "&nombreUsuario=" + nombreUsuario + "&tipoObservacion=" + tipoDeObservacion;
                     setTimeout(() => {
                         Swal.fire(
                             '¡Listo!',

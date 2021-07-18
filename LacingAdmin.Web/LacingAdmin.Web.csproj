@@ -1329,6 +1329,7 @@
     <Content Include="Views\Software\Editar.cshtml" />
     <Content Include="Views\EquipoComputo\ObservacionesView.cshtml" />
     <Content Include="Views\EquipoGeneral\ObservacionesGeneralView.cshtml" />
+    <Content Include="Views\Inventario\ListaReporteObservacionesSoftwarePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

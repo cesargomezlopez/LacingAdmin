@@ -59,87 +59,141 @@
                 this.Model.contador = 0;
                 this.Model.lastUser = "";
             }
-            <table border="1" class="table table-hover dataTable table-striped w-full centertable" id="tableEquiposComputo" data-plugin="dataTable">
-                <thead>
-                    <tr>
-                        <th>N°</th>
-                        <th>ITEM</th>
-                        <th>MARCA</th>
-                        <th>MODELO</th>
-                        <th>SERIE</th>
-                        <th>INVENT.</th>
-                        <th>Proces.</th>
-                        <th>Veloc.</th>
-                        <th>RAM</th>
-                        <th>Disco D.</th>
-                        <th>T.video</th>
-                        <th>Usuario</th>
-                        <th>Ubicación</th>
-                        <th>Facultad</th>
-                        <th>Observaciones del Hardware</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>N°</th>
-                        <th>ITEM</th>
-                        <th>MARCA</th>
-                        <th>MODELO</th>
-                        <th>SERIE</th>
-                        <th>INVENT.</th>
-                        <th>Proces.</th>
-                        <th>Veloc.</th>
-                        <th>RAM</th>
-                        <th>Disco D.</th>
-                        <th>T.video</th>
-                        <th>Usuario</th>
-                        <th>Ubicación</th>
-                        <th>Facultad</th>
-                        <th>Observaciones del Hardware</th>
-                    </tr>
-                </tfoot>
-
-                <tbody>
-                    @foreach (var item in Model.ListaEquiposComputo)
-                    {
-                        {
-                            if (this.Model.lastUser != item.Usuario)
-                            {
-                                this.Model.contador++;
-                                this.Model.lastUser = item.Usuario;
-                            }
-                        }
+            if (ViewBag.TipoObservacion == "Hardware")
+            {
+                <table border="1" class="table table-hover dataTable table-striped w-full centertable" id="tableEquiposComputo" data-plugin="dataTable">
+                    <thead>
                         <tr>
-                            <td class="centerdata">@this.Model.contador</td>
-                            <td class="centerdata">@item.TipoEquipo</td>
-                            <td class="centerdata">@item.Marca</td>
-                            <td class="centerdata">@item.Modelo</td>
-                            <td class="justify">@item.Serie</td>
-                            <td class="centerdata">@item.Inventario</td>
-                            <td class="centerdata">@item.Procesador</td>
-                            <td class="centerdata">@item.Velocidad</td>
-                            <td class="centerdata">@item.Ram</td>
-                            <td class="centerdata">@item.DiscoDuro</td>
-                            <td class="centerdata">@item.TarjetaVideo</td>
-                            <td class="centerdata">@item.Usuario</td>
-                            <td class="centerdata">@item.NombreLaboratorio</td>
-                            <td class="centerdata">@item.NombreFacultad</td>
-                            <td width="350px">
-                                @if (item.ListaObservacionesTipoHardware.Count > 0)
-                                {
-                                    <ul>
-                                        @foreach (var observacionh in item.ListaObservacionesTipoHardware)
-                                        {
-                                            <li> @observacionh.Fecha - @observacionh.Observacion</li>
-                                        }
-                                    </ul>
-                                }
-                            </td>
+                            <th>N°</th>
+                            <th>ITEM</th>
+                            <th>MARCA</th>
+                            <th>MODELO</th>
+                            <th>SERIE</th>
+                            <th>INVENT.</th>
+                            <th>Proces.</th>
+                            <th>Veloc.</th>
+                            <th>RAM</th>
+                            <th>Disco D.</th>
+                            <th>T.video</th>
+                            <th>Usuario</th>
+                            <th>Ubicación</th>
+                            <th>Facultad</th>
+                            <th>Observaciones del Hardware</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>N°</th>
+                            <th>ITEM</th>
+                            <th>MARCA</th>
+                            <th>MODELO</th>
+                            <th>SERIE</th>
+                            <th>INVENT.</th>
+                            <th>Proces.</th>
+                            <th>Veloc.</th>
+                            <th>RAM</th>
+                            <th>Disco D.</th>
+                            <th>T.video</th>
+                            <th>Usuario</th>
+                            <th>Ubicación</th>
+                            <th>Facultad</th>
+                            <th>Observaciones del Hardware</th>
+                        </tr>
+                    </tfoot>
+
+                    <tbody>
+                        @foreach (var item in Model.ListaEquiposComputo)
+                        {
+                            {
+                                if (this.Model.lastUser != item.Usuario)
+                                {
+                                    this.Model.contador++;
+                                    this.Model.lastUser = item.Usuario;
+                                }
+                            }
+                            <tr>
+                                <td class="centerdata">@this.Model.contador</td>
+                                <td class="centerdata">@item.TipoEquipo</td>
+                                <td class="centerdata">@item.Marca</td>
+                                <td class="centerdata">@item.Modelo</td>
+                                <td class="justify">@item.Serie</td>
+                                <td class="centerdata">@item.Inventario</td>
+                                <td class="centerdata">@item.Procesador</td>
+                                <td class="centerdata">@item.Velocidad</td>
+                                <td class="centerdata">@item.Ram</td>
+                                <td class="centerdata">@item.DiscoDuro</td>
+                                <td class="centerdata">@item.TarjetaVideo</td>
+                                <td class="centerdata">@item.Usuario</td>
+                                <td class="centerdata">@item.NombreLaboratorio</td>
+                                <td class="centerdata">@item.NombreFacultad</td>
+                                <td width="350px">
+                                    @if (item.ListaObservacionesTipoHardware.Count > 0)
+                                    {
+                                        <ul>
+                                            @foreach (var observacionh in item.ListaObservacionesTipoHardware)
+                                            {
+                                                <li> @observacionh.Fecha - @observacionh.Observacion</li>
+                                            }
+                                        </ul>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else if (ViewBag.TipoObservacion == "Software")
+            {
+                <table border="1" class="table table-hover dataTable table-striped w-full centertable" id="tableEquiposComputo" data-plugin="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Ubicación</th>
+                            <th>Facultad</th>
+                            <th>Observaciones del Software</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Ubicación</th>
+                            <th>Facultad</th>
+                            <th>Observaciones del Software</th>
+                        </tr>
+                    </tfoot>
+
+                    <tbody>
+                        @foreach (var item in Model.ListaEquiposComputo)
+                        {
+                            {
+                                if (this.Model.lastUser != item.Usuario)
+                                {
+                                    this.Model.contador++;
+                                    this.Model.lastUser = item.Usuario;
+                                }
+                            }
+                            <tr>
+                                <td>@item.Usuario</td>
+                                <td>@item.NombreLaboratorio</td>
+                                <td>@item.NombreFacultad</td>
+                                <td width="850px">
+                                    @if (item.ListaObservacionesTipoSoftware.Count > 0)
+                                    {
+                                        <ul>
+                                            @foreach (var observacionh in item.ListaObservacionesTipoSoftware)
+                                            {
+                                                <li> @observacionh.Fecha | @observacionh.NombreSoftware @observacionh.VersionSoftware @observacionh.TipoSoftware | @observacionh.Observacion</li>
+                                            }
+                                        </ul>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         }
+
         @if (Model.ListaEquiposGeneral != null && Model.ListaEquiposGeneral.Count > 0)
         {
             {
