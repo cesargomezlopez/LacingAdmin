@@ -6,7 +6,7 @@
 
     <style>
         html {
-            min-height: 100%;
+            min-height: 90%;
             position: relative;
         }
 
@@ -25,6 +25,19 @@
         .centerdata {
             text-align: center;
         }
+
+        .justify {
+            text-align: center;
+        }
+
+        table {
+            font-size: 12px;
+        }
+
+        .centertable {
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body style="padding-top:25px;">
@@ -33,20 +46,20 @@
             <img style="height:90px" src="~/Content/lacing/urp_logo_png.png" />
         </div>
         <div style="text-align:center; width:60%; float:left">
-            <h1 style="font-size:34px">Reporte General Lacing</h1>
+            <h1 style="font-size:34px">Reporte Lacing</h1>
         </div>
         <div style="text-align:right; width:20%; float:right">
             <img style="height:80px" src="~/Content/lacing/logo-lacing.png" />
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="text-align:center">
         @if (Model.ListaEquiposComputo != null && Model.ListaEquiposComputo.Count > 0)
         {
             {
                 this.Model.contador = 0;
                 this.Model.lastUser = "";
             }
-            <table border="1" class="table table-hover dataTable table-striped w-full" id="tableEquiposComputo" data-plugin="dataTable">
+            <table border="1" class="table table-hover dataTable table-striped w-full centertable" id="tableEquiposComputo" data-plugin="dataTable">
                 <thead>
                     <tr>
                         <th>N°</th>
@@ -63,7 +76,7 @@
                         <th>Usuario</th>
                         <th>Ubicación</th>
                         <th>Facultad</th>
-                        <th>Observación</th>
+                        <th>Observaciones del Hardware</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -82,7 +95,7 @@
                         <th>Usuario</th>
                         <th>Ubicación</th>
                         <th>Facultad</th>
-                        <th>Observación</th>
+                        <th>Observaciones del Hardware</th>
                     </tr>
                 </tfoot>
 
@@ -101,7 +114,7 @@
                             <td class="centerdata">@item.TipoEquipo</td>
                             <td class="centerdata">@item.Marca</td>
                             <td class="centerdata">@item.Modelo</td>
-                            <td class="centerdata">@item.Serie</td>
+                            <td class="justify">@item.Serie</td>
                             <td class="centerdata">@item.Inventario</td>
                             <td class="centerdata">@item.Procesador</td>
                             <td class="centerdata">@item.Velocidad</td>
@@ -111,7 +124,17 @@
                             <td class="centerdata">@item.Usuario</td>
                             <td class="centerdata">@item.NombreLaboratorio</td>
                             <td class="centerdata">@item.NombreFacultad</td>
-                            <td class="centerdata">@item.Observacion</td>
+                            <td width="350px">
+                                @if (item.ListaObservacionesTipoHardware.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var observacionh in item.ListaObservacionesTipoHardware)
+                                        {
+                                            <li> @observacionh.Fecha - @observacionh.Observacion</li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -122,7 +145,7 @@
             {
                 this.Model.contador = 0;
             }
-            <table border="1" class="table table-hover dataTable table-striped w-full" id="tableEquiposGeneral" data-plugin="dataTable">
+            <table border="1" class="table table-hover dataTable table-striped w-full centertable" id="tableEquiposGeneral" data-plugin="dataTable">
                 <thead>
                     <tr>
                         <th>N°</th>
@@ -134,7 +157,7 @@
                         <th>Ubicación</th>
                         <th>Facultad</th>
                         <th>Estado</th>
-                        <th>Observaciones</th>
+                        <th>Observaciones del Hardware</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -148,7 +171,7 @@
                         <th>Ubicación</th>
                         <th>Facultad</th>
                         <th>Estado</th>
-                        <th>Observaciones</th>
+                        <th>Observaciones del Hardware</th>
                     </tr>
                 </tfoot>
 
@@ -168,7 +191,17 @@
                             <td class="centerdata">@item.NombreLaboratorio</td>
                             <td class="centerdata">@item.NombreFacultad</td>
                             <td class="centerdata">@item.Estado</td>
-                            <td class="centerdata">@item.Observacion</td>
+                            <td width="550px">
+                                @if (item.ListaObservacionesTipoHardware.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var observacionh in item.ListaObservacionesTipoHardware)
+                                        {
+                                            <li> @observacionh.Fecha - @observacionh.Observacion</li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>

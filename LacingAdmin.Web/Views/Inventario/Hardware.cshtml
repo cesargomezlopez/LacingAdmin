@@ -40,7 +40,7 @@
                         <div class="row" style="justify-content: center">
                             <!-- LAB FORM -->
                             <div class="form-group somb col-12">
-                                <label for="inputEmail3" class="col-sm-auto control-label">Laboratorio</label>
+                                <label for="cbFacultadesLaboratorio" class="col-sm-auto control-label">Laboratorio</label>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         @Html.DropDownListFor(model => model.idLaboratorio,
@@ -54,8 +54,8 @@
 
                         <!-- TIPO -->
                         <div class="row" style="justify-content: center">
-                            <div id="divComboTipoHardware" class="form-group col-6">
-                                <label for="cbEstados" class="col-sm-auto control-label">Tipo de Equipo</label>
+                            <div id="divComboTipoHardware" class="form-group col-4">
+                                <label for="cbTipoHardware" class="col-sm-auto control-label">Tipo de Equipo</label>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         @Html.DropDownList("cbTipoHardware", new SelectList(
@@ -70,11 +70,27 @@
                                 </div>
                             </div>
 
-                            <div id="divTextNombreUsuarioEquipoComputo" class="form-group col-6">
-                                <label for="cbEstados" class="col-sm-auto control-label">Nombre de Usuario del Equipo de Cómputo</label>
+                            <div id="divTextNombreUsuarioEquipoComputo" class="form-group col-4">
+                                <label for="txtNombreUsuarioEquipoComputo" class="col-sm-auto control-label">Nombre de Usuario del Equipo de Cómputo</label>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <input class="form-control" type="text" id="txtNombreUsuarioEquipoComputo" value="" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="divComboTipoObservacion" class="form-group col-4">
+                                <label for="cbTiposDeObservacion" class="col-sm-auto control-label">Tipos de Observación</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.DropDownList("cbTiposDeObservacion", new SelectList(
+                                            new List<SelectListItem>
+                                            {
+                                                new SelectListItem { Value = "Hardware", Text = "Hardware"},
+                                                new SelectListItem { Value = "Software", Text = "Software"}
+                                            }
+                                       , "Value", "Text"), new { @class = "form-control", @id = "cbTiposDeObservacion", @onChange = "tipoDeObservacionChanged()" })
+
                                     </div>
                                 </div>
                             </div>
@@ -138,16 +154,18 @@
                 var tipoHardware = $("#cbTipoHardware").val();
                 if (tipoHardware == "0") {
                     document.getElementById("divTextNombreUsuarioEquipoComputo").style.display = "none";
+                    document.getElementById("divComboTipoObservacion").style.display = "none";
                     //document.getElementById("divTextNombreUsuarioEquipoComputo").disabled = true;
                     var element = document.getElementById("divComboTipoHardware");
-                    element.classList.remove("col-6");
+                    element.classList.remove("col-4");
                     element.classList.add("col-12");
                 } else if (tipoHardware == "1") {
                     document.getElementById("divTextNombreUsuarioEquipoComputo").style.display = null;
+                    document.getElementById("divComboTipoObservacion").style.display = null;
                     //document.getElementById("divTextNombreUsuarioEquipoComputo").disabled = false;
                     var element = document.getElementById("divComboTipoHardware");
                     element.classList.remove("col-12");
-                    element.classList.add("col-6");
+                    element.classList.add("col-4");
                 }
             }
 

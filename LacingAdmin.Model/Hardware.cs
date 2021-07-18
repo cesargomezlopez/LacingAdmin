@@ -26,5 +26,10 @@ namespace LacingAdmin.Model
         public string FlgEquipoComputo { get; set; }
         public string NombreLaboratorio { get; set; }
         public string NombreFacultad { get; set; }
+
+
+        public List<ObservacionXHardware> ListaObservacionesTipoHardware { get; set; }
+
+        public List<ObservacionXHardware> ListaObservacionesTipoSoftware { get; set; }
     }
 }

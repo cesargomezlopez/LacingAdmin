@@ -19,7 +19,7 @@
                         <th>Ubicación</th>
                         <th>Facultad</th>
                         <th>Estado</th>
-                        <th>Observaciones</th>
+                        <th>Observaciones del Hardware</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -33,7 +33,7 @@
                         <th>Ubicación</th>
                         <th>Facultad</th>
                         <th>Estado</th>
-                        <th>Observaciones</th>
+                        <th>Observaciones del Hardware</th>
                     </tr>
                 </tfoot>
 
@@ -53,7 +53,17 @@
                             <td>@item.NombreLaboratorio</td>
                             <td>@item.NombreFacultad</td>
                             <td>@item.Estado</td>
-                            <td>@item.Observacion</td>
+                            <td>
+                                @if (item.ListaObservacionesTipoHardware.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var observacionh in item.ListaObservacionesTipoHardware)
+                                        {
+                                            <li> @observacionh.Fecha - @observacionh.Observacion</li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>

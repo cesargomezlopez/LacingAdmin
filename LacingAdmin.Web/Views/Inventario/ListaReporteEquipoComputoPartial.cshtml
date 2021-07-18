@@ -25,7 +25,7 @@
                         <th>Usuario</th>
                         <th>Ubicación</th>
                         <th>Facultad</th>
-                        <th>Observación</th>
+                        <th>Observaciones del Hardware</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -44,7 +44,7 @@
                         <th>Usuario</th>
                         <th>Ubicación</th>
                         <th>Facultad</th>
-                        <th>Observación</th>
+                        <th>Observaciones del Hardware</th>
                     </tr>
                 </tfoot>
 
@@ -73,7 +73,17 @@
                             <td>@item.Usuario</td>
                             <td>@item.NombreLaboratorio</td>
                             <td>@item.NombreFacultad</td>
-                            <td>@item.Observacion</td>
+                            <td width="450px">
+                                @if (item.ListaObservacionesTipoHardware.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var observacionh in item.ListaObservacionesTipoHardware)
+                                        {
+                                            <li> @observacionh.Fecha - @observacionh.Observacion</li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>

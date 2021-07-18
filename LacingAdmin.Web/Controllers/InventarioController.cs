@@ -19,15 +19,18 @@ namespace LacingAdmin.Web.Controllers
         private readonly ISoftwareDataAccess softwareDataAccess;
         private readonly IFacultadDataAccess facultadDataAccess;
         private readonly ILaboratorioDataAccess laboratorioDataAccess;
+        private readonly IObservacionXHardwareDataAccess observacionXHardwareDataAccess;
         public InventarioController(IHardwareDataAccess _hardwareDataAccess,
             ISoftwareDataAccess _softwareDataAccess,
             IFacultadDataAccess _facultadDataAccess,
-            ILaboratorioDataAccess _laboratorioDataAccess)
+            ILaboratorioDataAccess _laboratorioDataAccess,
+            IObservacionXHardwareDataAccess _observacionXHardwareDataAccess)
         {
             hardwareDataAccess = _hardwareDataAccess;
             softwareDataAccess = _softwareDataAccess;
             facultadDataAccess = _facultadDataAccess;
             laboratorioDataAccess = _laboratorioDataAccess;
+            observacionXHardwareDataAccess = _observacionXHardwareDataAccess;
         }
 
         #region Hardware
@@ -60,6 +63,15 @@ namespace LacingAdmin.Web.Controllers
             {
                 model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipoAndNombreUsuario(int.Parse(idLaboratorio), "1", nombreUsuario);
             }
+
+            if (model.ListaEquiposComputo.Count > 0)
+            {
+                for (int i = 0; i < model.ListaEquiposComputo.Count; i++)
+                {
+                    model.ListaEquiposComputo[i].ListaObservacionesTipoHardware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(model.ListaEquiposComputo[i].IdHardware, "Hardware");
+                }
+            }
+
             return PartialView(model);
         }
 
@@ -68,6 +80,13 @@ namespace LacingAdmin.Web.Controllers
         {
             EquipoComputoViewModel model = new EquipoComputoViewModel();
             model.ListaEquiposGeneral = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipo(int.Parse(idLaboratorio), "0");
+            if (model.ListaEquiposGeneral.Count > 0)
+            {
+                for (int i = 0; i < model.ListaEquiposGeneral.Count; i++)
+                {
+                    model.ListaEquiposGeneral[i].ListaObservacionesTipoHardware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(model.ListaEquiposGeneral[i].IdHardware, "EquipoGeneral");
+                }
+            }
             return PartialView(model);
         }
 
@@ -81,16 +100,31 @@ namespace LacingAdmin.Web.Controllers
                 if (!String.IsNullOrEmpty(nombreUsuario))
                 {
                     model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipoAndNombreUsuario(int.Parse(idLaboratorio), "1", nombreUsuario);
-                    return PartialView(model);
                 } else
                 {
                     model.ListaEquiposComputo = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipo(int.Parse(idLaboratorio), "1");
-                    return PartialView(model);
                 }
+
+                if (model.ListaEquiposComputo.Count > 0)
+                {
+                    for (int i = 0; i < model.ListaEquiposComputo.Count; i++)
+                    {
+                        model.ListaEquiposComputo[i].ListaObservacionesTipoHardware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(model.ListaEquiposComputo[i].IdHardware, "Hardware");
+                    }
+                }
+
+                return PartialView(model);
             }
             else
             {
                 model.ListaEquiposGeneral = hardwareDataAccess.GetListaHardwareByLaboratorioAndTipo(int.Parse(idLaboratorio), "0");
+                if (model.ListaEquiposGeneral.Count > 0)
+                {
+                    for (int i = 0; i < model.ListaEquiposGeneral.Count; i++)
+                    {
+                        model.ListaEquiposGeneral[i].ListaObservacionesTipoHardware = observacionXHardwareDataAccess.GetListaObservacionesXHardwareByIdAndTipo(model.ListaEquiposGeneral[i].IdHardware, "EquipoGeneral");
+                    }
+                }
                 return PartialView(model);
             }
         }
@@ -101,7 +135,7 @@ namespace LacingAdmin.Web.Controllers
                     || SecurityHelper.GetAdministradorRol() == "Técnico"
                     || SecurityHelper.GetAdministradorRol() == "Practicante"))
             {
-                return new ActionAsPdf("ReporteGeneralContent", new { flgReporteEquipoComputo = flgReporteEquipoComputo, idLaboratorio = idLaboratorio, nombreUsuario = nombreUsuario }) { FileName = "ReporteInventarioEquipoComputoLacing.pdf" };
+                return new ActionAsPdf("ReporteGeneralContent", new { flgReporteEquipoComputo = flgReporteEquipoComputo, idLaboratorio = idLaboratorio, nombreUsuario = nombreUsuario }) { FileName = "ReporteInventarioEquipoComputoLacing.pdf", PageOrientation = Rotativa.Options.Orientation.Landscape };
             }
             else
             {
